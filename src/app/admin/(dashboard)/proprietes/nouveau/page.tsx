@@ -117,7 +117,34 @@ export default function NewPropertyPage() {
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Quartier / Ville *</label>
-                            <input type="text" name="location" required placeholder="Quartier (ex: Anfa)" className="w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-accent outline-none" />
+                            <select name="location" defaultValue="" required className="w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-accent outline-none bg-white">
+                                <option value="" disabled>Sélectionnez un quartier</option>
+                                <option value="Anfa Supérieur">Anfa Supérieur</option>
+                                <option value="Maarif / Gauthier">Maarif / Gauthier</option>
+                                <option value="Bourgogne / Racine">Bourgogne / Racine</option>
+                                <option value="Californie">Californie</option>
+                                <option value="Bouskoura">Bouskoura</option>
+                                <option value="Dar Bouazza">Dar Bouazza</option>
+                                <option value="Palmier">Palmier</option>
+                                <option value="France Ville">France Ville</option>
+                                <option value="Les Hôpitaux">Les Hôpitaux</option>
+                                <option value="Les Princesses">Les Princesses</option>
+                                <option value="Ciel">Ciel</option>
+                                <option value="CFC">CFC</option>
+                                <option value="Abdelmoumen">Abdelmoumen</option>
+                                <option value="Ghandi">Ghandi</option>
+                                <option value="Maarif">Maarif</option>
+                                <option value="Anoual">Anoual</option>
+                                <option value="2 Mars">2 Mars</option>
+                                <option value="Ferme Bretonne">Ferme Bretonne</option>
+                                <option value="Route d'El Jadida">Route d'El Jadida</option>
+                                <option value="La Corniche">La Corniche</option>
+                                <option value="Marina">Marina</option>
+                                <option value="Casa Port">Casa Port</option>
+                                <option value="Zenata">Zenata</option>
+                                <option value="Ain Diab">Ain Diab</option>
+                                <option value="Belvédère">Belvédère</option>
+                            </select>
                         </div>
                     </div>
                 </div>

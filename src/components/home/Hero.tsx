@@ -96,6 +96,25 @@ export function Hero() {
                                 <option value="Californie">Californie</option>
                                 <option value="Bouskoura">Bouskoura</option>
                                 <option value="Dar Bouazza">Dar Bouazza</option>
+                                <option value="Palmier">Palmier</option>
+                                <option value="France Ville">France Ville</option>
+                                <option value="Les Hôpitaux">Les Hôpitaux</option>
+                                <option value="Les Princesses">Les Princesses</option>
+                                <option value="Ciel">Ciel</option>
+                                <option value="CFC">CFC</option>
+                                <option value="Abdelmoumen">Abdelmoumen</option>
+                                <option value="Ghandi">Ghandi</option>
+                                <option value="Maarif">Maarif</option>
+                                <option value="Anoual">Anoual</option>
+                                <option value="2 Mars">2 Mars</option>
+                                <option value="Ferme Bretonne">Ferme Bretonne</option>
+                                <option value="Route d'El Jadida">Route d'El Jadida</option>
+                                <option value="La Corniche">La Corniche</option>
+                                <option value="Marina">Marina</option>
+                                <option value="Casa Port">Casa Port</option>
+                                <option value="Zenata">Zenata</option>
+                                <option value="Ain Diab">Ain Diab</option>
+                                <option value="Belvédère">Belvédère</option>
                             </select>
                         </div>
 

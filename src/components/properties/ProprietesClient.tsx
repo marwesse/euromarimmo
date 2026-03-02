@@ -7,7 +7,11 @@ import { motion } from "framer-motion";
 import { BedDouble, Bath, SquareMenu, Filter, ChevronDown, MapPin } from "lucide-react";
 
 const filterTypes = ["Tous", "Villa", "Penthouse", "Appartement de Luxe", "Duplex"];
-const locations = ["Tous les quartiers", "Anfa Supérieur", "Gauthier / Racine", "Bourgogne / Racine", "Californie", "Bouskoura", "Dar Bouazza", "Corniche"];
+const locations = [
+    "Tous les quartiers", "Anfa Supérieur", "Gauthier / Racine", "Bourgogne / Racine", "Californie", "Bouskoura", "Dar Bouazza",
+    "Palmier", "France Ville", "Les Hôpitaux", "Les Princesses", "Ciel", "CFC", "Abdelmoumen", "Ghandi", "Maarif", "Anoual",
+    "2 Mars", "Ferme Bretonne", "Route d'El Jadida", "La Corniche", "Marina", "Casa Port", "Zenata", "Ain Diab", "Belvédère"
+];
 
 export function ProprietesClient({ properties }: { properties: any[] }) {
     const searchParams = useSearchParams();
