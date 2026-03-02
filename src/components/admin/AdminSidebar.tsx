@@ -20,7 +20,7 @@ export function AdminSidebar() {
         <div className="flex flex-col w-64 bg-[#111827] text-gray-300 min-h-screen border-r border-gray-800">
             <div className="flex items-center justify-center h-20 border-b border-gray-800">
                 <Link href="/admin" className="text-2xl font-serif text-white tracking-wider uppercase">
-                    EUROMAR <span className="text-[#d4af37]">IMMO</span>
+                    EUROMARO <span className="text-[#d4af37]">IMMO</span>
                 </Link>
             </div>
 

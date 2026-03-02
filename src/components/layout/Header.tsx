@@ -60,7 +60,7 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
                             <img src={logoUrl} alt="EUROMAR IMMO Logo" className={cn("max-h-16 py-1 w-auto object-contain transition-all duration-500", invertLogo ? "filter brightness-0 invert" : "mix-blend-multiply")} />
                         ) : (
                             <h1 className={cn("font-serif text-xl tracking-widest uppercase transition-colors duration-500", logoColor)}>
-                                EUROMAR IMMO
+                                EUROMARO <span className="text-[#d4af37]">IMMO</span>
                             </h1>
                         )}
                     </Link>
@@ -125,7 +125,7 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
                             <img src={logoUrl} alt="EUROMAR IMMO Logo" className={cn("max-h-12 w-auto object-contain transition-all duration-500", (invertLogo || isMobileMenuOpen) ? "filter brightness-0 invert" : "mix-blend-multiply")} />
                         ) : (
                             <h1 className={cn("font-serif text-lg tracking-widest uppercase transition-colors duration-500", isMobileMenuOpen ? "text-white" : (isScrolled || !isDarkBgPage ? "text-primary" : "text-white"))}>
-                                EUROMAR IMMO
+                                EUROMARO <span className="text-[#d4af37]">IMMO</span>
                             </h1>
                         )}
                     </Link>

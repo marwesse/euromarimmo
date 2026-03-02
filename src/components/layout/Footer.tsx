@@ -25,7 +25,7 @@ export function Footer({ logoUrl }: { logoUrl?: string }) {
                                 <img src={logoUrl} alt="EUROMAR IMMO Logo" className="h-32 w-auto object-contain transition-transform duration-700 group-hover:scale-105 filter brightness-0 invert opacity-90 group-hover:opacity-100" />
                             ) : (
                                 <h2 className="font-serif text-3xl tracking-widest uppercase transition-colors group-hover:text-accent">
-                                    EUROMAR IMMO
+                                    EUROMARO <span className="text-[#d4af37]">IMMO</span>
                                 </h2>
                             )}
                         </Link>
