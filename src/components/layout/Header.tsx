@@ -57,7 +57,7 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
                     {/* Logo */}
                     <Link href="/" className="group flex items-center shrink-0">
                         <h1 className={cn("font-serif text-xl tracking-widest uppercase transition-colors duration-500", logoColor)}>
-                            EUROMARO <span className="text-[#d4af37]">IMMO</span>
+                            EUROMAR <span className="text-[#d4af37]">IMMO</span>
                         </h1>
                     </Link>
 
@@ -118,7 +118,7 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
                 <div className="flex items-center justify-between">
                     <Link href="/" className="group flex items-center z-50">
                         <h1 className={cn("font-serif text-lg tracking-widest uppercase transition-colors duration-500", isMobileMenuOpen ? "text-white" : (isScrolled || !isDarkBgPage ? "text-primary" : "text-white"))}>
-                            EUROMARO <span className="text-[#d4af37]">IMMO</span>
+                            EUROMAR <span className="text-[#d4af37]">IMMO</span>
                         </h1>
                     </Link>
 

@@ -22,7 +22,7 @@ export function Footer({ logoUrl }: { logoUrl?: string }) {
                     <div className="lg:col-span-4 space-y-8 pr-0 lg:pr-8">
                         <Link href="/" className="inline-block group">
                             <h2 className="font-serif text-3xl tracking-widest uppercase transition-colors group-hover:text-accent">
-                                EUROMARO <span className="text-[#d4af37]">IMMO</span>
+                                EUROMAR <span className="text-[#d4af37]">IMMO</span>
                             </h2>
                         </Link>
                         <p className="text-gray-400 text-sm md:text-base leading-relaxed font-light">

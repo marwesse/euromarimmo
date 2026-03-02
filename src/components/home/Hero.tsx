@@ -37,7 +37,7 @@ export function Hero() {
 
             <div className="container mx-auto px-4 z-10 text-center flex flex-col items-center">
                 <motion.h1
-                    className="font-serif text-5xl md:text-7xl text-white mb-6 leading-tight max-w-4xl drop-shadow-lg"
+                    className="font-serif text-4xl md:text-6xl lg:text-7xl text-white mb-6 leading-tight max-w-4xl drop-shadow-lg"
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, ease: "easeOut" }}
@@ -81,13 +81,13 @@ export function Hero() {
                     </div>
 
                     {/* Search Inputs */}
-                    <div className="glass w-full p-2 md:p-4 rounded-xl flex flex-col md:flex-row gap-4 lg:gap-6 shadow-2xl">
-                        <div className="flex-1 px-4 py-2 border-b md:border-b-0 md:border-r border-gray-200/50">
-                            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-1">Localisation</label>
+                    <div className="glass w-full p-4 rounded-xl flex flex-col md:flex-row gap-4 lg:gap-6 shadow-2xl items-center md:items-end">
+                        <div className="flex-1 w-full px-4 py-2 border-b md:border-b-0 md:border-r border-gray-200/50 flex flex-col items-center md:items-start">
+                            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-1 text-center md:text-left">Localisation</label>
                             <select
                                 value={location}
                                 onChange={(e) => setLocation(e.target.value)}
-                                className="w-full bg-transparent text-primary font-medium focus:outline-none appearance-none cursor-pointer"
+                                className="w-full bg-transparent text-primary font-medium focus:outline-none appearance-none cursor-pointer text-center md:text-left"
                             >
                                 <option value="Tous les quartiers">Tous les quartiers</option>
                                 <option value="Anfa Supérieur">Anfa Supérieur</option>
@@ -99,12 +99,12 @@ export function Hero() {
                             </select>
                         </div>
 
-                        <div className="flex-1 px-4 py-2 border-b md:border-b-0 md:border-r border-gray-200/50">
-                            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-1">Type de Bien</label>
+                        <div className="flex-1 w-full px-4 py-2 border-b md:border-b-0 md:border-r border-gray-200/50 flex flex-col items-center md:items-start">
+                            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-1 text-center md:text-left">Type de Bien</label>
                             <select
                                 value={propertyType}
                                 onChange={(e) => setPropertyType(e.target.value)}
-                                className="w-full bg-transparent text-primary font-medium focus:outline-none appearance-none cursor-pointer"
+                                className="w-full bg-transparent text-primary font-medium focus:outline-none appearance-none cursor-pointer text-center md:text-left"
                             >
                                 <option value="Tous">Tous les types</option>
                                 <option value="Villa">Villa</option>
@@ -114,9 +114,9 @@ export function Hero() {
                             </select>
                         </div>
 
-                        <div className="flex-1 px-4 py-2">
-                            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-1">Budget</label>
-                            <select className="w-full bg-transparent text-primary font-medium focus:outline-none appearance-none cursor-pointer">
+                        <div className="flex-1 w-full px-4 py-2 flex flex-col items-center md:items-start">
+                            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-1 text-center md:text-left">Budget</label>
+                            <select className="w-full bg-transparent text-primary font-medium focus:outline-none appearance-none cursor-pointer text-center md:text-left">
                                 <option>Budget Maximum</option>
                                 <option>5M - 10M DH</option>
                                 <option>10M - 20M DH</option>
@@ -126,7 +126,7 @@ export function Hero() {
 
                         <button
                             onClick={handleSearch}
-                            className="bg-accent hover:bg-accent-hover text-white px-8 py-4 rounded-lg font-medium transition-colors flex items-center justify-center gap-2 md:w-auto w-full mt-2 md:mt-0 shadow-lg"
+                            className="bg-accent hover:bg-accent-hover text-white px-8 py-4 rounded-lg font-medium transition-colors flex items-center justify-center gap-2 w-full md:w-auto mt-4 md:mt-0 shadow-lg"
                         >
                             <Search className="w-5 h-5" />
                             <span className="md:hidden">Rechercher</span>
