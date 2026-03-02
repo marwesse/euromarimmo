@@ -9,9 +9,8 @@ export function WhatsAppFAB({ settings }: { settings: any }) {
     const pathname = usePathname();
 
     if (pathname?.startsWith("/admin")) return null;
-
     const whatsappMessage = "Bonjour EUROMAR IMMO,\n\nJe suis intéressé(e) par vos propriétés.";
-    const whatsappUrl = `https://wa.me/212661755716?text=${encodeURIComponent(whatsappMessage)}`;
+    const whatsappUrl = `https://wa.me/212600692922?text=${encodeURIComponent(whatsappMessage)}`;
 
     return (
         <div className="fixed bottom-6 left-6 md:bottom-10 md:left-10 z-50 flex items-center justify-start group">

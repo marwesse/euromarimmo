@@ -70,7 +70,7 @@ export function Footer({ logoUrl }: { logoUrl?: string }) {
                                 </div>
                                 <div className="flex flex-col gap-1 pt-1">
                                     <strong className="text-white font-medium uppercase tracking-wider text-xs">Téléphone</strong>
-                                    <a href="tel:+212661755716" className="hover:text-accent transition-colors text-base">+212 661-755716</a>
+                                    <a href="tel:+212600692922" className="hover:text-accent transition-colors text-base">+212 600-692922</a>
                                 </div>
                             </li>
                             <li className="flex items-start gap-4">

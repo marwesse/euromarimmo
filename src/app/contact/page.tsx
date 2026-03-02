@@ -60,7 +60,7 @@ export default function ContactPage() {
                                     </div>
                                     <div className="pt-1">
                                         <strong className="block text-primary font-serif text-xl mb-2">Téléphone</strong>
-                                        <a href="tel:+212661755716" className="text-gray-500 hover:text-accent font-medium transition-colors text-lg">+212 661-755716</a>
+                                        <a href="tel:+212600692922" className="text-gray-500 hover:text-accent font-medium transition-colors text-lg">+212 600-692922</a>
                                         <p className="inline-block px-3 py-1 mt-3 text-[10px] text-accent font-bold uppercase tracking-widest bg-accent/10 rounded-full border border-accent/20">Ligne Directe VIP 24/7</p>
                                     </div>
                                 </li>
@@ -232,7 +232,7 @@ export default function ContactPage() {
 
                                                 // Redirect to WhatsApp with filled info
                                                 const waMessage = `Bonjour EUROMAR IMMO,\n\nNouveau message depuis le formulaire de contact:\n*Nom:* ${name}\n*Téléphone:* ${phone}\n*Sujet:* ${subject}\n\n*Message:*\n${message}`;
-                                                window.open(`https://wa.me/212661755716?text=${encodeURIComponent(waMessage)}`, "_blank");
+                                                window.open(`https://wa.me/212600692922?text=${encodeURIComponent(waMessage)}`, "_blank");
                                             }
                                         }}
                                         className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-medium py-5 px-8 rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-[0_8px_25px_rgba(37,211,102,0.3)] hover:shadow-[0_12px_35px_rgba(37,211,102,0.4)] hover:-translate-y-1 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none text-lg"

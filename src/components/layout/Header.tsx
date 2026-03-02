@@ -92,9 +92,9 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
 
                     {/* Call to action */}
                     <div className="hidden md:flex items-center gap-6 shrink-0">
-                        <a href="tel:+212661755716" className={cn("hidden lg:flex items-center gap-2 text-sm font-medium hover:text-accent transition-colors duration-300", textColor)}>
+                        <a href="tel:+212600692922" className={cn("hidden lg:flex items-center gap-2 text-sm font-medium hover:text-accent transition-colors duration-300", textColor)}>
                             <Phone className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                            <span className="tracking-wide">+212 661-755716</span>
+                            <span className="tracking-wide">+212 600-692922</span>
                         </a>
                         <Link
                             href="/contact"
@@ -180,11 +180,11 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
                                 transition={{ duration: 0.5, delay: navLinks.length * 0.1 + 0.4, ease: "easeOut" }}
                                 className="flex flex-col items-center gap-6 w-full"
                             >
-                                <a href="tel:+212661755716" className="flex items-center gap-3 text-white/70 hover:text-white transition-colors">
+                                <a href="tel:+212600692922" className="flex items-center gap-3 text-white/70 hover:text-white transition-colors">
                                     <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center bg-white/5">
                                         <Phone className="w-5 h-5 text-accent" />
                                     </div>
-                                    <span className="text-lg font-light tracking-wide">+212 661-755716</span>
+                                    <span className="text-lg font-light tracking-wide">+212 600-692922</span>
                                 </a>
                                 <Link
                                     href="/contact"
