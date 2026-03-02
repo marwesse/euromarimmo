@@ -10,16 +10,16 @@ export function WhatsAppFAB({ settings }: { settings: any }) {
 
     if (pathname?.startsWith("/admin")) return null;
 
-    const whatsappMessage = "Bonjour EUROMAR IMMO, je suis intéressé(e) par vos propriétés à Casablanca.";
-    const whatsappUrl = `https://wa.me/${settings.whatsapp_number.replace("+", "")}?text=${encodeURIComponent(whatsappMessage)}`;
+    const whatsappMessage = "Bonjour EUROMAR IMMO,\n\nJe suis intéressé(e) par vos propriétés.";
+    const whatsappUrl = `https://wa.me/212661755716?text=${encodeURIComponent(whatsappMessage)}`;
 
     return (
-        <div className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-50 flex items-center justify-end">
+        <div className="fixed bottom-6 left-6 md:bottom-10 md:left-10 z-50 flex items-center justify-start group">
             {/* Tooltip (Visible on hover on Desktop) */}
-            <div className="hidden md:block absolute right-20 bg-gray-900/90 text-white text-sm font-medium px-4 py-2 rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none backdrop-blur-sm border border-white/10 shadow-xl hidden md:group-hover:block">
+            <div className="hidden md:block absolute left-20 bg-gray-900/90 text-white text-sm font-medium px-4 py-2 rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none backdrop-blur-sm border border-white/10 shadow-xl hidden md:group-hover:block">
                 Contactez-nous
                 {/* Tooltip Arrow */}
-                <div className="absolute top-1/2 -translate-y-1/2 -right-1 w-2 h-2 bg-gray-900/90 rotate-45 border-t border-r border-white/10"></div>
+                <div className="absolute top-1/2 -translate-y-1/2 -left-1 w-2 h-2 bg-gray-900/90 rotate-45 border-b border-l border-white/10"></div>
             </div>
 
             <Link

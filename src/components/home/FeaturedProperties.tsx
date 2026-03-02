@@ -27,11 +27,15 @@ export function FeaturedProperties({ properties }: FeaturedPropertiesProps) {
                         transition={{ duration: 0.6 }}
                         className="max-w-2xl"
                     >
-                        <span className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-white rounded-full border border-gray-100 shadow-sm">
-                            <span className="w-2 h-2 rounded-full bg-accent"></span>
-                            <span className="text-accent font-semibold tracking-widest uppercase text-xs">Notre Sélection</span>
-                        </span>
-                        <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-primary mb-6 leading-tight">Propriétés <br className="hidden md:block" /><span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-accent-hover">d&apos;Exception</span></h2>
+                        <div className="flex justify-center md:justify-start">
+                            <span className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-white rounded-full border border-gray-100 shadow-sm">
+                                <span className="w-2 h-2 rounded-full bg-accent"></span>
+                                <span className="text-accent font-semibold tracking-widest uppercase text-xs">Notre Sélection</span>
+                            </span>
+                        </div>
+                        <h2 className="font-serif text-4xl md:text-5xl lg:text-3xl text-primary mb-6 leading-tight text-center md:text-left">
+                            Propriétés <br className="hidden md:block" /><span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-accent-hover">d&apos;Exception</span>
+                        </h2>
                     </motion.div>
 
                     <motion.div
@@ -39,6 +43,7 @@ export function FeaturedProperties({ properties }: FeaturedPropertiesProps) {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
+                        className="flex justify-center md:justify-end w-full md:w-auto"
                     >
                         <Link
                             href="/proprietes"
