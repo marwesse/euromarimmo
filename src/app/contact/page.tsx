@@ -216,18 +216,26 @@ export default function ContactPage() {
                                             setIsSubmitting(true);
                                             setSubmitSuccess(false);
 
+                                            const name = formData.get("name") as string;
+                                            const phone = formData.get("phone") as string;
+                                            const email = formData.get("email") as string;
                                             const subject = formData.get("subject") as string;
                                             const message = formData.get("message") as string;
-                                            formData.set("message", `[Sujet: ${subject}]\n${message}`);
 
+                                            // Send lead to backend
+                                            formData.set("message", `[Sujet: ${subject}]\n${message}`);
                                             const result = await submitLead(formData);
 
                                             setIsSubmitting(false);
                                             if (result?.success) {
                                                 setSubmitSuccess(true);
+
+                                                // Redirect to WhatsApp with filled info
+                                                const waMessage = `Bonjour EUROMAR IMMO,\n\nNouveau message depuis le formulaire de contact:\n*Nom:* ${name}\n*Téléphone:* ${phone}\n*Sujet:* ${subject}\n\n*Message:*\n${message}`;
+                                                window.open(`https://wa.me/212661755716?text=${encodeURIComponent(waMessage)}`, "_blank");
                                             }
                                         }}
-                                        className="w-full bg-accent hover:bg-accent-hover text-white font-medium py-5 px-8 rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-[0_8px_25px_rgba(212,175,55,0.3)] hover:shadow-[0_12px_35px_rgba(212,175,55,0.4)] hover:-translate-y-1 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none text-lg"
+                                        className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-medium py-5 px-8 rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-[0_8px_25px_rgba(37,211,102,0.3)] hover:shadow-[0_12px_35px_rgba(37,211,102,0.4)] hover:-translate-y-1 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none text-lg"
                                     >
                                         {isSubmitting ? (
                                             "Envoi en cours..."
