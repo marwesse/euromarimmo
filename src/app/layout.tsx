@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFAB } from "@/components/ui/WhatsAppFAB";
+import { ScrollToTop } from "@/components/ui/ScrollToTop";
 import { getSettings } from "@/app/actions/settings-actions";
 
 const inter = Inter({
@@ -33,6 +34,7 @@ export default async function RootLayout({
         className={`${inter.variable} ${playfairDisplay.variable} font-sans bg-white text-gray-900 antialiased flex flex-col min-h-screen`}
       >
         <Header logoUrl={settings?.logo_url} />
+        <ScrollToTop />
         <main className="flex-grow">
           {children}
         </main>
