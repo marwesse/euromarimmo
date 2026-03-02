@@ -21,13 +21,9 @@ export function Footer({ logoUrl }: { logoUrl?: string }) {
                     {/* Brand & Blurb */}
                     <div className="lg:col-span-4 space-y-8 pr-0 lg:pr-8">
                         <Link href="/" className="inline-block group">
-                            {logoUrl ? (
-                                <img src={logoUrl} alt="EUROMAR IMMO Logo" className="h-32 w-auto object-contain transition-transform duration-700 group-hover:scale-105 filter brightness-0 invert opacity-90 group-hover:opacity-100" />
-                            ) : (
-                                <h2 className="font-serif text-3xl tracking-widest uppercase transition-colors group-hover:text-accent">
-                                    EUROMARO <span className="text-[#d4af37]">IMMO</span>
-                                </h2>
-                            )}
+                            <h2 className="font-serif text-3xl tracking-widest uppercase transition-colors group-hover:text-accent">
+                                EUROMARO <span className="text-[#d4af37]">IMMO</span>
+                            </h2>
                         </Link>
                         <p className="text-gray-400 text-sm md:text-base leading-relaxed font-light">
                             L&apos;agence immobilière de référence pour les propriétés de prestige au Maroc. Notre expertise à votre service pour des projets d&apos;exception.

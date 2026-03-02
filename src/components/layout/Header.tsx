@@ -56,13 +56,9 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
 
                     {/* Logo */}
                     <Link href="/" className="group flex items-center shrink-0">
-                        {logoUrl ? (
-                            <img src={logoUrl} alt="EUROMAR IMMO Logo" className={cn("max-h-16 py-1 w-auto object-contain transition-all duration-500", invertLogo ? "filter brightness-0 invert" : "mix-blend-multiply")} />
-                        ) : (
-                            <h1 className={cn("font-serif text-xl tracking-widest uppercase transition-colors duration-500", logoColor)}>
-                                EUROMARO <span className="text-[#d4af37]">IMMO</span>
-                            </h1>
-                        )}
+                        <h1 className={cn("font-serif text-xl tracking-widest uppercase transition-colors duration-500", logoColor)}>
+                            EUROMARO <span className="text-[#d4af37]">IMMO</span>
+                        </h1>
                     </Link>
 
                     {/* Desktop Navigation */}
@@ -121,13 +117,9 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
             <div className={cn("md:hidden transition-all duration-500 px-4 py-3 relative z-50", headerMobileClass, isMobileMenuOpen && "bg-transparent border-transparent shadow-none backdrop-blur-none")}>
                 <div className="flex items-center justify-between">
                     <Link href="/" className="group flex items-center z-50">
-                        {logoUrl ? (
-                            <img src={logoUrl} alt="EUROMAR IMMO Logo" className={cn("max-h-12 w-auto object-contain transition-all duration-500", (invertLogo || isMobileMenuOpen) ? "filter brightness-0 invert" : "mix-blend-multiply")} />
-                        ) : (
-                            <h1 className={cn("font-serif text-lg tracking-widest uppercase transition-colors duration-500", isMobileMenuOpen ? "text-white" : (isScrolled || !isDarkBgPage ? "text-primary" : "text-white"))}>
-                                EUROMARO <span className="text-[#d4af37]">IMMO</span>
-                            </h1>
-                        )}
+                        <h1 className={cn("font-serif text-lg tracking-widest uppercase transition-colors duration-500", isMobileMenuOpen ? "text-white" : (isScrolled || !isDarkBgPage ? "text-primary" : "text-white"))}>
+                            EUROMARO <span className="text-[#d4af37]">IMMO</span>
+                        </h1>
                     </Link>
 
                     <button
