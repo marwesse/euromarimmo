@@ -90,25 +90,19 @@ export function Hero() {
                                 className="w-full bg-transparent text-primary font-medium focus:outline-none appearance-none cursor-pointer text-center md:text-left"
                             >
                                 <option value="Tous les quartiers">Tous les quartiers</option>
-                                <option value="Anfa Supérieur">Anfa Supérieur</option>
-                                <option value="Maarif / Gauthier">Maarif / Gauthier</option>
-                                <option value="Bourgogne / Racine">Bourgogne / Racine</option>
-                                <option value="Californie">Californie</option>
-                                <option value="Bouskoura">Bouskoura</option>
-                                <option value="Dar Bouazza">Dar Bouazza</option>
                                 <option value="Palmier">Palmier</option>
-                                <option value="France Ville">France Ville</option>
+                                <option value="France ville">France ville</option>
                                 <option value="Les Hôpitaux">Les Hôpitaux</option>
                                 <option value="Les Princesses">Les Princesses</option>
                                 <option value="Ciel">Ciel</option>
                                 <option value="CFC">CFC</option>
-                                <option value="Abdelmoumen">Abdelmoumen</option>
+                                <option value="Abdelmouman">Abdelmouman</option>
                                 <option value="Ghandi">Ghandi</option>
                                 <option value="Maarif">Maarif</option>
                                 <option value="Anoual">Anoual</option>
                                 <option value="2 Mars">2 Mars</option>
                                 <option value="Ferme Bretonne">Ferme Bretonne</option>
-                                <option value="Route d'El Jadida">Route d'El Jadida</option>
+                                <option value="Route El Jadida">Route El Jadida</option>
                                 <option value="La Corniche">La Corniche</option>
                                 <option value="Marina">Marina</option>
                                 <option value="Casa Port">Casa Port</option>
@@ -126,6 +120,7 @@ export function Hero() {
                                 className="w-full bg-transparent text-primary font-medium focus:outline-none appearance-none cursor-pointer text-center md:text-left"
                             >
                                 <option value="Tous">Tous les types</option>
+                                <option value="Studio">Studio</option>
                                 <option value="Villa">Villa</option>
                                 <option value="Penthouse">Penthouse</option>
                                 <option value="Appartement de Luxe">Appartement de Luxe</option>
@@ -135,12 +130,20 @@ export function Hero() {
 
                         <div className="flex-1 w-full px-4 py-2 flex flex-col items-center md:items-start">
                             <label className="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-1 text-center md:text-left">Budget</label>
-                            <select className="w-full bg-transparent text-primary font-medium focus:outline-none appearance-none cursor-pointer text-center md:text-left">
-                                <option>Budget Maximum</option>
-                                <option>5M - 10M DH</option>
-                                <option>10M - 20M DH</option>
-                                <option>20M+ DH</option>
-                            </select>
+                            {transactionType === 'Acheter' ? (
+                                <select className="w-full bg-transparent text-primary font-medium focus:outline-none appearance-none cursor-pointer text-center md:text-left">
+                                    <option>Budget Maximum</option>
+                                    <option>5M - 10M DH</option>
+                                    <option>10M - 20M DH</option>
+                                    <option>20M+ DH</option>
+                                </select>
+                            ) : (
+                                <select className="w-full bg-transparent text-primary font-medium focus:outline-none appearance-none cursor-pointer text-center md:text-left">
+                                    <option>Budget Maximum</option>
+                                    <option>400 - 800 DH</option>
+                                    <option>800 - 1400 DH</option>
+                                </select>
+                            )}
                         </div>
 
                         <button

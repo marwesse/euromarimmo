@@ -4,13 +4,13 @@ import { useState, Suspense, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { BedDouble, Bath, SquareMenu, Filter, ChevronDown, MapPin } from "lucide-react";
+import { BedDouble, Bath, SquareMenu, Filter, ChevronDown, MapPin, MessageCircle } from "lucide-react";
 
-const filterTypes = ["Tous", "Villa", "Penthouse", "Appartement de Luxe", "Duplex"];
+const filterTypes = ["Tous", "Studio", "Villa", "Penthouse", "Appartement de Luxe", "Duplex"];
 const locations = [
-    "Tous les quartiers", "Anfa Supérieur", "Gauthier / Racine", "Bourgogne / Racine", "Californie", "Bouskoura", "Dar Bouazza",
-    "Palmier", "France Ville", "Les Hôpitaux", "Les Princesses", "Ciel", "CFC", "Abdelmoumen", "Ghandi", "Maarif", "Anoual",
-    "2 Mars", "Ferme Bretonne", "Route d'El Jadida", "La Corniche", "Marina", "Casa Port", "Zenata", "Ain Diab", "Belvédère"
+    "Tous les quartiers", "Palmier", "France ville", "Les Hôpitaux", "Les Princesses", "Ciel", "CFC",
+    "Abdelmouman", "Ghandi", "Maarif", "Anoual", "2 Mars", "Ferme Bretonne", "Route El Jadida",
+    "La Corniche", "Marina", "Casa Port", "Zenata", "Ain Diab", "Belvédère"
 ];
 
 export function ProprietesClient({ properties }: { properties: any[] }) {
@@ -187,6 +187,18 @@ export function ProprietesClient({ properties }: { properties: any[] }) {
                                         <SquareMenu className="w-4 h-4 text-accent" />
                                         <span>{property.surface || property.features?.area || 0} m²</span>
                                     </div>
+                                </div>
+                                <div className="mt-4 pt-4 border-t border-gray-100">
+                                    <a
+                                        href={`https://wa.me/212600692922?text=${encodeURIComponent(`Bonjour EUROMAR IMMO, je suis intéressé(e) par la réservation du bien : ${property.title}`)}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="relative z-20 w-full bg-[#25D366]/10 hover:bg-[#25D366] text-[#25D366] hover:text-white border border-[#25D366]/30 hover:border-[#25D366] py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"
+                                        onClick={(e) => e.stopPropagation()}
+                                    >
+                                        <MessageCircle className="w-4 h-4" />
+                                        Réserver via WhatsApp
+                                    </a>
                                 </div>
                             </div>
                         </motion.div>

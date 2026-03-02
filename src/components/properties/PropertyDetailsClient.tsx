@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { BedDouble, Bath, SquareMenu, Calendar, Check, ArrowLeft, Phone, Mail, User, ChevronLeft, ChevronRight, CalendarDays } from "lucide-react";
+import { BedDouble, Bath, SquareMenu, Calendar, Check, ArrowLeft, Phone, Mail, User, ChevronLeft, ChevronRight, CalendarDays, MessageCircle } from "lucide-react";
 import { PaymentModal } from "@/components/properties/PaymentModal";
 import { submitLead } from "@/app/actions/lead-actions";
 
@@ -246,22 +246,15 @@ export function PropertyDetailsClient({ property, similarProperties, settings }:
 
                             {/* CTA Reserve / Contact */}
                             <div className="mb-8 border-b border-gray-100 pb-8">
-                                {property.type === 'Vente' ? (
-                                    <button
-                                        onClick={() => setIsPaymentModalOpen(true)}
-                                        className="w-full bg-accent hover:bg-accent-hover text-white font-medium py-4 rounded-lg shadow-lg shadow-accent/20 transition-all flex items-center justify-center gap-2 mb-4"
-                                    >
-                                        Réserver (Payer l&apos;avance)
-                                    </button>
-                                ) : (
-                                    <button
-                                        onClick={() => setIsPaymentModalOpen(true)}
-                                        disabled={!totalPrice || nights === 0}
-                                        className={`w-full font-medium py-4 rounded-lg flex items-center justify-center gap-2 mb-4 transition-all ${(!totalPrice || nights === 0) ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-accent hover:bg-accent-hover text-white shadow-lg shadow-accent/20'}`}
-                                    >
-                                        {!totalPrice || nights === 0 ? 'Sélectionnez vos dates' : 'Réserver (Payer l\'avance)'}
-                                    </button>
-                                )}
+                                <a
+                                    href={`https://wa.me/212600692922?text=${encodeURIComponent(`Bonjour EUROMAR IMMO, je suis intéressé(e) par la réservation du bien : ${property.title}`)}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-medium py-4 rounded-lg shadow-lg shadow-[#25D366]/20 transition-all flex items-center justify-center gap-2 mb-4"
+                                >
+                                    <MessageCircle className="w-5 h-5" />
+                                    Réserver via WhatsApp
+                                </a>
                             </div>
 
                             <form className="space-y-4">
