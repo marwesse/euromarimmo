@@ -236,7 +236,7 @@ export function PropertyDetailsClient({ property, similarProperties, settings }:
                                             <div className="relative">
                                                 <CalendarDays className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                                                 <input
-                                                    type="datetime-local"
+                                                    type="date"
                                                     value={checkIn}
                                                     onChange={(e) => setCheckIn(e.target.value)}
                                                     className="w-full bg-white dark:bg-black/40 border border-gray-200 dark:border-white/10 dark:text-white rounded-lg py-2.5 pl-10 pr-4 text-sm focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all cursor-text appearance-none"
@@ -249,7 +249,7 @@ export function PropertyDetailsClient({ property, similarProperties, settings }:
                                             <div className="relative">
                                                 <CalendarDays className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                                                 <input
-                                                    type="datetime-local"
+                                                    type="date"
                                                     value={checkOut}
                                                     onChange={(e) => setCheckOut(e.target.value)}
                                                     className="w-full bg-white dark:bg-black/40 border border-gray-200 dark:border-white/10 dark:text-white rounded-lg py-2.5 pl-10 pr-4 text-sm focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all cursor-text appearance-none"
