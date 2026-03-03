@@ -26,7 +26,8 @@ export function PaymentModal({ isOpen, onClose, advanceAmount, totalAmount, prop
     const handleWhatsApp = () => {
         const message = `Bonjour EUROMAR IMMO, je viens de procéder au virement de l'avance (${advanceAmount}) pour bloquer la propriété : ${propertyTitle}. Voici mon reçu :`;
         const encodedMessage = encodeURIComponent(message);
-        window.open(`https://wa.me/${settings.whatsapp_number.replace("+", "")}?text=${encodedMessage}`, "_blank");
+        const phoneNumber = settings?.whatsapp_number?.replace("+", "") || "212600692922";
+        window.open(`https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`, "_blank");
     };
 
     return (
