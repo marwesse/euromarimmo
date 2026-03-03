@@ -6,6 +6,8 @@ import { MortgageSimulator } from "@/components/home/MortgageSimulator";
 import { Testimonials } from "@/components/home/Testimonials";
 import { getProperties } from "@/app/actions/property-actions";
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const properties = await getProperties();
   const featured = properties.slice(0, 3);

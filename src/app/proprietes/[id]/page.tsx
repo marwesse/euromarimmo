@@ -3,6 +3,8 @@ import { PropertyDetailsClient } from "@/components/properties/PropertyDetailsCl
 import { getPropertyById, getProperties } from "@/app/actions/property-actions";
 import { getSettings } from "@/app/actions/settings-actions";
 
+export const dynamic = 'force-dynamic';
+
 export default async function PropertyDetailsPage(props: { params: Promise<{ id: string }> }) {
     const params = await props.params;
     const property = await getPropertyById(params.id);

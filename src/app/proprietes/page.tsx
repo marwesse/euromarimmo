@@ -2,6 +2,8 @@ import { Suspense } from "react";
 import { ProprietesClient } from "@/components/properties/ProprietesClient";
 import { getProperties } from "@/app/actions/property-actions";
 
+export const dynamic = 'force-dynamic';
+
 export default async function ProprietesPage() {
     const properties = await getProperties();
 
