@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { BedDouble, Bath, SquareMenu, Calendar, Check, ArrowLeft, Phone, Mail, User, ChevronLeft, ChevronRight, CalendarDays, MessageCircle } from "lucide-react";
+import { BedDouble, Bath, SquareMenu, Calendar, Check, ArrowLeft, Phone, Mail, User, ChevronLeft, ChevronRight, CalendarDays, MessageCircle, CreditCard, Landmark } from "lucide-react";
 import { PaymentModal } from "@/components/properties/PaymentModal";
 import { submitLead } from "@/app/actions/lead-actions";
 
@@ -19,36 +19,38 @@ export function PropertyDetailsClient({ property, similarProperties, settings }:
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
     const [checkIn, setCheckIn] = useState("");
     const [checkOut, setCheckOut] = useState("");
-    const [nights, setNights] = useState(0);
-    const [totalPrice, setTotalPrice] = useState<number | null>(null);
 
     // Form submission state
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitSuccess, setSubmitSuccess] = useState(false);
 
-    // Effect to calculate nights and total price for rentals
-    useEffect(() => {
-        if (property?.type === 'Location' && checkIn && checkOut) {
-            const start = new Date(checkIn);
-            const end = new Date(checkOut);
-            if (end > start) {
-                const diffTime = Math.abs(end.getTime() - start.getTime());
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                setNights(diffDays);
-                setTotalPrice(diffDays * Number(property.price || 0));
-            } else {
-                setNights(0);
-                setTotalPrice(null);
-            }
+    // Calculate nights and total price for rentals
+    let nights = 0;
+    let totalPrice: number | null = null;
+    if (property?.type === 'Location' && checkIn && checkOut) {
+        const start = new Date(checkIn);
+        const end = new Date(checkOut);
+        if (end > start) {
+            const diffTime = Math.abs(end.getTime() - start.getTime());
+            nights = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            totalPrice = nights * Number(property.price || 0);
         }
-    }, [checkIn, checkOut, property]);
+    }
 
-    const nextImage = () => {
+    const nextImage = (e?: React.MouseEvent) => {
+        if (e) {
+            e.stopPropagation();
+            e.preventDefault();
+        }
         if (!property.images?.length) return;
         setCurrentImageIndex((prev) => (prev + 1) % property.images.length);
     };
 
-    const prevImage = () => {
+    const prevImage = (e?: React.MouseEvent) => {
+        if (e) {
+            e.stopPropagation();
+            e.preventDefault();
+        }
         if (!property.images?.length) return;
         setCurrentImageIndex((prev) => (prev - 1 + property.images.length) % property.images.length);
     };
@@ -94,9 +96,9 @@ export function PropertyDetailsClient({ property, similarProperties, settings }:
                 </div>
 
                 {/* Image Slider */}
-                <div className="relative mb-12 h-[400px] md:h-[600px] rounded-2xl overflow-hidden shadow-lg group">
+                <div className="relative mb-12 h-[600px] md:h-[800px] lg:h-[85vh] rounded-3xl overflow-hidden shadow-2xl group w-full max-w-[1600px] mx-auto">
                     <div
-                        className="absolute inset-0 bg-cover bg-center transition-all duration-500 ease-in-out"
+                        className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-in-out hover:scale-105"
                         style={{ backgroundImage: `url('${property.images?.[currentImageIndex] || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=80'}')` }}
                     />
 
@@ -126,7 +128,11 @@ export function PropertyDetailsClient({ property, similarProperties, settings }:
                                 {property.images.map((_: string, idx: number) => (
                                     <button
                                         key={idx}
-                                        onClick={() => setCurrentImageIndex(idx)}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            e.preventDefault();
+                                            setCurrentImageIndex(idx);
+                                        }}
                                         className={`w-2 h-2 md:w-2.5 md:h-2.5 rounded-full transition-all ${currentImageIndex === idx ? 'bg-white scale-125' : 'bg-white/50 hover:bg-white/80'}`}
                                         aria-label={`Aller à l'image ${idx + 1}`}
                                     />
@@ -205,11 +211,11 @@ export function PropertyDetailsClient({ property, similarProperties, settings }:
                                             <div className="relative">
                                                 <CalendarDays className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                                                 <input
-                                                    type="date"
+                                                    type="datetime-local"
                                                     value={checkIn}
                                                     onChange={(e) => setCheckIn(e.target.value)}
                                                     className="w-full bg-white border border-gray-200 rounded-lg py-2.5 pl-10 pr-4 text-sm focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all cursor-text appearance-none"
-                                                    min={new Date().toISOString().split('T')[0]}
+                                                    min={new Date().toISOString().slice(0, 16)}
                                                 />
                                             </div>
                                         </div>
@@ -218,11 +224,11 @@ export function PropertyDetailsClient({ property, similarProperties, settings }:
                                             <div className="relative">
                                                 <CalendarDays className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                                                 <input
-                                                    type="date"
+                                                    type="datetime-local"
                                                     value={checkOut}
                                                     onChange={(e) => setCheckOut(e.target.value)}
                                                     className="w-full bg-white border border-gray-200 rounded-lg py-2.5 pl-10 pr-4 text-sm focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all cursor-text appearance-none"
-                                                    min={checkIn || new Date().toISOString().split('T')[0]}
+                                                    min={checkIn || new Date().toISOString().slice(0, 16)}
                                                 />
                                             </div>
                                         </div>
@@ -245,15 +251,29 @@ export function PropertyDetailsClient({ property, similarProperties, settings }:
                             )}
 
                             {/* CTA Reserve / Contact */}
-                            <div className="mb-8 border-b border-gray-100 pb-8">
+                            <div className="mb-8 border-b border-gray-100 pb-8 flex flex-col gap-3">
+                                <button
+                                    onClick={() => alert("Le paiement par carte bancaire sera bientôt disponible.")}
+                                    className="w-full bg-primary hover:bg-primary/90 text-white font-medium py-3.5 rounded-lg shadow-md transition-all flex items-center justify-center gap-2"
+                                >
+                                    <CreditCard className="w-5 h-5" />
+                                    Payer par carte bancaire
+                                </button>
+                                <button
+                                    onClick={() => setIsPaymentModalOpen(true)}
+                                    className="w-full bg-white hover:bg-gray-50 text-primary border border-gray-200 font-medium py-3.5 rounded-lg shadow-sm transition-all flex items-center justify-center gap-2"
+                                >
+                                    <Landmark className="w-5 h-5" />
+                                    Payer par virement RIB
+                                </button>
                                 <a
-                                    href={`https://wa.me/212600692922?text=${encodeURIComponent(`Bonjour EUROMAR IMMO, je suis intéressé(e) par la réservation du bien : ${property.title}`)}`}
+                                    href={`https://wa.me/${settings.whatsapp_number?.replace("+", "") || "212600692922"}?text=${encodeURIComponent(`Bonjour EUROMAR IMMO, je souhaite réserver le bien : ${property.title}`)}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-medium py-4 rounded-lg shadow-lg shadow-[#25D366]/20 transition-all flex items-center justify-center gap-2 mb-4"
+                                    className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-medium py-3.5 rounded-lg shadow-md shadow-[#25D366]/20 transition-all flex items-center justify-center gap-2"
                                 >
                                     <MessageCircle className="w-5 h-5" />
-                                    Réserver via WhatsApp
+                                    Réserver sur WhatsApp
                                 </a>
                             </div>
 
@@ -316,8 +336,8 @@ export function PropertyDetailsClient({ property, similarProperties, settings }:
                         <h2 className="font-serif text-3xl text-primary mb-8">Biens Similaires</h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                             {similarProperties.map((similar: any) => (
-                                <div key={similar.id} className="bg-white rounded-xl overflow-hidden shadow-sm group">
-                                    <div className="relative h-56 overflow-hidden">
+                                <div key={similar.id} className="relative bg-white rounded-xl overflow-hidden shadow-sm group">
+                                    <Link href={`/proprietes/${similar.id}`} className="relative h-56 overflow-hidden block">
                                         <div
                                             className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
                                             style={{ backgroundImage: `url('${similar.images?.[0] || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=80'}')` }}
@@ -326,13 +346,12 @@ export function PropertyDetailsClient({ property, similarProperties, settings }:
                                         <div className="absolute bottom-3 left-4 text-white drop-shadow-md">
                                             <p className="font-serif text-xl">{Number(similar.price || 0).toLocaleString('fr-FR')} DH</p>
                                         </div>
-                                    </div>
+                                    </Link>
                                     <div className="p-5">
                                         <h3 className="font-serif text-lg text-primary mb-1 group-hover:text-accent transition-colors">
-                                            <Link href={`/proprietes/${similar.id}`} className="absolute inset-0 z-10">
-                                                <span className="sr-only">Voir</span>
+                                            <Link href={`/proprietes/${similar.id}`}>
+                                                {similar.title}
                                             </Link>
-                                            {similar.title}
                                         </h3>
                                         <p className="text-sm text-gray-500">{similar.location}</p>
                                     </div>

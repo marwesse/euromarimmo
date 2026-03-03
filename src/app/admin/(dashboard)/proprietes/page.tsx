@@ -1,4 +1,4 @@
-import { getProperties, updateProperty, deleteProperty } from "@/app/actions/property-actions";
+import { getProperties, deleteProperty } from "@/app/actions/property-actions";
 import Link from "next/link";
 import { Plus, Edit2, Trash2 } from "lucide-react";
 
@@ -37,7 +37,7 @@ export default async function PropertiesAdminPage() {
                             {properties.length === 0 ? (
                                 <tr>
                                     <td colSpan={6} className="px-6 py-8 text-center text-gray-500">
-                                        Aucune propriété n'a été ajoutée pour le moment.
+                                        Aucune propriété n&apos;a été ajoutée pour le moment.
                                     </td>
                                 </tr>
                             ) : properties.map((prop: any) => (

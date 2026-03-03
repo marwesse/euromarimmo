@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { BedDouble, Bath, SquareMenu, ArrowRight, MessageCircle } from "lucide-react";
+import { BedDouble, SquareMenu, ArrowRight } from "lucide-react";
 
 interface FeaturedPropertiesProps {
     properties: any[];
@@ -115,16 +115,14 @@ export function FeaturedProperties({ properties }: FeaturedPropertiesProps) {
                                     </div>
                                 </div>
                                 <div className="mt-5 pt-5 border-t border-white/20 relative opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                                    <a
-                                        href={`https://wa.me/212600692922?text=${encodeURIComponent(`Bonjour EUROMAR IMMO, je suis intéressé(e) par la réservation du bien : ${property.title}`)}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="relative z-20 w-full bg-[#25D366] hover:bg-[#20bd5a] text-white py-3 rounded-xl text-sm font-medium transition-colors flex items-center justify-center gap-2 shadow-lg shadow-[#25D366]/20"
+                                    <Link
+                                        href={`/proprietes/${property.id}`}
+                                        className="relative z-20 w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-xl text-sm font-medium transition-colors flex items-center justify-center gap-2 shadow-lg shadow-primary/20"
                                         onClick={(e) => e.stopPropagation()}
                                     >
-                                        <MessageCircle className="w-4 h-4" />
-                                        Réserver via WhatsApp
-                                    </a>
+                                        Plus de détails
+                                        <ArrowRight className="w-4 h-4" />
+                                    </Link>
                                 </div>
                             </div>
                         </motion.div>

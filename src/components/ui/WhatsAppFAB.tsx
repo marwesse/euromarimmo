@@ -1,11 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export function WhatsAppFAB({ settings }: { settings: any }) {
+export function WhatsAppFAB() {
     const pathname = usePathname();
 
     if (pathname?.startsWith("/admin")) return null;

@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, Suspense, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { BedDouble, Bath, SquareMenu, Filter, ChevronDown, MapPin, MessageCircle } from "lucide-react";
+import { BedDouble, Bath, SquareMenu, Filter, ChevronDown, MapPin, ArrowRight } from "lucide-react";
 
 const filterTypes = ["Tous", "Studio", "Villa", "Penthouse", "Appartement de Luxe", "Duplex"];
 const locations = [
@@ -25,8 +25,11 @@ export function ProprietesClient({ properties }: { properties: any[] }) {
         const transactionParam = searchParams.get('transaction');
         const quartierParam = searchParams.get('quartier');
 
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         if (typeParam) setActiveFilter(typeParam);
+         
         if (transactionParam) setTransactionFilter(transactionParam);
+         
         if (quartierParam) setLocationFilter(quartierParam);
     }, [searchParams]);
 
@@ -189,16 +192,14 @@ export function ProprietesClient({ properties }: { properties: any[] }) {
                                     </div>
                                 </div>
                                 <div className="mt-4 pt-4 border-t border-gray-100">
-                                    <a
-                                        href={`https://wa.me/212600692922?text=${encodeURIComponent(`Bonjour EUROMAR IMMO, je suis intéressé(e) par la réservation du bien : ${property.title}`)}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="relative z-20 w-full bg-[#25D366]/10 hover:bg-[#25D366] text-[#25D366] hover:text-white border border-[#25D366]/30 hover:border-[#25D366] py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"
+                                    <Link
+                                        href={`/proprietes/${property.id}`}
+                                        className="relative z-20 w-full bg-primary/10 hover:bg-primary text-primary hover:text-white border border-primary/30 hover:border-primary py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"
                                         onClick={(e) => e.stopPropagation()}
                                     >
-                                        <MessageCircle className="w-4 h-4" />
-                                        Réserver via WhatsApp
-                                    </a>
+                                        Plus de détails
+                                        <ArrowRight className="w-4 h-4" />
+                                    </Link>
                                 </div>
                             </div>
                         </motion.div>

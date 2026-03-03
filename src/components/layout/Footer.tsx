@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 
-export function Footer({ logoUrl }: { logoUrl?: string }) {
+export function Footer() {
     const pathname = usePathname();
 
     if (pathname?.startsWith("/admin")) return null;

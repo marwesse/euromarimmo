@@ -19,14 +19,21 @@ const navLinks = [
     { name: "Contact", href: "/contact" },
 ];
 
-export function Header({ logoUrl }: { logoUrl?: string }) {
+export function Header() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const pathname = usePathname();
 
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 20);
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
     if (pathname?.startsWith("/admin")) return null;
 
-    // Determine if we should use transparent header initially
     const isHomepage = pathname === "/";
     const isDarkBgPage = isHomepage || pathname === "/services" || pathname === "/contact" || pathname === "/proprietes";
     const headerDesktopClass = isScrolled || !isDarkBgPage
@@ -38,15 +45,6 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
 
     const textColor = isScrolled || !isDarkBgPage ? "text-primary" : "text-white";
     const logoColor = isScrolled || !isDarkBgPage ? "text-primary" : "text-white";
-    const invertLogo = !isScrolled && isDarkBgPage;
-
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 20);
-        };
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
 
     return (
         <header className={cn("fixed top-0 w-full z-50 transition-all duration-500", "md:px-4", isScrolled ? "md:py-4" : "md:py-6")}>
@@ -74,7 +72,7 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
                                     <span className={cn(
                                         "relative z-10 transition-colors duration-300",
                                         textColor,
-                                        isActive && !isDarkBgPage ? "text-accent" : "group-hover:text-white/70"
+                                        isActive && !isDarkBgPage ? "text-accent" : "group-hover:text-accent"
                                     )}>
                                         {link.name}
                                     </span>
