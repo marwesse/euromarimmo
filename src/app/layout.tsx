@@ -34,13 +34,13 @@ export default async function RootLayout({
         suppressHydrationWarning
         className={`${inter.variable} ${playfairDisplay.variable} font-sans bg-white text-gray-900 antialiased flex flex-col min-h-screen`}
       >
-        <Header logoUrl={settings?.logo_url} />
+        <Header />
         <ScrollToTop />
         <main className="flex-grow">
           {children}
         </main>
-        <Footer logoUrl={settings?.logo_url} />
-        <WhatsAppFAB settings={settings} />
+        <Footer />
+        <WhatsAppFAB />
       </body>
     </html>
   );
