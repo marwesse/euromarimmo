@@ -4,13 +4,15 @@ import { useState } from "react";
 import { MapPin, Phone, Mail, Clock, Send, Facebook, MessageCircle } from "lucide-react";
 import { submitLead } from "@/app/actions/lead-actions";
 import { motion } from "framer-motion";
+import { LuxurySelect } from "@/components/ui/LuxurySelect";
 
 export default function ContactPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitSuccess, setSubmitSuccess] = useState(false);
+    const [subject, setSubject] = useState("");
 
     return (
-        <div className="min-h-screen bg-gray-50 pb-20 overflow-hidden">
+        <div className="min-h-screen bg-gray-50 dark:bg-[#0f131a] pb-20 overflow-hidden">
 
             {/* Header */}
             <div className="relative bg-primary text-white pt-36 pb-24 mb-24 overflow-hidden">
@@ -48,43 +50,43 @@ export default function ContactPage() {
                         className="space-y-12"
                     >
                         <div>
-                            <h2 className="font-serif text-4xl text-primary mb-6">Contactez-nous</h2>
-                            <p className="text-gray-500 text-lg font-light leading-relaxed mb-10">
+                            <h2 className="font-serif text-4xl text-primary dark:text-white mb-6">Contactez-nous</h2>
+                            <p className="text-gray-500 dark:text-gray-400 text-lg font-light leading-relaxed mb-10">
                                 Pour une demande d&apos;estimation, une recherche spécifique, ou une information sur l&apos;un de nos biens, n&apos;hésitez pas à nous solliciter.
                             </p>
 
                             <ul className="space-y-8">
                                 <li className="flex items-start gap-6 group">
-                                    <div className="w-16 h-16 bg-white rounded-2xl shadow-[0_4px_20px_rgb(0,0,0,0.04)] flex items-center justify-center shrink-0 group-hover:bg-accent group-hover:text-white group-hover:-translate-y-1 transition-all duration-300 border border-gray-100">
+                                    <div className="w-16 h-16 bg-white dark:bg-white/5 rounded-2xl shadow-[0_4px_20px_rgb(0,0,0,0.04)] dark:shadow-none flex items-center justify-center shrink-0 group-hover:bg-accent group-hover:text-white group-hover:-translate-y-1 transition-all duration-300 border border-gray-100 dark:border-white/10">
                                         <Phone className="w-6 h-6 text-accent group-hover:text-white transition-colors" />
                                     </div>
                                     <div className="pt-1">
-                                        <strong className="block text-primary font-serif text-xl mb-2">Téléphone</strong>
-                                        <a href="tel:+212600692922" className="text-gray-500 hover:text-accent font-medium transition-colors text-lg">+212 600-692922</a>
+                                        <strong className="block text-primary dark:text-white font-serif text-xl mb-2">Téléphone</strong>
+                                        <a href="tel:+212600692922" className="text-gray-500 dark:text-gray-400 hover:text-accent font-medium transition-colors text-lg">+212 600-692922</a>
                                         <p className="inline-block px-3 py-1 mt-3 text-[10px] text-accent font-bold uppercase tracking-widest bg-accent/10 rounded-full border border-accent/20">Ligne Directe VIP 24/7</p>
                                     </div>
                                 </li>
                                 <li className="flex items-start gap-6 group">
-                                    <div className="w-16 h-16 bg-white rounded-2xl shadow-[0_4px_20px_rgb(0,0,0,0.04)] flex items-center justify-center shrink-0 group-hover:bg-accent group-hover:text-white group-hover:-translate-y-1 transition-all duration-300 border border-gray-100">
+                                    <div className="w-16 h-16 bg-white dark:bg-white/5 rounded-2xl shadow-[0_4px_20px_rgb(0,0,0,0.04)] dark:shadow-none flex items-center justify-center shrink-0 group-hover:bg-accent group-hover:text-white group-hover:-translate-y-1 transition-all duration-300 border border-gray-100 dark:border-white/10">
                                         <Mail className="w-6 h-6 text-accent group-hover:text-white transition-colors" />
                                     </div>
                                     <div className="pt-1">
-                                        <strong className="block text-primary font-serif text-xl mb-2">Email</strong>
-                                        <a href="mailto:contact@euromarimmo.ma" className="text-gray-500 hover:text-accent font-medium transition-colors text-lg">contact@euromarimmo.ma</a>
+                                        <strong className="block text-primary dark:text-white font-serif text-xl mb-2">Email</strong>
+                                        <a href="mailto:contact@euromarimmo.ma" className="text-gray-500 dark:text-gray-400 hover:text-accent font-medium transition-colors text-lg">contact@euromarimmo.ma</a>
                                     </div>
                                 </li>
                                 <li className="flex items-start gap-6 group">
-                                    <div className="w-16 h-16 bg-white rounded-2xl shadow-[0_4px_20px_rgb(0,0,0,0.04)] flex items-center justify-center shrink-0 group-hover:bg-accent group-hover:text-white group-hover:-translate-y-1 transition-all duration-300 border border-gray-100">
+                                    <div className="w-16 h-16 bg-white dark:bg-white/5 rounded-2xl shadow-[0_4px_20px_rgb(0,0,0,0.04)] dark:shadow-none flex items-center justify-center shrink-0 group-hover:bg-accent group-hover:text-white group-hover:-translate-y-1 transition-all duration-300 border border-gray-100 dark:border-white/10">
                                         <Clock className="w-6 h-6 text-accent group-hover:text-white transition-colors" />
                                     </div>
                                     <div className="pt-1">
-                                        <strong className="block text-primary font-serif text-xl mb-2">Disponibilité</strong>
-                                        <div className="inline-flex items-center gap-3 mt-2 px-4 py-2 bg-primary/5 rounded-full border border-primary/10">
+                                        <strong className="block text-primary dark:text-white font-serif text-xl mb-2">Disponibilité</strong>
+                                        <div className="inline-flex items-center gap-3 mt-2 px-4 py-2 bg-primary/5 dark:bg-white/5 rounded-full border border-primary/10 dark:border-white/10">
                                             <span className="relative flex h-2.5 w-2.5 shrink-0">
                                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
                                                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500 z-10"></span>
                                             </span>
-                                            <span className="text-primary text-xs font-bold tracking-widest uppercase">Ouvert 24h/24 & 7j/7</span>
+                                            <span className="text-primary dark:text-white text-xs font-bold tracking-widest uppercase">Ouvert 24h/24 & 7j/7</span>
                                         </div>
                                     </div>
                                 </li>
@@ -92,10 +94,10 @@ export default function ContactPage() {
                         </div>
 
                         <div className="pt-10 border-t border-gray-200">
-                            <h3 className="font-serif text-3xl text-primary mb-8">Notre Siège</h3>
+                            <h3 className="font-serif text-3xl text-primary dark:text-white mb-8">Notre Siège</h3>
                             <div className="space-y-6">
-                                <div className="flex items-center gap-4 text-gray-600 bg-white p-6 rounded-2xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-gray-100">
-                                    <div className="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center shrink-0">
+                                <div className="flex items-center gap-4 text-gray-600 dark:text-gray-300 bg-white dark:bg-white/5 p-6 rounded-2xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] dark:shadow-none border border-gray-100 dark:border-white/10">
+                                    <div className="w-12 h-12 bg-gray-50 dark:bg-white/5 rounded-full flex items-center justify-center shrink-0">
                                         <MapPin className="w-5 h-5 text-accent" />
                                     </div>
                                     <div>
@@ -104,7 +106,7 @@ export default function ContactPage() {
                                 </div>
 
                                 {/* Carte Google Maps (Iframe) */}
-                                <div className="w-full h-64 rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 relative group">
+                                <div className="w-full h-64 rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.06)] dark:shadow-none border border-gray-100 dark:border-white/10 relative group">
                                     <iframe
                                         src="https://maps.google.com/maps?q=91%20rue%20ben%20radi%20slaoui,%20Casablanca&t=&z=15&ie=UTF8&iwloc=&output=embed"
                                         width="100%"
@@ -140,10 +142,10 @@ export default function ContactPage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.4 }}
                     >
-                        <div className="bg-white rounded-[32px] md:rounded-[40px] p-6 sm:p-10 md:p-14 shadow-[0_20px_60px_rgba(0,0,0,0.06)] border border-gray-100 relative overflow-hidden">
+                        <div className="bg-white dark:bg-[#1a202c]/50 rounded-[32px] md:rounded-[40px] p-6 sm:p-10 md:p-14 shadow-[0_20px_60px_rgba(0,0,0,0.06)] dark:shadow-none border border-gray-100 dark:border-white/10 relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-64 h-64 bg-accent/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2" />
 
-                            <h3 className="font-serif text-3xl text-primary mb-8 relative z-10">Envoyez-nous un message</h3>
+                            <h3 className="font-serif text-3xl text-primary dark:text-white mb-8 relative z-10">Envoyez-nous un message</h3>
 
                             <form className="space-y-8 relative z-10">
                                 <input type="hidden" name="source" value="Contact" />
@@ -153,7 +155,7 @@ export default function ContactPage() {
                                         type="text"
                                         name="name"
                                         placeholder="Votre nom"
-                                        className="w-full bg-gray-50 border-0 border-b-2 border-gray-200 py-4 px-5 focus:outline-none focus:border-accent focus:bg-white transition-colors rounded-t-xl"
+                                        className="w-full bg-gray-50 dark:bg-black/20 border-0 border-b-2 border-gray-200 dark:border-white/10 dark:text-white py-4 px-5 focus:outline-none focus:border-accent focus:bg-white dark:focus:bg-black/40 transition-colors rounded-t-xl"
                                         required
                                     />
                                 </div>
@@ -165,7 +167,7 @@ export default function ContactPage() {
                                             type="tel"
                                             name="phone"
                                             placeholder="+212 ..."
-                                            className="w-full bg-gray-50 border-0 border-b-2 border-gray-200 py-4 px-5 focus:outline-none focus:border-accent focus:bg-white transition-colors rounded-t-xl"
+                                            className="w-full bg-gray-50 dark:bg-black/20 border-0 border-b-2 border-gray-200 dark:border-white/10 dark:text-white py-4 px-5 focus:outline-none focus:border-accent focus:bg-white dark:focus:bg-black/40 transition-colors rounded-t-xl"
                                             required
                                         />
                                     </div>
@@ -175,7 +177,7 @@ export default function ContactPage() {
                                             type="email"
                                             name="email"
                                             placeholder="vous@email.com"
-                                            className="w-full bg-gray-50 border-0 border-b-2 border-gray-200 py-4 px-5 focus:outline-none focus:border-accent focus:bg-white transition-colors rounded-t-xl"
+                                            className="w-full bg-gray-50 dark:bg-black/20 border-0 border-b-2 border-gray-200 dark:border-white/10 dark:text-white py-4 px-5 focus:outline-none focus:border-accent focus:bg-white dark:focus:bg-black/40 transition-colors rounded-t-xl"
                                             required
                                         />
                                     </div>
@@ -184,16 +186,19 @@ export default function ContactPage() {
                                 <div>
                                     <label className="block text-xs font-bold tracking-widest uppercase text-gray-500 mb-3">Objet de votre demande *</label>
                                     <div className="relative">
-                                        <select name="subject" defaultValue="" required className="w-full bg-gray-50 border-0 border-b-2 border-gray-200 py-4 px-5 pr-10 focus:outline-none focus:border-accent focus:bg-white transition-colors appearance-none cursor-pointer rounded-t-xl text-gray-700">
-                                            <option value="" disabled>Sélectionnez un sujet</option>
-                                            <option value="achat">Je souhaite acheter un bien</option>
-                                            <option value="vente">Je souhaite vendre mon bien</option>
-                                            <option value="estimation">Demande d&apos;estimation</option>
-                                            <option value="autre">Autre demande</option>
-                                        </select>
-                                        <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
-                                            <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-                                        </div>
+                                        <LuxurySelect
+                                            name="subject"
+                                            value={subject}
+                                            onChange={setSubject}
+                                            placeholder="Sélectionnez un sujet"
+                                            options={[
+                                                { value: "achat", label: "Je souhaite acheter un bien" },
+                                                { value: "vente", label: "Je souhaite vendre mon bien" },
+                                                { value: "estimation", label: "Demande d'estimation" },
+                                                { value: "autre", label: "Autre demande" }
+                                            ]}
+                                            buttonClassName="w-full bg-gray-50 dark:bg-black/20 border-0 border-b-2 border-gray-200 dark:border-white/10 dark:text-white/80 py-4 px-5 focus:outline-none focus:border-accent focus:bg-white dark:focus:bg-black/40 transition-colors rounded-t-xl text-gray-700 text-left"
+                                        />
                                     </div>
                                 </div>
 
@@ -203,7 +208,7 @@ export default function ContactPage() {
                                         name="message"
                                         rows={6}
                                         placeholder="Comment pouvons-nous vous aider ?"
-                                        className="w-full bg-gray-50 border-0 border-b-2 border-gray-200 py-4 px-5 focus:outline-none focus:border-accent focus:bg-white transition-colors resize-none rounded-t-xl"
+                                        className="w-full bg-gray-50 dark:bg-black/20 border-0 border-b-2 border-gray-200 dark:border-white/10 dark:text-white py-4 px-5 focus:outline-none focus:border-accent focus:bg-white dark:focus:bg-black/40 transition-colors resize-none rounded-t-xl"
                                         required
                                     ></textarea>
                                 </div>
@@ -228,10 +233,7 @@ export default function ContactPage() {
                                             setIsSubmitting(false);
                                             if (result?.success) {
                                                 setSubmitSuccess(true);
-
-                                                // Redirect to WhatsApp with filled info
-                                                const waMessage = `Bonjour EUROMAR IMMO,\n\nNouveau message depuis le formulaire de contact:\n*Nom:* ${name}\n*Téléphone:* ${phone}\n*Sujet:* ${subject}\n\n*Message:*\n${message}`;
-                                                window.open(`https://wa.me/212600692922?text=${encodeURIComponent(waMessage)}`, "_blank");
+                                                // Removed WhatsApp redirection as per user request
                                             }
                                         }}
                                         className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-medium py-5 px-8 rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-[0_8px_25px_rgba(37,211,102,0.3)] hover:shadow-[0_12px_35px_rgba(37,211,102,0.4)] hover:-translate-y-1 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none text-lg"

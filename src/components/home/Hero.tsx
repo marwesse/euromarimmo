@@ -4,12 +4,15 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
+import { LuxurySelect } from "@/components/ui/LuxurySelect";
 
 export function Hero() {
     const router = useRouter();
     const [transactionType, setTransactionType] = useState<'Acheter' | 'Louer'>('Acheter');
     const [location, setLocation] = useState("Tous les quartiers");
     const [propertyType, setPropertyType] = useState("Tous");
+    const [budgetAchat, setBudgetAchat] = useState("Budget Maximum");
+    const [budgetLoc, setBudgetLoc] = useState("Budget Maximum");
 
     const handleSearch = () => {
         const params = new URLSearchParams();
@@ -82,67 +85,54 @@ export function Hero() {
 
                     {/* Search Inputs */}
                     <div className="glass w-full p-4 rounded-xl flex flex-col md:flex-row gap-4 lg:gap-6 shadow-2xl items-center md:items-end">
-                        <div className="flex-1 w-full px-4 py-2 border-b md:border-b-0 md:border-r border-gray-200/50 flex flex-col items-center md:items-start">
-                            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-1 text-center md:text-left">Localisation</label>
-                            <select
+                        <div className="flex-1 w-full px-4 py-2 border-b md:border-b-0 md:border-r border-gray-200/50 flex flex-col items-center md:items-start group">
+                            <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1 text-center md:text-left transition-colors group-focus-within:text-accent">Localisation</label>
+                            <LuxurySelect
                                 value={location}
-                                onChange={(e) => setLocation(e.target.value)}
-                                className="w-full bg-transparent text-primary font-medium focus:outline-none appearance-none cursor-pointer text-center md:text-left"
-                            >
-                                <option value="Tous les quartiers">Tous les quartiers</option>
-                                <option value="Palmier">Palmier</option>
-                                <option value="France ville">France ville</option>
-                                <option value="Les Hôpitaux">Les Hôpitaux</option>
-                                <option value="Les Princesses">Les Princesses</option>
-                                <option value="Ciel">Ciel</option>
-                                <option value="CFC">CFC</option>
-                                <option value="Abdelmouman">Abdelmouman</option>
-                                <option value="Ghandi">Ghandi</option>
-                                <option value="Maarif">Maarif</option>
-                                <option value="Anoual">Anoual</option>
-                                <option value="2 Mars">2 Mars</option>
-                                <option value="Ferme Bretonne">Ferme Bretonne</option>
-                                <option value="Route El Jadida">Route El Jadida</option>
-                                <option value="La Corniche">La Corniche</option>
-                                <option value="Marina">Marina</option>
-                                <option value="Casa Port">Casa Port</option>
-                                <option value="Zenata">Zenata</option>
-                                <option value="Ain Diab">Ain Diab</option>
-                                <option value="Belvédère">Belvédère</option>
-                            </select>
+                                onChange={setLocation}
+                                direction="up"
+                                options={[
+                                    "Tous les quartiers", "Palmier", "France ville", "Les Hôpitaux",
+                                    "Les Princesses", "Ciel", "CFC", "Abdelmouman", "Ghandi",
+                                    "Maarif", "Anoual", "2 Mars", "Ferme Bretonne", "Route El Jadida",
+                                    "La Corniche", "Marina", "Casa Port", "Zenata", "Ain Diab", "Belvédère"
+                                ]}
+                                buttonClassName="w-full bg-transparent text-primary dark:text-white font-serif md:font-medium focus:outline-none cursor-pointer text-center md:text-left text-lg md:text-base py-1"
+                            />
                         </div>
 
-                        <div className="flex-1 w-full px-4 py-2 border-b md:border-b-0 md:border-r border-gray-200/50 flex flex-col items-center md:items-start">
-                            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-1 text-center md:text-left">Type de Bien</label>
-                            <select
+                        <div className="flex-1 w-full px-4 py-2 border-b md:border-b-0 md:border-r border-gray-200/50 flex flex-col items-center md:items-start group">
+                            <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1 text-center md:text-left transition-colors group-focus-within:text-accent">Type de Bien</label>
+                            <LuxurySelect
                                 value={propertyType}
-                                onChange={(e) => setPropertyType(e.target.value)}
-                                className="w-full bg-transparent text-primary font-medium focus:outline-none appearance-none cursor-pointer text-center md:text-left"
-                            >
-                                <option value="Tous">Tous les types</option>
-                                <option value="Studio">Studio</option>
-                                <option value="Villa">Villa</option>
-                                <option value="Penthouse">Penthouse</option>
-                                <option value="Appartement de Luxe">Appartement de Luxe</option>
-                                <option value="Duplex">Duplex</option>
-                            </select>
+                                onChange={setPropertyType}
+                                direction="up"
+                                options={[
+                                    { value: "Tous", label: "Tous les types" },
+                                    "Studio", "Villa", "Penthouse", "Appartement de Luxe", "Duplex"
+                                ]}
+                                buttonClassName="w-full bg-transparent text-primary dark:text-white font-serif md:font-medium focus:outline-none cursor-pointer text-center md:text-left text-lg md:text-base py-1"
+                            />
                         </div>
 
-                        <div className="flex-1 w-full px-4 py-2 flex flex-col items-center md:items-start">
-                            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-1 text-center md:text-left">Budget</label>
+                        <div className="flex-1 w-full px-4 py-2 flex flex-col items-center md:items-start group">
+                            <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1 text-center md:text-left transition-colors group-focus-within:text-accent">Budget</label>
                             {transactionType === 'Acheter' ? (
-                                <select className="w-full bg-transparent text-primary font-medium focus:outline-none appearance-none cursor-pointer text-center md:text-left">
-                                    <option>Budget Maximum</option>
-                                    <option>5M - 10M DH</option>
-                                    <option>10M - 20M DH</option>
-                                    <option>20M+ DH</option>
-                                </select>
+                                <LuxurySelect
+                                    value={budgetAchat}
+                                    onChange={setBudgetAchat}
+                                    direction="up"
+                                    options={["Budget Maximum", "5M - 10M DH", "10M - 20M DH", "20M+ DH"]}
+                                    buttonClassName="w-full bg-transparent text-primary dark:text-white font-serif md:font-medium focus:outline-none cursor-pointer text-center md:text-left text-lg md:text-base py-1"
+                                />
                             ) : (
-                                <select className="w-full bg-transparent text-primary font-medium focus:outline-none appearance-none cursor-pointer text-center md:text-left">
-                                    <option>Budget Maximum</option>
-                                    <option>400 - 800 DH</option>
-                                    <option>800 - 1400 DH</option>
-                                </select>
+                                <LuxurySelect
+                                    value={budgetLoc}
+                                    onChange={setBudgetLoc}
+                                    direction="up"
+                                    options={["Budget Maximum", "400 - 800 DH", "800 - 1400 DH"]}
+                                    buttonClassName="w-full bg-transparent text-primary dark:text-white font-serif md:font-medium focus:outline-none cursor-pointer text-center md:text-left text-lg md:text-base py-1"
+                                />
                             )}
                         </div>
 

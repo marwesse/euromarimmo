@@ -10,7 +10,7 @@ export default async function PropertiesAdminPage() {
     return (
         <div>
             <div className="flex justify-between items-center mb-8">
-                <h1 className="text-3xl font-bold text-gray-900">Propriétés</h1>
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Propriétés</h1>
                 <Link
                     href="/admin/proprietes/nouveau"
                     className="bg-primary hover:bg-gray-800 text-white px-5 py-2.5 rounded-lg font-medium transition-colors flex items-center gap-2 shadow-sm"
@@ -20,11 +20,11 @@ export default async function PropertiesAdminPage() {
                 </Link>
             </div>
 
-            <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+            <div className="bg-white dark:bg-[#1a202c]/50 rounded-xl border border-gray-100 dark:border-white/10 shadow-sm overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
                         <thead>
-                            <tr className="bg-gray-50 border-b border-gray-100 text-sm font-semibold text-gray-500 uppercase tracking-wider">
+                            <tr className="bg-gray-50 dark:bg-white/5 border-b border-gray-100 dark:border-white/10 text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                                 <th className="px-6 py-4">Bien</th>
                                 <th className="px-6 py-4">Type</th>
                                 <th className="px-6 py-4">Prix</th>
@@ -33,39 +33,39 @@ export default async function PropertiesAdminPage() {
                                 <th className="px-6 py-4 text-right">Actions</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-100">
+                        <tbody className="divide-y divide-gray-100 dark:divide-white/10">
                             {properties.length === 0 ? (
                                 <tr>
-                                    <td colSpan={6} className="px-6 py-8 text-center text-gray-500">
+                                    <td colSpan={6} className="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
                                         Aucune propriété n&apos;a été ajoutée pour le moment.
                                     </td>
                                 </tr>
                             ) : properties.map((prop: any) => (
-                                <tr key={prop.id} className="hover:bg-gray-50/50 transition-colors group">
+                                <tr key={prop.id} className="hover:bg-gray-50/50 dark:hover:bg-white/5 transition-colors group">
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-4">
                                             <div
-                                                className="w-16 h-12 bg-gray-200 rounded-lg bg-cover bg-center shrink-0 border border-gray-100"
+                                                className="w-16 h-12 bg-gray-200 dark:bg-white/10 rounded-lg bg-cover bg-center shrink-0 border border-gray-100 dark:border-white/10"
                                                 style={{ backgroundImage: `url('${prop.images?.[0] || ""}')` }}
                                             />
                                             <div>
-                                                <div className="font-medium text-gray-900 max-w-xs truncate" title={prop.title}>
+                                                <div className="font-medium text-gray-900 dark:text-white max-w-xs truncate" title={prop.title}>
                                                     {prop.title}
                                                 </div>
-                                                <div className="text-sm text-gray-500">{prop.location}</div>
+                                                <div className="text-sm text-gray-500 dark:text-gray-400">{prop.location}</div>
                                             </div>
                                         </div>
                                     </td>
                                     <td className="px-6 py-4">
-                                        <div className="text-sm text-gray-900">{prop.type}</div>
+                                        <div className="text-sm text-gray-900 dark:text-white">{prop.type}</div>
                                     </td>
-                                    <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                    <td className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                                         {Number(prop.price || 0).toLocaleString()} DH
                                     </td>
                                     <td className="px-6 py-4">
-                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${(prop.status || 'Disponible') === 'Disponible' || (prop.status || 'Disponible') === 'Nouveau' ? 'bg-green-50 text-green-700 border-green-200' :
-                                            (prop.status || 'Disponible') === 'Avance Payée' ? 'bg-yellow-50 text-yellow-700 border-yellow-200' :
-                                                'bg-red-50 text-red-700 border-red-200'
+                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${(prop.status || 'Disponible') === 'Disponible' || (prop.status || 'Disponible') === 'Nouveau' ? 'bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800' :
+                                            (prop.status || 'Disponible') === 'Avance Payée' ? 'bg-yellow-50 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 border-yellow-200 dark:border-yellow-800' :
+                                                'bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 border-red-200 dark:border-red-800'
                                             }`}>
                                             {prop.status || 'Disponible'}
                                         </span>
@@ -87,10 +87,10 @@ export default async function PropertiesAdminPage() {
                                         </form>
                                     </td>
                                     <td className="px-6 py-4 text-right">
-                                        <div className="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <div className="flex justify-end gap-3 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
                                             <Link
                                                 href={`/admin/proprietes/edit/${prop.id}`}
-                                                className="text-gray-400 hover:text-blue-600 transition-colors p-2 rounded hover:bg-blue-50"
+                                                className="text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors p-2 rounded hover:bg-blue-50 dark:hover:bg-blue-900/30"
                                                 title="Modifier"
                                             >
                                                 <Edit2 className="w-4 h-4" />
@@ -101,7 +101,7 @@ export default async function PropertiesAdminPage() {
                                             }}>
                                                 <button
                                                     type="submit"
-                                                    className="text-gray-400 hover:text-red-600 transition-colors p-2 rounded hover:bg-red-50"
+                                                    className="text-gray-400 dark:text-gray-500 hover:text-red-600 dark:hover:text-red-400 transition-colors p-2 rounded hover:bg-red-50 dark:hover:bg-red-900/30"
                                                     title="Supprimer"
                                                 >
                                                     <Trash2 className="w-4 h-4" />

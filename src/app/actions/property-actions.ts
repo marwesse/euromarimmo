@@ -31,7 +31,6 @@ export async function getPropertyById(id: string) {
     }
     return property;
 }
-
 export async function createProperty(formData: FormData) {
     try {
         const supabase = await createClient();

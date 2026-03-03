@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFAB } from "@/components/ui/WhatsAppFAB";
 import { ScrollToTop } from "@/components/ui/ScrollToTop";
 import { getSettings } from "@/app/actions/settings-actions";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -29,18 +30,20 @@ export default async function RootLayout({
 }>) {
   const settings = await getSettings();
   return (
-    <html lang="fr" className="scroll-smooth">
+    <html lang="fr" className="scroll-smooth" suppressHydrationWarning>
       <body
         suppressHydrationWarning
-        className={`${inter.variable} ${playfairDisplay.variable} font-sans bg-white text-gray-900 antialiased flex flex-col min-h-screen`}
+        className={`${inter.variable} ${playfairDisplay.variable} font-sans bg-white text-gray-900 antialiased flex flex-col min-h-screen dark:bg-[#0f131a] dark:text-gray-100 transition-colors duration-300`}
       >
-        <Header />
-        <ScrollToTop />
-        <main className="flex-grow">
-          {children}
-        </main>
-        <Footer />
-        <WhatsAppFAB />
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+          <Header logoUrl={settings?.logo_url} />
+          <ScrollToTop />
+          <main className="flex-grow">
+            {children}
+          </main>
+          <Footer logoUrl={settings?.logo_url} />
+          <WhatsAppFAB settings={settings} />
+        </ThemeProvider>
       </body>
     </html>
   );

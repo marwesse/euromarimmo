@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { BedDouble, Bath, SquareMenu, Filter, ChevronDown, MapPin, ArrowRight } from "lucide-react";
+import { BedDouble, Bath, SquareMenu, Filter, ChevronDown, MapPin, MessageCircle, ArrowRight } from "lucide-react";
+import { LuxurySelect } from "@/components/ui/LuxurySelect";
 
 const filterTypes = ["Tous", "Studio", "Villa", "Penthouse", "Appartement de Luxe", "Duplex"];
 const locations = [
@@ -27,15 +28,15 @@ export function ProprietesClient({ properties }: { properties: any[] }) {
 
         // eslint-disable-next-line react-hooks/set-state-in-effect
         if (typeParam) setActiveFilter(typeParam);
-         
+
         if (transactionParam) setTransactionFilter(transactionParam);
-         
+
         if (quartierParam) setLocationFilter(quartierParam);
     }, [searchParams]);
 
     const filteredProperties = properties.filter(p => {
         const matchType = activeFilter === "Tous" || p.type === activeFilter;
-        const matchTransaction = transactionFilter === "Tous" || p.type === transactionFilter;
+        const matchTransaction = transactionFilter === "Tous" || p.transactiontype === transactionFilter || (p.transactiontype == null && p.type === transactionFilter);
         // Adjust for Supabase fields vs Mock Data fields
         const matchLocation = locationFilter === "Tous les quartiers" || p.location?.includes(locationFilter);
 
@@ -43,7 +44,7 @@ export function ProprietesClient({ properties }: { properties: any[] }) {
     });
 
     return (
-        <div className="pb-20 min-h-screen bg-bg-offwhite">
+        <div className="pb-20 min-h-screen bg-bg-offwhite dark:bg-[#0f131a]">
 
             {/* Header */}
             <div className="bg-primary text-white pt-36 pb-16 mb-12">
@@ -60,10 +61,10 @@ export function ProprietesClient({ properties }: { properties: any[] }) {
             <div className="container mx-auto px-4 md:px-8">
 
                 {/* Filtres */}
-                <div className="flex flex-col gap-4 mb-12 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                <div className="flex flex-col gap-4 mb-12 bg-white dark:bg-white/5 p-4 rounded-xl shadow-sm dark:shadow-none border border-gray-100 dark:border-white/10">
 
                     {/* Transaction Filter */}
-                    <div className="flex items-center gap-3 w-full pb-4 border-b border-gray-100 overflow-x-auto scrollbar-hide">
+                    <div className="flex items-center gap-3 w-full pb-4 border-b border-gray-100 dark:border-white/10 overflow-x-auto scrollbar-hide">
                         <div className="flex items-center gap-2 text-gray-400 font-medium uppercase tracking-wider text-xs md:text-sm mr-4 shrink-0">
                             <span>Transaction</span>
                         </div>
@@ -73,7 +74,7 @@ export function ProprietesClient({ properties }: { properties: any[] }) {
                                 onClick={() => setTransactionFilter(type)}
                                 className={`px-5 py-2 rounded-full text-xs md:text-sm font-bold whitespace-nowrap transition-all shrink-0 ${transactionFilter === type
                                     ? "bg-accent text-white shadow-md"
-                                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                                    : "bg-gray-100 dark:bg-black/30 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-black/50"
                                     }`}
                             >
                                 {type === "Tous" ? "Tout voir" : type === "Vente" ? "À Vendre" : "À Louer"}
@@ -88,14 +89,14 @@ export function ProprietesClient({ properties }: { properties: any[] }) {
                                 <Filter className="w-4 h-4" />
                                 <span>Type de Bien</span>
                             </div>
-                            <div className="relative flex items-center p-1.5 bg-gray-50/80 rounded-full border border-gray-100 shrink-0">
+                            <div className="relative flex items-center p-1.5 bg-gray-50/80 dark:bg-black/20 rounded-full border border-gray-100 dark:border-white/10 shrink-0">
                                 {filterTypes.map(type => {
                                     const isActive = activeFilter === type;
                                     return (
                                         <button
                                             key={type}
                                             onClick={() => setActiveFilter(type)}
-                                            className={`relative px-5 py-2.5 rounded-full text-sm font-medium tracking-wide whitespace-nowrap transition-colors duration-300 shrink-0 ${isActive ? "text-white" : "text-gray-500 hover:text-[#d4af37]"
+                                            className={`relative px-5 py-2.5 rounded-full text-sm font-medium tracking-wide whitespace-nowrap transition-colors duration-300 shrink-0 ${isActive ? "text-white" : "text-gray-500 dark:text-gray-400 hover:text-[#d4af37]"
                                                 }`}
                                         >
                                             {isActive && (
@@ -113,23 +114,19 @@ export function ProprietesClient({ properties }: { properties: any[] }) {
                         </div>
 
                         {/* Location & Count */}
-                        <div className="w-full lg:w-auto flex flex-col sm:flex-row items-start sm:items-center justify-between lg:justify-end gap-4 shrink-0 border-t lg:border-t-0 pt-4 lg:pt-0 border-gray-100">
-                            <div className="relative w-full sm:w-auto flex items-center bg-gray-50 rounded-lg px-3 py-2 border border-gray-100">
-                                <MapPin className="w-4 h-4 text-gray-400 absolute left-3" />
-                                <select
+                        <div className="w-full lg:w-auto flex flex-col sm:flex-row items-start sm:items-center justify-between lg:justify-end gap-4 shrink-0 border-t lg:border-t-0 pt-4 lg:pt-0 border-gray-100 dark:border-white/10">
+                            <div className="relative w-full sm:w-64">
+                                <LuxurySelect
                                     value={locationFilter}
-                                    onChange={(e) => setLocationFilter(e.target.value)}
-                                    className="w-full sm:w-auto bg-transparent text-gray-600 font-medium focus:outline-none appearance-none cursor-pointer pl-6 pr-6 py-1 text-sm text-ellipsis"
-                                >
-                                    {locations.map(loc => (
-                                        <option key={loc} value={loc}>{loc}</option>
-                                    ))}
-                                </select>
-                                <ChevronDown className="w-4 h-4 text-gray-400 absolute right-3 pointer-events-none" />
+                                    onChange={setLocationFilter}
+                                    options={locations}
+                                    icon={<MapPin className="w-4 h-4 text-gray-400" />}
+                                    buttonClassName="w-full bg-gray-50 dark:bg-black/20 rounded-lg px-4 py-2 border border-gray-100 dark:border-white/10 text-gray-600 dark:text-gray-300 font-medium text-sm transition-colors hover:bg-gray-100 dark:hover:bg-white/5"
+                                />
                             </div>
 
-                            <div className="text-gray-500 font-medium text-sm flex items-center whitespace-nowrap">
-                                <span className="text-primary font-bold mr-1">{filteredProperties.length}</span> biens
+                            <div className="text-gray-500 dark:text-gray-400 font-medium text-sm flex items-center whitespace-nowrap">
+                                <span className="text-primary dark:text-white font-bold mr-1">{filteredProperties.length}</span> biens
                             </div>
                         </div>
                     </div>
@@ -143,7 +140,7 @@ export function ProprietesClient({ properties }: { properties: any[] }) {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.4, delay: index * 0.1 }}
-                            className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 group flex flex-col h-full"
+                            className="bg-white dark:bg-[#1a202c]/50 rounded-xl overflow-hidden shadow-sm dark:shadow-none hover:shadow-xl dark:border dark:border-white/10 dark:hover:shadow-[0_8px_30px_rgb(255,255,255,0.02)] transition-all duration-300 group flex flex-col h-full"
                         >
                             <Link href={`/proprietes/${property.id}`} className="relative h-72 overflow-hidden shrink-0 block">
                                 <div
@@ -160,7 +157,7 @@ export function ProprietesClient({ properties }: { properties: any[] }) {
                                         {property.status || 'Nouveau'}
                                     </span>
                                     <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-white backdrop-blur-md bg-black/50 border border-white/20">
-                                        {property.type === 'Vente' ? 'À Vendre' : 'À Louer'}
+                                        {property.transactiontype === 'Vente' || property.type === 'Vente' ? 'À Vendre' : 'À Louer'}
                                     </span>
                                 </div>
 
@@ -170,14 +167,14 @@ export function ProprietesClient({ properties }: { properties: any[] }) {
                             </Link>
 
                             <div className="p-6 flex flex-col flex-grow">
-                                <h3 className="font-serif text-xl text-primary mb-2 transition-colors line-clamp-2">
+                                <h3 className="font-serif text-xl text-primary dark:text-white mb-2 transition-colors line-clamp-2">
                                     <Link href={`/proprietes/${property.id}`} className="hover:text-accent">
                                         {property.title}
                                     </Link>
                                 </h3>
-                                <p className="text-gray-500 text-sm mb-6 mt-auto">{property.location}</p>
+                                <p className="text-gray-500 dark:text-gray-400 text-sm mb-6 mt-auto">{property.location}</p>
 
-                                <div className="flex items-center justify-between pt-4 border-t border-gray-100 text-gray-600 text-sm">
+                                <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-white/10 text-gray-600 dark:text-gray-300 text-sm">
                                     <div className="flex items-center gap-2">
                                         <BedDouble className="w-4 h-4 text-accent" />
                                         <span>{property.bedrooms || property.features?.beds || 0}</span>
@@ -191,10 +188,10 @@ export function ProprietesClient({ properties }: { properties: any[] }) {
                                         <span>{property.surface || property.features?.area || 0} m²</span>
                                     </div>
                                 </div>
-                                <div className="mt-4 pt-4 border-t border-gray-100">
+                                <div className="mt-4 pt-4 border-t border-gray-100 dark:border-white/10">
                                     <Link
                                         href={`/proprietes/${property.id}`}
-                                        className="relative z-20 w-full bg-primary/10 hover:bg-primary text-primary hover:text-white border border-primary/30 hover:border-primary py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"
+                                        className="relative z-20 w-full bg-primary/10 dark:bg-white/5 hover:bg-primary dark:hover:bg-accent text-primary dark:text-white hover:text-white border border-primary/30 dark:border-white/10 hover:border-primary dark:hover:border-accent py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"
                                         onClick={(e) => e.stopPropagation()}
                                     >
                                         Plus de détails
@@ -207,11 +204,11 @@ export function ProprietesClient({ properties }: { properties: any[] }) {
                 </div>
 
                 {filteredProperties.length === 0 && (
-                    <div className="text-center py-20 bg-white rounded-xl border border-gray-100">
-                        <p className="text-gray-500 font-medium text-lg">Aucune propriété ne correspond à ce filtre.</p>
+                    <div className="text-center py-20 bg-white dark:bg-[#1a202c]/50 rounded-xl border border-gray-100 dark:border-white/10">
+                        <p className="text-gray-500 dark:text-gray-400 font-medium text-lg">Aucune propriété ne correspond à ce filtre.</p>
                         <button
                             onClick={() => setActiveFilter("Tous")}
-                            className="mt-4 text-accent hover:text-primary font-medium border-b border-accent pb-1 transition-colors"
+                            className="mt-4 text-accent hover:text-primary dark:hover:text-white font-medium border-b border-accent pb-1 transition-colors"
                         >
                             Afficher toutes les propriétés
                         </button>

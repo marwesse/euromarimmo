@@ -12,7 +12,7 @@ export function FeaturedProperties({ properties }: FeaturedPropertiesProps) {
     const featured = properties;
 
     return (
-        <section className="py-32 bg-gray-50 relative overflow-hidden">
+        <section className="py-32 bg-gray-50 dark:bg-[#0f131a] relative overflow-hidden">
             {/* Background elements */}
             <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-b from-accent/5 to-transparent pointer-events-none" />
             <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-accent/5 rounded-full blur-[100px]" />
@@ -28,12 +28,12 @@ export function FeaturedProperties({ properties }: FeaturedPropertiesProps) {
                         className="max-w-2xl"
                     >
                         <div className="flex justify-center md:justify-start">
-                            <span className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-white rounded-full border border-gray-100 shadow-sm">
+                            <span className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-white dark:bg-white/10 rounded-full border border-gray-100 dark:border-white/10 shadow-sm">
                                 <span className="w-2 h-2 rounded-full bg-accent"></span>
                                 <span className="text-accent font-semibold tracking-widest uppercase text-xs">Notre Sélection</span>
                             </span>
                         </div>
-                        <h2 className="font-serif text-4xl md:text-5xl lg:text-3xl text-primary mb-6 leading-tight text-center md:text-left">
+                        <h2 className="font-serif text-4xl md:text-5xl lg:text-3xl text-primary dark:text-white mb-6 leading-tight text-center md:text-left">
                             Propriétés <br className="hidden md:block" /><span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-accent-hover">d&apos;Exception</span>
                         </h2>
                     </motion.div>
@@ -47,7 +47,7 @@ export function FeaturedProperties({ properties }: FeaturedPropertiesProps) {
                     >
                         <Link
                             href="/proprietes"
-                            className="group flex items-center gap-3 text-primary font-semibold border-b-2 border-primary/20 pb-2 hover:text-accent hover:border-accent transition-all uppercase tracking-widest text-sm"
+                            className="group flex items-center gap-3 text-primary dark:text-white font-semibold border-b-2 border-primary/20 dark:border-white/20 pb-2 hover:text-accent dark:hover:text-accent hover:border-accent dark:hover:border-accent transition-all uppercase tracking-widest text-sm"
                         >
                             Voir tout le catalogue
                             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-2" />
@@ -82,7 +82,7 @@ export function FeaturedProperties({ properties }: FeaturedPropertiesProps) {
                                     {property.status || 'Nouveau'}
                                 </span>
                                 <span className="px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-md bg-black/40 border border-white/20 shadow-sm">
-                                    {property.type === 'Vente' ? 'À Vendre' : 'À Louer'}
+                                    {property.transactiontype === 'Vente' || property.type === 'Vente' ? 'À Vendre' : 'À Louer'}
                                 </span>
                             </div>
 

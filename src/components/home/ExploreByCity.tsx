@@ -33,7 +33,7 @@ const neighborhoods = [
 
 export function ExploreByCity() {
     return (
-        <section className="py-32 bg-primary text-white relative overflow-hidden">
+        <section className="py-32 bg-primary dark:bg-[#0f131a] text-white relative overflow-hidden">
             {/* Background elements */}
             <div className="absolute top-0 right-0 w-1/2 h-full bg-[radial-gradient(circle_at_top_right,rgba(212,175,55,0.1),transparent_50%)] pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-1/2 h-full bg-[radial-gradient(circle_at_bottom_left,rgba(212,175,55,0.05),transparent_50%)] pointer-events-none" />

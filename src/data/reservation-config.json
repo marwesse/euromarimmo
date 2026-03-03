@@ -1,0 +1,5 @@
+{
+  "discount_days_threshold": 10,
+  "discount_percentage": 10,
+  "checkout_time": "12:00"
+}

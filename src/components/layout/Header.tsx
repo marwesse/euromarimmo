@@ -7,6 +7,7 @@ import { Phone, Menu, X, Calendar } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -19,7 +20,7 @@ const navLinks = [
     { name: "Contact", href: "/contact" },
 ];
 
-export function Header() {
+export function Header({ logoUrl }: { logoUrl?: string }) {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const pathname = usePathname();
@@ -54,9 +55,13 @@ export function Header() {
 
                     {/* Logo */}
                     <Link href="/" className="group flex items-center shrink-0">
-                        <h1 className={cn("font-serif text-xl tracking-widest uppercase transition-colors duration-500", logoColor)}>
-                            EUROMAR <span className="text-[#d4af37]">IMMO</span>
-                        </h1>
+                        {logoUrl ? (
+                            <img src={logoUrl} alt="Logo" className={cn("h-10 w-auto transition-opacity duration-500", !isScrolled && isDarkBgPage ? "brightness-0 invert" : "")} />
+                        ) : (
+                            <h1 className={cn("font-serif text-xl tracking-widest uppercase transition-colors duration-500", logoColor)}>
+                                EUROMAR <span className="text-[#d4af37]">IMMO</span>
+                            </h1>
+                        )}
                     </Link>
 
                     {/* Desktop Navigation */}
@@ -89,8 +94,9 @@ export function Header() {
                     </nav>
 
                     {/* Call to action */}
-                    <div className="hidden md:flex items-center gap-6 shrink-0">
-                        <a href="tel:+212600692922" className={cn("hidden lg:flex items-center gap-2 text-sm font-medium hover:text-accent transition-colors duration-300", textColor)}>
+                    <div className="hidden md:flex items-center gap-4 shrink-0">
+                        <ThemeToggle className={(!isScrolled && isDarkBgPage) ? "text-white" : textColor} />
+                        <a href="tel:+212600692922" className={cn("hidden lg:flex items-center gap-2 text-sm font-medium hover:text-accent transition-colors duration-300 ml-2", textColor)}>
                             <Phone className="w-4 h-4 group-hover:scale-110 transition-transform" />
                             <span className="tracking-wide">+212 600-692922</span>
                         </a>
@@ -120,12 +126,15 @@ export function Header() {
                         </h1>
                     </Link>
 
-                    <button
-                        className={cn("p-2 rounded-full transition-colors z-50 relative", isMobileMenuOpen ? "text-white hover:bg-white/10" : cn(textColor, !isScrolled && isDarkBgPage ? "bg-white/10 backdrop-blur-md" : "hover:bg-black/5 backdrop-blur-md"))}
-                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    >
-                        {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-                    </button>
+                    <div className="flex items-center gap-4 z-50 relative">
+                        <ThemeToggle className={isMobileMenuOpen ? "text-white hover:bg-white/10" : cn(textColor, !isScrolled && isDarkBgPage ? "text-white bg-white/10 backdrop-blur-md" : "hover:bg-black/5 backdrop-blur-md dark:hover:bg-white/10")} />
+                        <button
+                            className={cn("p-2 rounded-full transition-colors", isMobileMenuOpen ? "text-white hover:bg-white/10" : cn(textColor, !isScrolled && isDarkBgPage ? "bg-white/10 backdrop-blur-md" : "hover:bg-black/5 backdrop-blur-md dark:hover:bg-white/10"))}
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        >
+                            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                        </button>
+                    </div>
                 </div>
             </div>
 

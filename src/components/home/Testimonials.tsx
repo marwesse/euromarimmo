@@ -26,9 +26,9 @@ const testimonials = [
 
 export function Testimonials() {
     return (
-        <section className="py-32 bg-white relative overflow-hidden">
+        <section className="py-32 bg-white dark:bg-[#0f131a] relative overflow-hidden">
             {/* Background Accents */}
-            <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-bg-offwhite to-transparent pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-bg-offwhite dark:from-[#0f131a] to-transparent pointer-events-none" />
             <div className="absolute top-20 right-[-10%] w-[40%] h-[40%] bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
 
             <div className="container mx-auto px-4 md:px-8 relative z-10">
@@ -40,11 +40,11 @@ export function Testimonials() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                     >
-                        <span className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-gray-50 rounded-full border border-gray-100 shadow-sm">
+                        <span className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-gray-50 dark:bg-white/10 rounded-full border border-gray-100 dark:border-white/10 shadow-sm">
                             <span className="w-2 h-2 rounded-full bg-accent"></span>
                             <span className="text-accent font-semibold tracking-widest uppercase text-xs">Témoignages</span>
                         </span>
-                        <h2 className="font-serif text-4xl md:text-5xl text-primary mb-6 leading-tight">Confiance & Discrétion</h2>
+                        <h2 className="font-serif text-4xl md:text-5xl text-primary dark:text-white mb-6 leading-tight">Confiance & Discrétion</h2>
                     </motion.div>
                 </div>
 
@@ -58,7 +58,7 @@ export function Testimonials() {
                             transition={{ duration: 0.7, delay: index * 0.2 }}
                             className="relative group h-full"
                         >
-                            <div className="absolute inset-0 bg-white rounded-[32px] shadow-[0_4px_20px_rgb(0,0,0,0.03)] transition-all duration-500 group-hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] group-hover:-translate-y-2 border border-gray-100"></div>
+                            <div className="absolute inset-0 bg-white dark:bg-white/5 rounded-[32px] shadow-[0_4px_20px_rgb(0,0,0,0.03)] dark:shadow-none transition-all duration-500 group-hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] group-hover:-translate-y-2 border border-gray-100 dark:border-white/10"></div>
 
                             <div className="relative p-8 md:p-10 flex flex-col h-full">
                                 <Quote className="w-12 h-12 text-accent/10 absolute top-8 right-8 rotate-180" />
@@ -70,21 +70,21 @@ export function Testimonials() {
                                 </div>
 
                                 <div className="space-y-4 mb-10 flex-grow">
-                                    <p className="text-gray-600 italic leading-relaxed font-light">
+                                    <p className="text-gray-600 dark:text-gray-100 italic leading-relaxed font-light">
                                         &quot;{t.textFr}&quot;
                                     </p>
-                                    <div className="w-12 h-px bg-gray-200"></div>
-                                    <p className="text-gray-500/80 italic leading-relaxed text-sm">
+                                    <div className="w-12 h-px bg-gray-200 dark:bg-gray-700"></div>
+                                    <p className="text-gray-500/80 dark:text-gray-300 italic leading-relaxed text-sm">
                                         &quot;{t.textDarija}&quot;
                                     </p>
                                 </div>
 
                                 <div className="flex items-center gap-4 mt-auto pt-6 border-t border-gray-50">
-                                    <div className="w-12 h-12 rounded-full bg-bg-offwhite flex items-center justify-center text-primary font-serif font-bold text-lg border border-gray-100 group-hover:border-accent/30 group-hover:bg-accent/5 transition-colors">
+                                    <div className="w-12 h-12 rounded-full bg-bg-offwhite dark:bg-white/10 flex items-center justify-center text-primary dark:text-white font-serif font-bold text-lg border border-gray-100 dark:border-white/20 group-hover:border-accent/30 group-hover:bg-accent/5 transition-colors">
                                         {t.name.charAt(0)}
                                     </div>
                                     <div>
-                                        <p className="font-bold text-primary text-sm">{t.name}</p>
+                                        <p className="font-bold text-primary dark:text-white text-sm">{t.name}</p>
                                         <p className="text-xs text-accent tracking-wide uppercase mt-0.5">{t.role}</p>
                                     </div>
                                 </div>

@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Allow dark mode classes if html has .dark */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-playfair-display), ui-serif, Georgia, serif;
@@ -20,6 +23,11 @@
     color: var(--color-primary);
   }
   
+  .dark body {
+    background-color: var(--color-bg-dark);
+    color: var(--color-bg-white);
+  }
+
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-serif);
   }
@@ -27,9 +35,9 @@
 
 @layer utilities {
   .glass {
-    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-lg;
+    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-lg dark:bg-black/60 dark:border-white/10;
   }
   .glass-dark {
-    @apply bg-primary/80 backdrop-blur-md border border-white/10 shadow-lg;
+    @apply bg-primary/80 backdrop-blur-md border border-white/10 shadow-lg dark:bg-black/80;
   }
 }

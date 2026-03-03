@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function ServicesPage() {
     return (
-        <div className="min-h-screen bg-gray-50 pb-20 overflow-hidden">
+        <div className="min-h-screen bg-gray-50 dark:bg-[#0f131a] pb-20 overflow-hidden">
 
             {/* Header */}
             <div className="relative bg-primary text-white pt-36 pb-24 mb-24 overflow-hidden">
@@ -45,8 +45,8 @@ export default function ServicesPage() {
                             transition={{ duration: 0.6 }}
                             className="max-w-2xl"
                         >
-                            <h2 className="font-serif text-4xl md:text-5xl text-primary mb-6">Vendez au meilleur prix</h2>
-                            <p className="text-gray-500 text-lg md:text-xl font-light leading-relaxed">
+                            <h2 className="font-serif text-4xl md:text-5xl text-primary dark:text-white mb-6">Vendez au meilleur prix</h2>
+                            <p className="text-gray-500 dark:text-gray-400 text-lg md:text-xl font-light leading-relaxed">
                                 Confiez-nous la vente de votre bien d&apos;exception. Nous mettons en œuvre des stratégies sur-mesure pour atteindre une clientèle internationale qualifiée.
                             </p>
                         </motion.div>
@@ -89,13 +89,13 @@ export default function ServicesPage() {
                                 transition={{ duration: 0.6, delay: index * 0.2 }}
                                 className="relative group"
                             >
-                                <div className="absolute inset-0 bg-white rounded-[32px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-500 group-hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] group-hover:-translate-y-2 border border-gray-100"></div>
+                                <div className="absolute inset-0 bg-white dark:bg-white/5 rounded-[32px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none transition-all duration-500 group-hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] group-hover:-translate-y-2 border border-gray-100 dark:border-white/10"></div>
                                 <div className="relative p-10 flex flex-col h-full">
-                                    <div className="w-16 h-16 bg-bg-offwhite rounded-2xl flex items-center justify-center mb-8 group-hover:bg-accent group-hover:text-white transition-colors duration-500 [&>svg]:transition-colors [&>svg]:duration-500 group-hover:[&>svg]:text-white">
+                                    <div className="w-16 h-16 bg-bg-offwhite dark:bg-white/10 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-accent group-hover:text-white transition-colors duration-500 [&>svg]:transition-colors [&>svg]:duration-500 group-hover:[&>svg]:text-white">
                                         {item.icon}
                                     </div>
-                                    <h3 className="font-serif text-2xl text-primary mb-4">{item.title}</h3>
-                                    <p className="text-gray-500 leading-relaxed font-light">
+                                    <h3 className="font-serif text-2xl text-primary dark:text-white mb-4">{item.title}</h3>
+                                    <p className="text-gray-500 dark:text-gray-400 leading-relaxed font-light">
                                         {item.desc}
                                     </p>
                                 </div>
@@ -114,8 +114,8 @@ export default function ServicesPage() {
                             transition={{ duration: 0.6 }}
                             className="max-w-2xl"
                         >
-                            <h2 className="font-serif text-4xl md:text-5xl text-primary mb-6">Trouvez votre chez-vous</h2>
-                            <p className="text-gray-500 text-lg md:text-xl font-light leading-relaxed">
+                            <h2 className="font-serif text-4xl md:text-5xl text-primary dark:text-white mb-6">Trouvez votre chez-vous</h2>
+                            <p className="text-gray-500 dark:text-gray-400 text-lg md:text-xl font-light leading-relaxed">
                                 Que ce soit pour une résidence principale, secondaire, ou un investissement, nous simplifions votre parcours d&apos;acquisition au Maroc.
                             </p>
                         </motion.div>
@@ -125,7 +125,7 @@ export default function ServicesPage() {
                             viewport={{ once: true }}
                             transition={{ duration: 0.6 }}
                         >
-                            <Link href="/proprietes" className="inline-flex items-center gap-2 text-primary font-semibold hover:text-accent transition-colors uppercase tracking-widest text-sm group">
+                            <Link href="/proprietes" className="inline-flex items-center gap-2 text-primary dark:text-white font-semibold hover:text-accent dark:hover:text-accent transition-colors uppercase tracking-widest text-sm group">
                                 Voir le catalogue
                                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-2" />
                             </Link>
@@ -158,13 +158,13 @@ export default function ServicesPage() {
                                 transition={{ duration: 0.6, delay: index * 0.2 }}
                                 className="relative group"
                             >
-                                <div className="absolute inset-0 bg-white rounded-[32px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-500 group-hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] group-hover:-translate-y-2 border-t-4 border-t-primary"></div>
+                                <div className="absolute inset-0 bg-white dark:bg-white/5 rounded-[32px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none transition-all duration-500 group-hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] group-hover:-translate-y-2 border-t-4 border-t-primary dark:border-t-accent/50 dark:border-white/10 dark:border-x dark:border-b"></div>
                                 <div className="relative p-10 flex flex-col h-full">
-                                    <div className="w-16 h-16 bg-primary/5 rounded-full flex items-center justify-center mb-8 border border-primary/10 group-hover:scale-110 transition-transform duration-500">
+                                    <div className="w-16 h-16 bg-primary/5 dark:bg-white/10 rounded-full flex items-center justify-center mb-8 border border-primary/10 dark:border-white/20 group-hover:scale-110 transition-transform duration-500">
                                         {item.icon}
                                     </div>
-                                    <h3 className="font-serif text-2xl text-primary mb-4">{item.title}</h3>
-                                    <p className="text-gray-500 leading-relaxed font-light">
+                                    <h3 className="font-serif text-2xl text-primary dark:text-white mb-4">{item.title}</h3>
+                                    <p className="text-gray-500 dark:text-gray-400 leading-relaxed font-light">
                                         {item.desc}
                                     </p>
                                 </div>

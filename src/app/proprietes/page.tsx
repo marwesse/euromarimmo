@@ -7,8 +7,8 @@ export default async function ProprietesPage() {
 
     return (
         <Suspense fallback={
-            <div className="pt-24 pb-20 min-h-screen bg-bg-offwhite flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+            <div className="pt-24 pb-20 min-h-screen bg-bg-offwhite dark:bg-[#0f131a] flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary dark:border-white"></div>
             </div>
         }>
             <ProprietesClient properties={properties} />

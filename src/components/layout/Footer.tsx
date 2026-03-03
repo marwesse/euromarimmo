@@ -4,13 +4,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 
-export function Footer() {
+export function Footer({ logoUrl }: { logoUrl?: string }) {
     const pathname = usePathname();
 
     if (pathname?.startsWith("/admin")) return null;
 
     return (
-        <footer className="bg-[#0f172a] text-white pt-24 pb-8 border-t border-white/5 relative overflow-hidden">
+        <footer className="bg-[#0f172a] dark:bg-[#0f131a] text-white pt-24 pb-8 border-t border-white/5 relative overflow-hidden">
             {/* Background Glows */}
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/10 rounded-full blur-[120px] pointer-events-none translate-x-1/2 -translate-y-1/2" />
             <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px] pointer-events-none -translate-x-1/2 translate-y-1/2" />
@@ -21,9 +21,13 @@ export function Footer() {
                     {/* Brand & Blurb */}
                     <div className="lg:col-span-4 space-y-8 pr-0 lg:pr-8">
                         <Link href="/" className="inline-block group">
-                            <h2 className="font-serif text-3xl tracking-widest uppercase transition-colors group-hover:text-accent">
-                                EUROMAR <span className="text-[#d4af37]">IMMO</span>
-                            </h2>
+                            {logoUrl ? (
+                                <img src={logoUrl} alt="Logo Footer" className="h-12 w-auto brightness-0 invert opacity-90 group-hover:opacity-100 transition-opacity" />
+                            ) : (
+                                <h2 className="font-serif text-3xl tracking-widest uppercase transition-colors group-hover:text-accent">
+                                    EUROMAR <span className="text-[#d4af37]">IMMO</span>
+                                </h2>
+                            )}
                         </Link>
                         <p className="text-gray-400 text-sm md:text-base leading-relaxed font-light">
                             L&apos;agence immobilière de référence pour les propriétés de prestige au Maroc. Notre expertise à votre service pour des projets d&apos;exception.
