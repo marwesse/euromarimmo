@@ -22,19 +22,31 @@ export function AdminSidebar() {
     const [unreadCount, setUnreadCount] = useState(0);
 
     useEffect(() => {
+        let isMounted = true;
+        let timeoutId: NodeJS.Timeout;
+
         async function fetchUnreadCount() {
             try {
                 const count = await getUnreadLeadsCount();
-                setUnreadCount(count);
+                if (isMounted) setUnreadCount(count);
             } catch (error) {
                 console.error("Failed to fetch unread leads count:", error);
             }
         }
-        fetchUnreadCount();
 
-        // Optional: Polling every 30 seconds for new leads
-        const interval = setInterval(fetchUnreadCount, 30000);
-        return () => clearInterval(interval);
+        // Delay initial fetch slightly to allow UI to paint
+        timeoutId = setTimeout(() => {
+            fetchUnreadCount();
+        }, 1000);
+
+        // Optional: Polling every 60 seconds for new leads instead of 30s to reduce load
+        const interval = setInterval(fetchUnreadCount, 60000);
+
+        return () => {
+            isMounted = false;
+            clearTimeout(timeoutId);
+            clearInterval(interval);
+        };
     }, []);
 
     return (
