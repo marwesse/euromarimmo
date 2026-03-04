@@ -1,85 +1,133 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ShieldCheck, Award, Handshake } from "lucide-react";
+import { Check, ArrowRight } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
 
-const benefits = [
+const pillars = [
     {
-        icon: <Award className="w-8 h-8 text-accent" />,
-        title: "Expertise Locale",
-        description: "Une connaissance absolue du marché immobilier luxueux marocain, de la Médina aux villas contemporaines."
+        title: "Curation Rigoureuse",
+        description: "Seuls les biens d'exception, répondant à nos critères stricts d'excellence architecturale et de localisation, intègrent notre portfolio confidentiel."
     },
     {
-        icon: <ShieldCheck className="w-8 h-8 text-accent" />,
-        title: "Confidentialité Absolue",
-        description: "Vos transactions et recherches sont traitées avec la plus grande discrétion et un professionnalisme exemplaire."
+        title: "Service Gant Blanc",
+        description: "Un accompagnement sur-mesure à chaque instant. De l'estimation à la signature, notre équipe dévouée anticipe vos moindres exigences."
     },
     {
-        icon: <Handshake className="w-8 h-8 text-accent" />,
-        title: "Accompagnement Sur-Mesure",
-        description: "Un service de conciergerie complet, de la négociation à l&apos;assistance juridique et fiscale."
+        title: "Discrétion Absolue",
+        description: "La confidentialité de nos clients est notre priorité absolue. Nous opérons dans le plus grand secret pour protéger vos intérêts."
     }
 ];
 
 export function Benefits() {
     return (
-        <section className="py-32 bg-gray-50 dark:bg-[#0f131a] relative overflow-hidden">
-            {/* Background decorative elements */}
-            <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-accent/5 to-transparent pointer-events-none" />
-            <div className="absolute -top-40 -left-40 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
+        <section className="py-24 md:py-32 bg-[#0a0f18] text-white relative overflow-hidden">
+            {/* Background elements */}
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/10 rounded-full blur-[120px] pointer-events-none translate-x-1/2 -translate-y-1/2" />
+            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px] pointer-events-none -translate-x-1/2 translate-y-1/2" />
 
             <div className="container mx-auto px-4 md:px-8 relative z-10">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
 
-                <div className="text-center max-w-3xl mx-auto mb-20">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                    >
-                        <span className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-white dark:bg-white/10 rounded-full border border-gray-100 dark:border-white/10 shadow-sm">
-                            <span className="w-2 h-2 rounded-full bg-accent"></span>
-                            <span className="text-accent font-semibold tracking-widest uppercase text-xs">Pourquoi EUROMAR IMMO</span>
-                        </span>
-                        <h2 className="font-serif text-4xl md:text-5xl text-primary dark:text-white mb-6 leading-tight">L&apos;Excellence à <br className="hidden md:block" />Chaque Étape</h2>
-                        <p className="text-gray-500 dark:text-gray-400 text-lg md:text-xl font-light leading-relaxed">
-                            Nous avons redéfini les standards de l&apos;immobilier de prestige au Maroc pour vous offrir une expérience sans friction, sécurisée et sur-mesure.
-                        </p>
-                    </motion.div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
-                    {benefits.map((benefit, index) => (
+                    {/* Left Column: Image Area */}
+                    <div className="order-2 lg:order-1 relative group w-full h-[500px] md:h-[700px]">
                         <motion.div
-                            key={index}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 1, ease: "easeOut" }}
+                            className="absolute inset-0 rounded-[2rem] overflow-hidden"
+                        >
+                            <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-700 z-10" />
+                            <Image
+                                src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+                                alt="Villa de prestige à Casablanca"
+                                fill
+                                className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                                sizes="(max-width: 768px) 100vw, 50vw"
+                            />
+                        </motion.div>
+
+                        {/* Floating Metric Card */}
+                        <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-50px" }}
-                            transition={{ duration: 0.7, delay: index * 0.2 }}
-                            className="relative group"
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8, delay: 0.4 }}
+                            className="absolute -bottom-8 -right-4 md:-right-8 bg-white/10 backdrop-blur-xl border border-white/20 p-6 md:p-8 rounded-[1.5rem] shadow-2xl z-20 max-w-[200px] md:max-w-xs"
                         >
-                            <div className="absolute inset-0 bg-white dark:bg-white/5 rounded-[30px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none transition-all duration-500 group-hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] group-hover:-translate-y-2 border border-gray-100/50 dark:border-white/10"></div>
+                            <div className="text-3xl md:text-5xl font-serif text-accent mb-2">15+</div>
+                            <div className="text-sm md:text-base font-light tracking-wide text-white/90">Années d&apos;expertise dans la vente de propriétés de luxe à Casablanca.</div>
+                        </motion.div>
+                    </div>
 
-                            <div className="relative p-10 flex flex-col items-center text-center">
-                                {/* Enhanced Icon Container */}
-                                <div className="relative w-20 h-20 mb-8 mt-2">
-                                    <div className="absolute inset-0 bg-accent/5 rounded-full scale-150 transition-transform duration-500 group-hover:scale-125 opacity-0 group-hover:opacity-100"></div>
-                                    <div className="relative w-full h-full bg-white dark:bg-white/10 rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 flex items-center justify-center transition-all duration-500 group-hover:bg-accent group-hover:border-accent group-hover:-translate-y-1">
-                                        <div className="transition-colors duration-500 group-hover:text-white group-hover:[&>svg]:text-white">
-                                            {benefit.icon}
+                    {/* Right Column: Content Area */}
+                    <div className="order-1 lg:order-2">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="mb-12"
+                        >
+                            <span className="inline-flex items-center gap-2 mb-6 text-accent font-semibold tracking-widest uppercase text-xs">
+                                <span className="w-8 h-px bg-accent"></span>
+                                L&apos;Excellence Inégalée
+                            </span>
+                            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-white mb-6 leading-[1.15]">
+                                Plus qu&apos;une Agence,<br />
+                                <span className="text-white/80 italic font-light">Votre Partenaire de Prestige.</span>
+                            </h2>
+                            <p className="text-gray-400 text-lg md:text-xl font-light leading-relaxed max-w-xl">
+                                Chez EUROMAR IMMO, nous transcendons la simple transaction immobilière. Nous sommes les curateurs de votre art de vivre, vous ouvrant les portes des propriétés les plus confidentielles du Royaume.
+                            </p>
+                        </motion.div>
+
+                        <div className="space-y-8 md:space-y-10 mb-12">
+                            {pillars.map((pillar, index) => (
+                                <motion.div
+                                    key={index}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.6, delay: 0.2 + (index * 0.1) }}
+                                    className="flex gap-4 md:gap-6 group"
+                                >
+                                    <div className="shrink-0 mt-1">
+                                        <div className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-white/10 flex items-center justify-center bg-white/5 transition-colors duration-500 group-hover:bg-accent group-hover:border-accent">
+                                            <Check className="w-4 h-4 md:w-5 md:h-5 text-accent group-hover:text-white transition-colors" />
                                         </div>
                                     </div>
+                                    <div>
+                                        <h3 className="text-lg md:text-xl font-serif text-white mb-2 transition-colors duration-300 group-hover:text-accent">{pillar.title}</h3>
+                                        <p className="text-gray-400 font-light leading-relaxed text-sm md:text-base">
+                                            {pillar.description}
+                                        </p>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, delay: 0.6 }}
+                        >
+                            <Link
+                                href="/services"
+                                className="inline-flex items-center gap-4 group"
+                            >
+                                <span className="text-sm font-semibold tracking-widest uppercase text-white group-hover:text-accent transition-colors">Découvrir notre expertise</span>
+                                <div className="w-12 h-12 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center group-hover:bg-accent transition-colors duration-300">
+                                    <ArrowRight className="w-5 h-5 text-accent group-hover:text-white transition-colors group-hover:translate-x-1 duration-300 transform" />
                                 </div>
-
-                                <h3 className="font-serif text-2xl text-primary dark:text-white mb-4 transition-colors duration-300 group-hover:text-accent">{benefit.title}</h3>
-                                <p className="text-gray-500 dark:text-gray-400 leading-relaxed font-light">
-                                    {benefit.description}
-                                </p>
-                            </div>
+                            </Link>
                         </motion.div>
-                    ))}
-                </div>
+                    </div>
 
+                </div>
             </div>
         </section>
     );

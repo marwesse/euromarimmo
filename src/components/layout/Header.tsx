@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Phone, Menu, X, Calendar } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -58,9 +59,17 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
                         {logoUrl ? (
                             <img src={logoUrl} alt="Logo" className={cn("h-10 w-auto transition-opacity duration-500", !isScrolled && isDarkBgPage ? "brightness-0 invert" : "")} />
                         ) : (
-                            <h1 className={cn("font-serif text-xl tracking-widest uppercase transition-colors duration-500", logoColor)}>
-                                EUROMAR <span className="text-[#d4af37]">IMMO</span>
-                            </h1>
+                            <Image
+                                src="/logo.png"
+                                alt="EUROMAR IMMO Logo"
+                                width={160}
+                                height={50}
+                                className={cn(
+                                    "w-32 md:w-40 h-auto object-contain transition-all duration-500",
+                                    !isScrolled && isDarkBgPage ? "brightness-0 invert" : ""
+                                )}
+                                priority
+                            />
                         )}
                     </Link>
 
@@ -96,9 +105,9 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
                     {/* Call to action */}
                     <div className="hidden md:flex items-center gap-4 shrink-0">
                         <ThemeToggle className={(!isScrolled && isDarkBgPage) ? "text-white" : textColor} />
-                        <a href="tel:+212600692922" className={cn("hidden lg:flex items-center gap-2 text-sm font-medium hover:text-accent transition-colors duration-300 ml-2", textColor)}>
+                        <a href="tel:0661755716" className={cn("hidden lg:flex items-center gap-2 text-sm font-medium hover:text-accent transition-colors duration-300 ml-2", textColor)}>
                             <Phone className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                            <span className="tracking-wide">+212 600-692922</span>
+                            <span className="tracking-wide">06 61 75 57 16</span>
                         </a>
                         <Link
                             href="/contact"
@@ -121,9 +130,16 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
             <div className={cn("md:hidden transition-all duration-500 px-4 py-3 relative z-50", headerMobileClass, isMobileMenuOpen && "bg-transparent border-transparent shadow-none backdrop-blur-none")}>
                 <div className="flex items-center justify-between">
                     <Link href="/" className="group flex items-center z-50">
-                        <h1 className={cn("font-serif text-lg tracking-widest uppercase transition-colors duration-500", isMobileMenuOpen ? "text-white" : (isScrolled || !isDarkBgPage ? "text-primary" : "text-white"))}>
-                            EUROMAR <span className="text-[#d4af37]">IMMO</span>
-                        </h1>
+                        <Image
+                            src="/logo.png"
+                            alt="EUROMAR IMMO Logo"
+                            width={160}
+                            height={50}
+                            className={cn(
+                                "w-36 md:w-40 h-auto object-contain transition-all duration-500",
+                                isMobileMenuOpen || (!isScrolled && isDarkBgPage) ? "brightness-0 invert" : ""
+                            )}
+                        />
                     </Link>
 
                     <div className="flex items-center gap-4 z-50 relative">
@@ -163,7 +179,7 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
                                         <Link
                                             href={link.href}
                                             className={cn(
-                                                "block text-3xl font-serif text-center transition-all duration-300",
+                                                "block text-2xl font-serif text-center transition-all duration-300",
                                                 pathname === link.href ? "text-accent" : "text-white/80 hover:text-white hover:scale-105"
                                             )}
                                             onClick={() => setIsMobileMenuOpen(false)}
@@ -187,11 +203,11 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
                                 transition={{ duration: 0.5, delay: navLinks.length * 0.1 + 0.4, ease: "easeOut" }}
                                 className="flex flex-col items-center gap-6 w-full"
                             >
-                                <a href="tel:+212600692922" className="flex items-center gap-3 text-white/70 hover:text-white transition-colors">
+                                <a href="tel:0661755716" className="flex items-center gap-3 text-white/70 hover:text-white transition-colors">
                                     <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center bg-white/5">
                                         <Phone className="w-5 h-5 text-accent" />
                                     </div>
-                                    <span className="text-lg font-light tracking-wide">+212 600-692922</span>
+                                    <span className="text-lg font-light tracking-wide">06 61 75 57 16</span>
                                 </a>
                                 <Link
                                     href="/contact"

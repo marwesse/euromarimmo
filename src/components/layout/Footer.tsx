@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 
@@ -24,9 +25,13 @@ export function Footer({ logoUrl }: { logoUrl?: string }) {
                             {logoUrl ? (
                                 <img src={logoUrl} alt="Logo Footer" className="h-12 w-auto brightness-0 invert opacity-90 group-hover:opacity-100 transition-opacity" />
                             ) : (
-                                <h2 className="font-serif text-3xl tracking-widest uppercase transition-colors group-hover:text-accent">
-                                    EUROMAR <span className="text-[#d4af37]">IMMO</span>
-                                </h2>
+                                <Image
+                                    src="/logo.png"
+                                    alt="EUROMAR IMMO Logo"
+                                    width={240}
+                                    height={75}
+                                    className="w-48 md:w-56 h-auto object-contain brightness-0 invert opacity-90 group-hover:opacity-100 transition-opacity"
+                                />
                             )}
                         </Link>
                         <p className="text-gray-400 text-sm md:text-base leading-relaxed font-light">
@@ -74,7 +79,7 @@ export function Footer({ logoUrl }: { logoUrl?: string }) {
                                 </div>
                                 <div className="flex flex-col gap-1 pt-1">
                                     <strong className="text-white font-medium uppercase tracking-wider text-xs">Téléphone</strong>
-                                    <a href="tel:+212600692922" className="hover:text-accent transition-colors text-base">+212 600-692922</a>
+                                    <a href="tel:0661755716" className="hover:text-accent transition-colors text-base">06 61 75 57 16</a>
                                 </div>
                             </li>
                             <li className="flex items-start gap-4">

@@ -40,22 +40,25 @@ export function Hero() {
 
             <div className="container mx-auto px-4 z-10 text-center flex flex-col items-center">
                 <motion.h1
-                    className="font-serif text-4xl md:text-6xl lg:text-7xl text-white mb-6 leading-tight max-w-4xl drop-shadow-lg"
+                    className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] text-white mb-4 md:mb-6 leading-[1.2] max-w-[95%] sm:max-w-3xl md:max-w-4xl drop-shadow-2xl mx-auto"
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, ease: "easeOut" }}
                 >
-                    Découvrez l&apos;Exception. <br />
-                    <span className="text-white/90">Vivez l&apos;Exclusivité.</span>
+                    <span className="block font-light text-white/90 tracking-tight">Découvrez l&apos;Exception.</span>
+                    <span className="block font-medium mt-2 md:mt-4">Vivez l&apos;Exclusivité.</span>
                 </motion.h1>
 
                 <motion.p
-                    className="text-white/80 text-lg md:text-xl mb-12 max-w-2xl font-light tracking-wide"
+                    className="text-white/90 text-sm sm:text-base md:text-lg lg:text-xl mb-8 md:mb-12 max-w-[95%] sm:max-w-2xl md:max-w-3xl font-light tracking-wide leading-relaxed mx-auto"
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
                 >
-                    Accédez à une sélection confidentielle des plus belles demeures de Casablanca. De l&apos;effervescence d&apos;Anfa Supérieur à la sérénité de Dar Bouazza.
+                    Accédez à une sélection confidentielle des plus belles demeures de Casablanca.
+                    <span className="block text-white/80 text-[10px] sm:text-xs md:text-sm lg:text-base mt-3 md:mt-4 font-normal tracking-[0.2em] uppercase">
+                        De l&apos;effervescence d&apos;Anfa Supérieur à la sérénité de Dar Bouazza
+                    </span>
                 </motion.p>
 
                 {/* Search Bar Container */}
