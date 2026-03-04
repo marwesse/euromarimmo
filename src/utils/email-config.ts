@@ -18,7 +18,15 @@ export function readEmailConfig() {
         }
         const data = fs.readFileSync(configPath, 'utf-8');
         const parsedData = JSON.parse(data);
-        return { ...defaultData, ...parsedData };
+
+        // Prioritize process.env for secrets to avoid committing them
+        const brevo_api_key = process.env.BREVO_API_KEY || parsedData.brevo_api_key || defaultData.brevo_api_key;
+
+        return {
+            ...defaultData,
+            ...parsedData,
+            brevo_api_key
+        };
     } catch (e) {
         console.error("Error reading email config:", e);
         return defaultData;
