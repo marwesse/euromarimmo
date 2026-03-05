@@ -38,15 +38,15 @@ export function Hero() {
                 <div className="absolute inset-0 bg-black/40" />
             </div>
 
-            <div className="container mx-auto px-4 z-10 text-center flex flex-col items-center">
+            <div className="container mx-auto px-4 z-10 text-center flex flex-col items-center pt-32 sm:pt-40 md:pt-48">
                 <motion.h1
                     className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] text-white mb-4 md:mb-6 leading-[1.2] max-w-[95%] sm:max-w-3xl md:max-w-4xl drop-shadow-2xl mx-auto"
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, ease: "easeOut" }}
                 >
-                    <span className="block font-light text-white/90 tracking-tight">Découvrez l&apos;Exception.</span>
-                    <span className="block font-medium mt-2 md:mt-4">Vivez l&apos;Exclusivité.</span>
+                    <span className="block font-light text-white/90 tracking-tight">L&apos;Élégance</span>
+                    <span className="block font-medium mt-2 md:mt-4">à Casablanca.</span>
                 </motion.h1>
 
                 <motion.p
@@ -55,9 +55,9 @@ export function Hero() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
                 >
-                    Accédez à une sélection confidentielle des plus belles demeures de Casablanca.
+                    Notre sélection exclusive de demeures de prestige.
                     <span className="block text-white/80 text-[10px] sm:text-xs md:text-sm lg:text-base mt-3 md:mt-4 font-normal tracking-[0.2em] uppercase">
-                        De l&apos;effervescence d&apos;Anfa Supérieur à la sérénité de Dar Bouazza
+                        D&apos;Anfa Supérieur à Dar Bouazza
                     </span>
                 </motion.p>
 

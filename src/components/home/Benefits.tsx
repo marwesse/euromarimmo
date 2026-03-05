@@ -7,16 +7,16 @@ import Image from "next/image";
 
 const pillars = [
     {
-        title: "Curation Rigoureuse",
-        description: "Seuls les biens d'exception, répondant à nos critères stricts d'excellence architecturale et de localisation, intègrent notre portfolio confidentiel."
+        title: "Accueil VIP à l'Aéroport",
+        description: "Dès votre atterrissage, notre chauffeur vous attend pour assurer une transition fluide, exclusive et sans stress vers la ville."
     },
     {
-        title: "Service Gant Blanc",
-        description: "Un accompagnement sur-mesure à chaque instant. De l'estimation à la signature, notre équipe dévouée anticipe vos moindres exigences."
+        title: "Trajet Confortable & Discret",
+        description: "Profitez d'un transfert relaxant dans notre véhicule premium aux couleurs d'EUROMAR IMMO, parfaitement équipé pour votre confort."
     },
     {
-        title: "Discrétion Absolue",
-        description: "La confidentialité de nos clients est notre priorité absolue. Nous opérons dans le plus grand secret pour protéger vos intérêts."
+        title: "Accès Direct aux Propriétés",
+        description: "Commencez vos visites immédiatement. Nous vous conduisons directement vers notre sélection confidentielle de demeures."
     }
 ];
 
@@ -31,21 +31,19 @@ export function Benefits() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
 
                     {/* Left Column: Image Area */}
-                    <div className="order-2 lg:order-1 relative group w-full h-[500px] md:h-[700px]">
+                    <div className="order-2 lg:order-1 relative group w-full">
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ duration: 1, ease: "easeOut" }}
-                            className="absolute inset-0 rounded-[2rem] overflow-hidden"
+                            className="relative rounded-[2rem] overflow-hidden bg-white/5"
                         >
-                            <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-700 z-10" />
-                            <Image
-                                src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
-                                alt="Villa de prestige à Casablanca"
-                                fill
-                                className="object-cover transition-transform duration-1000 group-hover:scale-105"
-                                sizes="(max-width: 768px) 100vw, 50vw"
+                            <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-700 z-10 pointer-events-none" />
+                            <img
+                                src="/voiture-euromar.jpg"
+                                alt="Véhicule premium EUROMAR IMMO"
+                                className="w-full h-auto object-contain shadow-2xl transition-transform duration-1000 group-hover:scale-105"
                             />
                         </motion.div>
 
@@ -57,8 +55,8 @@ export function Benefits() {
                             transition={{ duration: 0.8, delay: 0.4 }}
                             className="absolute -bottom-8 -right-4 md:-right-8 bg-white/10 backdrop-blur-xl border border-white/20 p-6 md:p-8 rounded-[1.5rem] shadow-2xl z-20 max-w-[200px] md:max-w-xs"
                         >
-                            <div className="text-3xl md:text-5xl font-serif text-accent mb-2">15+</div>
-                            <div className="text-sm md:text-base font-light tracking-wide text-white/90">Années d&apos;expertise dans la vente de propriétés de luxe à Casablanca.</div>
+                            <div className="text-3xl md:text-5xl font-serif text-accent mb-2">24/7</div>
+                            <div className="text-sm md:text-base font-light tracking-wide text-white/90">Service de transfert et conciergerie VIP pour nos clients.</div>
                         </motion.div>
                     </div>
 
@@ -73,14 +71,14 @@ export function Benefits() {
                         >
                             <span className="inline-flex items-center gap-2 mb-6 text-accent font-semibold tracking-widest uppercase text-xs">
                                 <span className="w-8 h-px bg-accent"></span>
-                                L&apos;Excellence Inégalée
+                                Service Transfert Privé
                             </span>
                             <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-white mb-6 leading-[1.15]">
-                                Plus qu&apos;une Agence,<br />
-                                <span className="text-white/80 italic font-light">Votre Partenaire de Prestige.</span>
+                                Un Accueil d&apos;Exception,<br />
+                                <span className="text-white/80 italic font-light">Dès votre Arrivée.</span>
                             </h2>
                             <p className="text-gray-400 text-lg md:text-xl font-light leading-relaxed max-w-xl">
-                                Chez EUROMAR IMMO, nous transcendons la simple transaction immobilière. Nous sommes les curateurs de votre art de vivre, vous ouvrant les portes des propriétés les plus confidentielles du Royaume.
+                                Chez EUROMAR IMMO, votre confort commence dès votre atterrissage. Nous vous offrons un service de navette premium pour vous accompagner de l&apos;aéroport directement vers les propriétés de vos rêves, dans notre véhicule exclusif et luxueux.
                             </p>
                         </motion.div>
 
@@ -116,10 +114,10 @@ export function Benefits() {
                             transition={{ duration: 0.6, delay: 0.6 }}
                         >
                             <Link
-                                href="/services"
+                                href="/contact"
                                 className="inline-flex items-center gap-4 group"
                             >
-                                <span className="text-sm font-semibold tracking-widest uppercase text-white group-hover:text-accent transition-colors">Découvrir notre expertise</span>
+                                <span className="text-sm font-semibold tracking-widest uppercase text-white group-hover:text-accent transition-colors">Réserver votre accueil VIP</span>
                                 <div className="w-12 h-12 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center group-hover:bg-accent transition-colors duration-300">
                                     <ArrowRight className="w-5 h-5 text-accent group-hover:text-white transition-colors group-hover:translate-x-1 duration-300 transform" />
                                 </div>
