@@ -131,7 +131,14 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
                 <div className="flex items-center justify-between">
                     <Link href="/" className="group flex items-center z-50">
                         {logoUrl ? (
-                            <img src={logoUrl} alt="Logo" className={cn("h-8 w-auto transition-opacity duration-500", isMobileMenuOpen || (!isScrolled && isDarkBgPage) ? "brightness-0 invert" : "")} />
+                            <img
+                                src={logoUrl}
+                                alt="Logo"
+                                className={cn(
+                                    "w-32 md:w-36 h-auto max-h-[50px] object-contain transition-opacity duration-500",
+                                    isMobileMenuOpen || (!isScrolled && isDarkBgPage) ? "brightness-0 invert" : ""
+                                )}
+                            />
                         ) : (
                             <Image
                                 src="/logo.png"
