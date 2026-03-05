@@ -130,16 +130,20 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
             <div className={cn("md:hidden transition-all duration-500 px-4 py-3 relative z-50", headerMobileClass, isMobileMenuOpen && "bg-transparent border-transparent shadow-none backdrop-blur-none")}>
                 <div className="flex items-center justify-between">
                     <Link href="/" className="group flex items-center z-50">
-                        <Image
-                            src="/logo.png"
-                            alt="EUROMAR IMMO Logo"
-                            width={160}
-                            height={50}
-                            className={cn(
-                                "w-36 md:w-40 h-auto object-contain transition-all duration-500",
-                                isMobileMenuOpen || (!isScrolled && isDarkBgPage) ? "brightness-0 invert" : ""
-                            )}
-                        />
+                        {logoUrl ? (
+                            <img src={logoUrl} alt="Logo" className={cn("h-8 w-auto transition-opacity duration-500", isMobileMenuOpen || (!isScrolled && isDarkBgPage) ? "brightness-0 invert" : "")} />
+                        ) : (
+                            <Image
+                                src="/logo.png"
+                                alt="EUROMAR IMMO Logo"
+                                width={160}
+                                height={50}
+                                className={cn(
+                                    "w-36 md:w-40 h-auto object-contain transition-all duration-500",
+                                    isMobileMenuOpen || (!isScrolled && isDarkBgPage) ? "brightness-0 invert" : ""
+                                )}
+                            />
+                        )}
                     </Link>
 
                     <div className="flex items-center gap-4 z-50 relative">
