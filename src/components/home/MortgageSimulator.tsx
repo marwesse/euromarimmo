@@ -3,23 +3,20 @@
 import { useState } from "react";
 import { Calculator } from "lucide-react";
 import { motion } from "framer-motion";
+import { useCurrency } from "@/context/CurrencyContext";
 
 export function MortgageSimulator() {
+    const { formatPrice } = useCurrency();
     const [amount, setAmount] = useState(5000000); // 5M DH
     const [rate, setRate] = useState(4.5); // 4.5%
     const [years, setYears] = useState(15);
 
-    // Simple amortization formula
     const calculateMonthlyPayment = () => {
         const monthlyRate = (rate / 100) / 12;
         const numberOfPayments = years * 12;
         if (monthlyRate === 0) return amount / numberOfPayments;
         const payment = (amount * monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) / (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
-        return payment.toFixed(0);
-    };
-
-    const formatCurrency = (val: number | string) => {
-        return new Intl.NumberFormat('fr-MA', { style: 'currency', currency: 'MAD', maximumFractionDigits: 0 }).format(Number(val));
+        return payment;
     };
 
     return (
@@ -79,7 +76,7 @@ export function MortgageSimulator() {
                                     <div>
                                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-6 gap-2">
                                             <label className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-widest">Montant du prêt</label>
-                                            <span className="text-3xl font-serif text-primary dark:text-white">{formatCurrency(amount)}</span>
+                                            <span className="text-3xl font-serif text-primary dark:text-white">{formatPrice(amount)}</span>
                                         </div>
                                         <div className="relative py-4">
                                             <input
@@ -141,7 +138,7 @@ export function MortgageSimulator() {
 
                                         <div className="relative z-10">
                                             <p className="text-white/60 text-sm font-semibold uppercase tracking-widest mb-4">Mensualité Estimée</p>
-                                            <p className="font-serif text-5xl md:text-6xl text-white mb-6 tracking-tight drop-shadow-sm">{formatCurrency(calculateMonthlyPayment())}</p>
+                                            <p className="font-serif text-5xl md:text-6xl text-white mb-6 tracking-tight drop-shadow-sm">{formatPrice(calculateMonthlyPayment())}</p>
 
                                             <div className="inline-flex items-center justify-center gap-2 text-white/40 text-xs px-4 py-2 bg-white/5 rounded-full backdrop-blur-sm">
                                                 <span className="w-1.5 h-1.5 rounded-full bg-accent/50"></span>

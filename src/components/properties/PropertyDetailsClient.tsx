@@ -5,6 +5,9 @@ import Link from "next/link";
 import { BedDouble, Bath, SquareMenu, Calendar, Check, ArrowLeft, Phone, Mail, User, ChevronLeft, ChevronRight, CalendarDays, MessageCircle, CreditCard, Landmark, Users, Clock, Plus, Minus } from "lucide-react";
 import { PaymentModal } from "@/components/properties/PaymentModal";
 import { submitLead } from "@/app/actions/lead-actions";
+import { getConsistentViewCount } from "@/utils/socialProof";
+import { useCurrency } from "@/context/CurrencyContext";
+import { PropertySimulator } from "@/components/properties/PropertySimulator";
 
 interface PropertyDetailsProps {
     property: any;
@@ -13,6 +16,7 @@ interface PropertyDetailsProps {
 }
 
 export function PropertyDetailsClient({ property, similarProperties, settings }: PropertyDetailsProps) {
+    const { formatPrice, currency } = useCurrency();
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     // Booking & Payment State
@@ -93,6 +97,12 @@ export function PropertyDetailsClient({ property, similarProperties, settings }:
                     Retour au catalogue
                 </Link>
 
+                {/* Scarcity Banner */}
+                <div className="mb-8 bg-orange-50/80 dark:bg-orange-500/10 border border-orange-200/50 dark:border-orange-500/20 rounded-xl p-3 flex items-center justify-center gap-2 text-sm text-orange-800 dark:text-orange-400 font-medium shadow-sm animate-in fade-in slide-in-from-top-4 duration-700">
+                    <span className="text-lg animate-pulse inline-block text-orange-500">⚡</span>
+                    Ne manquez pas cette opportunité. <strong className="font-bold">{getConsistentViewCount(property.id || property.title)}</strong> personnes ont regardé ce bien aujourd'hui.
+                </div>
+
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
                     <div>
@@ -116,7 +126,7 @@ export function PropertyDetailsClient({ property, similarProperties, settings }:
                         <p className="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">
                             {property.transactiontype === 'Vente' || property.type === 'Vente' ? 'Prix de vente' : 'Prix par nuit'}
                         </p>
-                        <p className="font-serif text-3xl md:text-4xl text-accent">{Number(property.price || 0).toLocaleString('fr-FR')} DH</p>
+                        <p className="font-serif text-3xl md:text-4xl text-accent">{formatPrice(property.priceNumeric || property.price)}</p>
                     </div>
                 </div>
 
@@ -217,6 +227,13 @@ export function PropertyDetailsClient({ property, similarProperties, settings }:
                                         </li>
                                     ))}
                                 </ul>
+                            </div>
+                        )}
+
+                        {/* Mortgage Simulator (Only for Vente) */}
+                        {(property.transactiontype === 'Vente' || property.type === 'Vente') && (property.price || property.priceNumeric) && (
+                            <div>
+                                <PropertySimulator propertyPrice={property.priceNumeric || property.price} />
                             </div>
                         )}
                     </div>
@@ -328,8 +345,8 @@ export function PropertyDetailsClient({ property, similarProperties, settings }:
                                         {nights > 0 && totalPrice !== null && (
                                             <div className="mt-2 pt-4 border-t border-gray-200 dark:border-white/10">
                                                 <div className="flex justify-between items-center text-sm text-gray-600 dark:text-gray-300 mb-2">
-                                                    <span>{Number(property.price || 0).toLocaleString('fr-FR')} DH x {nights} {nights > 1 ? 'nuits' : 'nuit'}</span>
-                                                    <span className={discountedTotal !== null ? "line-through text-gray-400" : ""}>{totalPrice.toLocaleString()} DH</span>
+                                                    <span>{formatPrice(property.priceNumeric || property.price)} x {nights} {nights > 1 ? 'nuits' : 'nuit'}</span>
+                                                    <span className={discountedTotal !== null ? "line-through text-gray-400" : ""}>{formatPrice(totalPrice)}</span>
                                                 </div>
                                                 {discountedTotal !== null && (
                                                     <div className="flex justify-between items-center text-sm text-accent mb-2">
@@ -515,7 +532,7 @@ export function PropertyDetailsClient({ property, similarProperties, settings }:
                                         />
                                         <div className="absolute inset-0 bg-gray-200 dark:bg-black/50 -z-10 flex items-center justify-center text-xs text-gray-400 dark:text-gray-500">[Image]</div>
                                         <div className="absolute bottom-3 left-4 text-white drop-shadow-md">
-                                            <p className="font-serif text-xl">{Number(similar.price || 0).toLocaleString('fr-FR')} DH</p>
+                                            <p className="font-serif text-xl">{formatPrice(similar.priceNumeric || similar.price)}</p>
                                         </div>
                                     </Link>
                                     <div className="p-5">
@@ -538,9 +555,9 @@ export function PropertyDetailsClient({ property, similarProperties, settings }:
                     onClose={() => setIsPaymentModalOpen(false)}
                     propertyTitle={property.title}
                     advanceAmount={property.transactiontype === 'Vente' || property.type === 'Vente'
-                        ? `${(Number(property.price || 0) * 0.1).toLocaleString('fr-FR')} DH (10%)`
-                        : `${(((discountedTotal ?? totalPrice) || 0) * 0.1).toLocaleString('fr-FR')} DH (10% du séjour)`}
-                    totalAmount={(property.transactiontype === 'Location' || property.type === 'Location') && totalPrice ? `${(discountedTotal ?? totalPrice).toLocaleString('fr-FR')} DH` : undefined}
+                        ? `${formatPrice((property.priceNumeric || property.price || 0) * 0.1)} (10%)`
+                        : `${formatPrice(((discountedTotal ?? totalPrice) || 0) * 0.1)} (10% du séjour)`}
+                    totalAmount={(property.transactiontype === 'Location' || property.type === 'Location') && totalPrice ? formatPrice(discountedTotal ?? totalPrice) : undefined}
                     settings={settings}
                 />
             </div>

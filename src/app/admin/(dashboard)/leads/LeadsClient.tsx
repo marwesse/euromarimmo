@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle, RotateCcw, Search, Eye, X, Mail, Phone, Calendar as CalendarIcon, Tag, MapPin } from "lucide-react";
-import { updateLeadStatus } from "@/app/actions/lead-actions";
+import { CheckCircle, RotateCcw, Search, Eye, X, Mail, Phone, Calendar as CalendarIcon, Tag, MapPin, Trash2 } from "lucide-react";
+import { updateLeadStatus, deleteLead } from "@/app/actions/lead-actions";
 
 interface LeadsClientProps {
     leads: any[];
@@ -13,6 +13,7 @@ export function LeadsClient({ leads }: LeadsClientProps) {
     const [filterType, setFilterType] = useState<'All' | 'Reservations' | 'Contacts'>('All');
     const [selectedLead, setSelectedLead] = useState<any | null>(null);
     const [isUpdating, setIsUpdating] = useState<string | null>(null);
+    const [isDeleting, setIsDeleting] = useState<string | null>(null);
 
     // Derived state for filtering
     const filteredLeads = leads.filter(lead => {
@@ -41,6 +42,17 @@ export function LeadsClient({ leads }: LeadsClientProps) {
         const newStatus = currentStatus === 'Nouveau' || !currentStatus ? 'Traité' : 'Nouveau';
         await updateLeadStatus(leadId, newStatus);
         setIsUpdating(null);
+    };
+
+    const handleDeleteLead = async (leadId: string) => {
+        if (window.confirm("Êtes-vous sûr de vouloir supprimer ce lead ? Cette action est irréversible.")) {
+            setIsDeleting(leadId);
+            await deleteLead(leadId);
+            setIsDeleting(null);
+            if (selectedLead?.id === leadId) {
+                setSelectedLead(null);
+            }
+        }
     };
 
     return (
@@ -139,10 +151,10 @@ export function LeadsClient({ leads }: LeadsClientProps) {
                                             {lead.status || 'Nouveau'}
                                         </span>
                                     </td>
-                                    <td className="px-6 py-4 text-right text-sm font-medium">
+                                    <td className="px-6 py-4 text-right text-sm font-medium flex justify-end gap-2">
                                         <button
                                             onClick={() => handleUpdateStatus(lead.id, lead.status)}
-                                            disabled={isUpdating === lead.id}
+                                            disabled={isUpdating === lead.id || isDeleting === lead.id}
                                             className="text-[#d4af37] hover:text-[#b8952b] dark:hover:text-white transition-colors p-2 rounded hover:bg-[#d4af37]/10 disabled:opacity-50"
                                             title={lead.status === 'Nouveau' ? 'Marquer Traité' : 'Marquer Nouveau'}
                                         >
@@ -151,6 +163,14 @@ export function LeadsClient({ leads }: LeadsClientProps) {
                                             ) : (
                                                 <RotateCcw className={`w-5 h-5 ${isUpdating === lead.id ? 'animate-spin' : ''}`} />
                                             )}
+                                        </button>
+                                        <button
+                                            onClick={() => handleDeleteLead(lead.id)}
+                                            disabled={isDeleting === lead.id || isUpdating === lead.id}
+                                            className="text-red-500 hover:text-red-700 transition-colors p-2 rounded hover:bg-red-50 dark:hover:bg-red-900/20 disabled:opacity-50"
+                                            title="Supprimer"
+                                        >
+                                            <Trash2 className={`w-5 h-5 ${isDeleting === lead.id ? 'animate-pulse opacity-50' : ''}`} />
                                         </button>
                                     </td>
                                 </tr>
@@ -236,24 +256,33 @@ export function LeadsClient({ leads }: LeadsClientProps) {
                         </div>
 
                         {/* Modal Footer */}
-                        <div className="p-6 border-t border-gray-100 dark:border-white/10 bg-gray-50 dark:bg-white/5 flex justify-end gap-3 flex-shrink-0">
+                        <div className="p-6 border-t border-gray-100 dark:border-white/10 bg-gray-50 dark:bg-white/5 flex justify-between items-center flex-shrink-0">
                             <button
-                                onClick={() => setSelectedLead(null)}
-                                className="px-5 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-white dark:hover:bg-white/10 rounded-lg transition-colors border border-gray-200 dark:border-white/10"
+                                onClick={() => handleDeleteLead(selectedLead.id)}
+                                disabled={isDeleting === selectedLead.id}
+                                className="px-4 py-2 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors flex items-center gap-2"
                             >
-                                Fermer
+                                <Trash2 className="w-4 h-4" /> <span className="hidden sm:inline">Supprimer</span>
                             </button>
-                            {selectedLead.status === 'Nouveau' && (
+                            <div className="flex gap-3">
                                 <button
-                                    onClick={() => {
-                                        handleUpdateStatus(selectedLead.id, selectedLead.status);
-                                        setSelectedLead(null);
-                                    }}
-                                    className="px-5 py-2.5 text-sm font-medium bg-[#d4af37] text-white hover:bg-[#b8952b] rounded-lg shadow-md transition-all flex items-center gap-2"
+                                    onClick={() => setSelectedLead(null)}
+                                    className="px-5 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-white dark:hover:bg-white/10 rounded-lg transition-colors border border-gray-200 dark:border-white/10"
                                 >
-                                    <CheckCircle className="w-4 h-4" /> Marquer comme Traité
+                                    Fermer
                                 </button>
-                            )}
+                                {selectedLead.status === 'Nouveau' && (
+                                    <button
+                                        onClick={() => {
+                                            handleUpdateStatus(selectedLead.id, selectedLead.status);
+                                            setSelectedLead(null);
+                                        }}
+                                        className="px-5 py-2.5 text-sm font-medium bg-[#d4af37] text-white hover:bg-[#b8952b] rounded-lg shadow-md transition-all flex items-center gap-2"
+                                    >
+                                        <CheckCircle className="w-4 h-4" /> <span className="hidden sm:inline">Marquer comme Traité</span>
+                                    </button>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>

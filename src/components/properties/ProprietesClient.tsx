@@ -6,6 +6,8 @@ import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { BedDouble, Bath, SquareMenu, Filter, ChevronDown, MapPin, MessageCircle, ArrowRight } from "lucide-react";
 import { LuxurySelect } from "@/components/ui/LuxurySelect";
+import { getConsistentViewCount } from "@/utils/socialProof";
+import { useCurrency } from "@/context/CurrencyContext";
 
 const filterTypes = ["Tous", "Studio", "Villa", "Penthouse", "Appartement de Luxe", "Duplex"];
 const locations = [
@@ -16,6 +18,7 @@ const locations = [
 
 export function ProprietesClient({ properties }: { properties: any[] }) {
     const searchParams = useSearchParams();
+    const { formatPrice } = useCurrency();
 
     const [activeFilter, setActiveFilter] = useState("Tous");
     const [transactionFilter, setTransactionFilter] = useState("Tous");
@@ -150,19 +153,28 @@ export function ProprietesClient({ properties }: { properties: any[] }) {
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
 
                                 {/* Badges */}
-                                <div className="absolute top-4 left-4 right-4 flex justify-between items-start z-10">
-                                    <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-white ${property.status === 'Nouveau' ? 'bg-accent' :
-                                        property.status === 'Vendu' ? 'bg-red-800' : 'bg-primary/80 backdrop-blur-sm'
-                                        }`}>
-                                        {property.status || 'Nouveau'}
-                                    </span>
-                                    <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-white backdrop-blur-md bg-black/50 border border-white/20">
-                                        {property.transactiontype === 'Vente' || property.type === 'Vente' ? 'À Vendre' : 'À Louer'}
-                                    </span>
+                                <div className="absolute top-4 left-4 right-4 flex flex-col items-end gap-2 z-10">
+                                    <div className="flex justify-between items-start w-full">
+                                        <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-white ${property.status === 'Nouveau' ? 'bg-accent' :
+                                            property.status === 'Vendu' ? 'bg-red-800' : 'bg-primary/80 backdrop-blur-sm'
+                                            }`}>
+                                            {property.status || 'Nouveau'}
+                                        </span>
+                                        <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-white backdrop-blur-md bg-black/50 border border-white/20">
+                                            {property.transactiontype === 'Vente' || property.type === 'Vente' ? 'À Vendre' : 'À Louer'}
+                                        </span>
+                                    </div>
+                                    <div className="text-[11px] text-orange-700 bg-orange-50/95 px-2 py-1 rounded-full font-medium flex items-center gap-1.5 w-fit shadow-sm border border-orange-200/50 backdrop-blur-md">
+                                        <span className="relative flex h-2 w-2">
+                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                                            <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+                                        </span>
+                                        <span>👁️ {getConsistentViewCount(property.id || property.title)} personnes consultent ce bien</span>
+                                    </div>
                                 </div>
 
                                 <div className="absolute bottom-4 left-4 right-4 text-white">
-                                    <p className="text-2xl font-serif mb-1">{Number(property.price || 0).toLocaleString('fr-FR')} DH</p>
+                                    <p className="text-2xl font-serif mb-1">{formatPrice(property.priceNumeric || property.price)}</p>
                                 </div>
                             </Link>
 

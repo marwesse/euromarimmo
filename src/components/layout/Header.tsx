@@ -10,9 +10,8 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
-function cn(...inputs: ClassValue[]) {
-    return twMerge(clsx(inputs));
-}
+import { cn } from "@/lib/utils";
+import { CurrencySelector } from "./CurrencySelector";
 
 const navLinks = [
     { name: "Accueil", href: "/" },
@@ -104,6 +103,7 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
 
                     {/* Call to action */}
                     <div className="hidden md:flex items-center gap-4 shrink-0">
+                        <CurrencySelector className={(!isScrolled && isDarkBgPage) ? "text-white" : textColor} />
                         <ThemeToggle className={(!isScrolled && isDarkBgPage) ? "text-white" : textColor} />
                         <a href="tel:0661755716" className={cn("hidden lg:flex items-center gap-2 text-sm font-medium hover:text-accent transition-colors duration-300 ml-2", textColor)}>
                             <Phone className="w-4 h-4 group-hover:scale-110 transition-transform" />
@@ -154,6 +154,7 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
                     </Link>
 
                     <div className="flex items-center gap-4 z-50 relative">
+                        <CurrencySelector className={isMobileMenuOpen ? "text-white" : textColor} />
                         <ThemeToggle className={isMobileMenuOpen ? "text-white hover:bg-white/10" : cn(textColor, !isScrolled && isDarkBgPage ? "text-white bg-white/10 backdrop-blur-md" : "hover:bg-black/5 backdrop-blur-md dark:hover:bg-white/10")} />
                         <button
                             className={cn("p-2 rounded-full transition-colors", isMobileMenuOpen ? "text-white hover:bg-white/10" : cn(textColor, !isScrolled && isDarkBgPage ? "bg-white/10 backdrop-blur-md" : "hover:bg-black/5 backdrop-blur-md dark:hover:bg-white/10"))}

@@ -1,11 +1,11 @@
 import { Hero } from "@/components/home/Hero";
 import { FeaturedProperties } from "@/components/home/FeaturedProperties";
-import { Benefits } from "@/components/home/Benefits";
-import { ExploreByCity } from "@/components/home/ExploreByCity";
-import { MortgageSimulator } from "@/components/home/MortgageSimulator";
-import { Testimonials } from "@/components/home/Testimonials";
 import { getProperties } from "@/app/actions/property-actions";
+import nextDynamic from 'next/dynamic';
 
+const Benefits = nextDynamic(() => import('@/components/home/Benefits').then(mod => mod.Benefits));
+const ExploreByCity = nextDynamic(() => import('@/components/home/ExploreByCity').then(mod => mod.ExploreByCity));
+const Testimonials = nextDynamic(() => import('@/components/home/Testimonials').then(mod => mod.Testimonials));
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
@@ -18,7 +18,6 @@ export default async function Home() {
       <FeaturedProperties properties={featured} />
       <Benefits />
       <ExploreByCity />
-      <MortgageSimulator />
       <Testimonials />
     </>
   );

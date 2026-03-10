@@ -40,9 +40,12 @@ export function Benefits() {
                             className="relative rounded-[2rem] overflow-hidden bg-white/5"
                         >
                             <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-700 z-10 pointer-events-none" />
-                            <img
+                            <Image
                                 src="/voiture-euromar.jpg"
                                 alt="Véhicule premium EUROMAR IMMO"
+                                width={800}
+                                height={600}
+                                sizes="(max-width: 768px) 100vw, 50vw"
                                 className="w-full h-auto object-contain shadow-2xl transition-transform duration-1000 group-hover:scale-105"
                             />
                         </motion.div>

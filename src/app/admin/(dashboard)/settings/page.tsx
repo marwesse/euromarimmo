@@ -282,6 +282,75 @@ export default function SettingsPage() {
                     </div>
                 </div>
 
+                {/* Marketing & SEO Section */}
+                <div className="p-8">
+                    <h2 className="text-xl font-serif text-primary dark:text-white mb-6">Marketing & SEO</h2>
+                    <p className="text-sm text-gray-500 mb-6">Configurez vos identifiants de suivi pour Google Analytics et Facebook (Meta) Pixel. Laissez vide pour désactiver.</p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Google Analytics ID</label>
+                            <input
+                                type="text"
+                                name="google_analytics_id"
+                                defaultValue={settings.google_analytics_id}
+                                className="w-full bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent text-gray-900 dark:text-white font-mono text-sm"
+                                placeholder="G-XXXXXXXXXX"
+                            />
+                            <p className="text-xs text-gray-500 mt-1">L'ID de votre flux de données Google Analytics 4.</p>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Meta Pixel ID</label>
+                            <input
+                                type="text"
+                                name="meta_pixel_id"
+                                defaultValue={settings.meta_pixel_id}
+                                className="w-full bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent text-gray-900 dark:text-white font-mono text-sm"
+                                placeholder="123456789012345"
+                            />
+                            <p className="text-xs text-gray-500 mt-1">L'ID de votre pixel Facebook.</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Notifications API (WhatsApp) Section */}
+                <div className="p-8">
+                    <h2 className="text-xl font-serif text-primary dark:text-white mb-6">Notifications & API (WhatsApp)</h2>
+                    <p className="text-sm text-gray-500 mb-6">Configurez l'API UltraMsg pour les notifications WhatsApp automatiques.</p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Instance ID (UltraMsg)</label>
+                            <input
+                                type="text"
+                                name="ultramsg_instance_id"
+                                defaultValue={settings.ultramsg_instance_id}
+                                className="w-full bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent text-gray-900 dark:text-white font-mono text-sm"
+                                placeholder="instance12345"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Token (UltraMsg)</label>
+                            <input
+                                type="password"
+                                name="ultramsg_token"
+                                defaultValue={settings.ultramsg_token}
+                                className="w-full bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent text-gray-900 dark:text-white font-mono text-sm"
+                                placeholder="••••••••••••••••"
+                            />
+                        </div>
+                        <div className="md:col-span-2">
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Numéro WhatsApp Administrateur</label>
+                            <input
+                                type="text"
+                                name="admin_whatsapp_number"
+                                defaultValue={settings.admin_whatsapp_number}
+                                className="w-full bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent text-gray-900 dark:text-white"
+                                placeholder="+212600000000"
+                            />
+                            <p className="text-xs text-gray-500 mt-1">Numéro qui recevra les notifications de nouvelles réservations/leads.</p>
+                        </div>
+                    </div>
+                </div>
+
                 {/* Footer Actions */}
                 <div className="p-6 bg-gray-50 dark:bg-black/20 flex items-center justify-between rounded-b-xl border-t border-gray-100 dark:border-white/10 mt-0">
                     <div className="text-sm font-medium max-w-sm truncate">

@@ -3,6 +3,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { sendUserConfirmationEmail, sendAdminNotification } from "@/lib/mail";
+import { sendUltraMsgNotification } from "@/lib/whatsapp";
 import { getSettings } from "./settings-actions";
 
 export async function submitLead(formData: FormData) {
@@ -85,8 +86,38 @@ export async function submitLead(formData: FormData) {
         } else {
             console.warn("Skipping email execution: Missing brevo_api_key in settings.");
         }
+
+        // --- WhatsApp Notification via UltraMsg ---
+        if (settings && settings.ultramsg_instance_id && settings.ultramsg_token && settings.admin_whatsapp_number) {
+            console.log("Attempting to send Admin WhatsApp via UltraMsg...");
+
+            const messageObj = [
+                `🔔 *NOUVEAU CONTACT - EUROMAR IMMO*`,
+                `👤 *Nom:* ${leadData.name}`,
+                `📧 *Email:* ${leadData.email}`,
+                `📞 *Téléphone:* ${leadData.phone || 'Non spécifié'}`,
+                `🌐 *Source:* ${leadData.source}`,
+                `📝 *Message:*`,
+                `${leadData.message || 'Aucun message.'}`
+            ].join('\n');
+
+            const waSent = await sendUltraMsgNotification(
+                settings.ultramsg_instance_id,
+                settings.ultramsg_token,
+                settings.admin_whatsapp_number,
+                messageObj
+            );
+
+            if (!waSent) {
+                console.error("Admin WhatsApp via UltraMsg failed.");
+            } else {
+                console.log("Admin WhatsApp sent successfully!");
+            }
+        } else {
+            console.warn("Skipping WhatsApp execution: Missing ultramsg setup or admin_whatsapp_number in settings.");
+        }
     } catch (e) {
-        console.error("Failed to fetch settings for email processing:", e);
+        console.error("Failed to fetch settings for email/whatsapp processing:", e);
     }
 
     revalidatePath("/admin/leads");
@@ -135,4 +166,20 @@ export async function getUnreadLeadsCount() {
         return 0;
     }
     return count || 0;
+}
+
+export async function deleteLead(id: string) {
+    const supabase = await createClient();
+    const { error } = await supabase
+        .from('leads')
+        .delete()
+        .eq('id', id);
+
+    if (error) {
+        console.error(`Error deleting lead ${id}:`, error);
+        return { error: error.message };
+    }
+
+    revalidatePath("/admin/leads");
+    return { success: true };
 }

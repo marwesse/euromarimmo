@@ -85,6 +85,11 @@ export async function updateSettings(formData: FormData) {
         bank_name: formData.get("bank_name")?.toString(),
         account_holder: formData.get("account_holder")?.toString(),
         hero_title: formData.get("hero_title")?.toString(),
+        meta_pixel_id: formData.get("meta_pixel_id")?.toString(),
+        google_analytics_id: formData.get("google_analytics_id")?.toString(),
+        ultramsg_instance_id: formData.get("ultramsg_instance_id")?.toString(),
+        ultramsg_token: formData.get("ultramsg_token")?.toString(),
+        admin_whatsapp_number: formData.get("admin_whatsapp_number")?.toString(),
     };
 
     if (logo_url) {
