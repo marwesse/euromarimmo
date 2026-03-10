@@ -2,9 +2,6 @@
 
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
-import { readEmailConfig, writeEmailConfig } from "@/utils/email-config";
-import { readReservationConfig, writeReservationConfig } from "@/utils/reservation-config";
-import { readPaymentConfig, writePaymentConfig } from "@/utils/payment-config";
 
 export async function getSettings() {
     const supabase = await createClient();
@@ -14,26 +11,29 @@ export async function getSettings() {
         .limit(1)
         .single();
 
-    const emailConfig = readEmailConfig();
-    const reservationConfig = readReservationConfig();
-    const paymentConfig = readPaymentConfig();
-
     if (error && error.code !== 'PGRST116') { // PGRST116 is "no rows returned"
         console.error("Error fetching settings:", Object.keys(error).length === 0 ? "Unknown fetch/connection error" : error);
-        return { ...emailConfig, ...reservationConfig, ...paymentConfig };
     }
 
-    // Fallback default structure if no settings exist yet
-    return settings ? { ...settings, ...emailConfig, ...reservationConfig, ...paymentConfig } : {
+    const defaultSettings = {
         whatsapp_number: "+212661755716",
         rib_details: "007 780 00030750000000513 27",
         bank_name: "Attijariwafa Bank",
         account_holder: "EUROMAR IMMO SARL",
         hero_title: "Découvrez l'Exception. Vivez l'Exclusivité.",
-        ...emailConfig,
-        ...reservationConfig,
-        ...paymentConfig
+        contact_email: "support@euromarimmo.com",
+        brevo_api_key: "",
+        sender_email: "support@euromarimmo.com",
+        sender_name: "EUROMAR IMMO",
+        discount_days_threshold: 10,
+        discount_percentage: 10,
+        checkout_time: "12:00",
+        enable_cash: true,
+        enable_rib: true,
+        enable_card: true,
     };
+
+    return settings ? { ...defaultSettings, ...settings } : defaultSettings;
 }
 
 export async function updateSettings(formData: FormData) {
@@ -59,26 +59,6 @@ export async function updateSettings(formData: FormData) {
         }
     }
 
-    const contact_email = formData.get("contact_email")?.toString() || "";
-    const brevo_api_key = formData.get("brevo_api_key")?.toString() || "";
-    const sender_email = formData.get("sender_email")?.toString() || "khrousmail11@gmail.com";
-    const sender_name = formData.get("sender_name")?.toString() || "EUROMAR IMMO";
-
-    // Extract Reservation Config Data
-    const discount_days_threshold = parseInt(formData.get("discount_days_threshold")?.toString() || "10");
-    const discount_percentage = parseInt(formData.get("discount_percentage")?.toString() || "10");
-    const checkout_time = formData.get("checkout_time")?.toString() || "12:00";
-
-    // Extract Payment Config Data (Checkboxes are "on" if checked, otherwise null)
-    const enable_cash = formData.get("enable_cash") === "on";
-    const enable_rib = formData.get("enable_rib") === "on";
-    const enable_card = formData.get("enable_card") === "on";
-
-    // Save Configs Locally
-    writeEmailConfig(contact_email, brevo_api_key, sender_email, sender_name);
-    writeReservationConfig(discount_days_threshold, discount_percentage, checkout_time);
-    writePaymentConfig(enable_cash, enable_rib, enable_card);
-
     const dataObj: any = {
         whatsapp_number: formData.get("whatsapp_number")?.toString(),
         rib_details: formData.get("rib_details")?.toString(),
@@ -90,6 +70,16 @@ export async function updateSettings(formData: FormData) {
         ultramsg_instance_id: formData.get("ultramsg_instance_id")?.toString(),
         ultramsg_token: formData.get("ultramsg_token")?.toString(),
         admin_whatsapp_number: formData.get("admin_whatsapp_number")?.toString(),
+        contact_email: formData.get("contact_email")?.toString() || "",
+        brevo_api_key: formData.get("brevo_api_key")?.toString() || "",
+        sender_email: formData.get("sender_email")?.toString() || "khrousmail11@gmail.com",
+        sender_name: formData.get("sender_name")?.toString() || "EUROMAR IMMO",
+        discount_days_threshold: parseInt(formData.get("discount_days_threshold")?.toString() || "10"),
+        discount_percentage: parseInt(formData.get("discount_percentage")?.toString() || "10"),
+        checkout_time: formData.get("checkout_time")?.toString() || "12:00",
+        enable_cash: formData.get("enable_cash") === "on",
+        enable_rib: formData.get("enable_rib") === "on",
+        enable_card: formData.get("enable_card") === "on",
     };
 
     if (logo_url) {
