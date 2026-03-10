@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react';
 import { Quote, Star } from 'lucide-react';
 import Image from 'next/image';
 import { getTestimonials } from '@/app/actions/testimonial-actions';
+import useEmblaCarousel from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
 
 const defaultTestimonials = [
     {
@@ -36,11 +38,44 @@ const defaultTestimonials = [
         rating: 5,
         text: "L'accompagnement pour mon installation au Maroc a été complet. De la recherche du bien aux démarches administratives, un véritable service 5 étoiles.",
         results: ["Installation fluide", "Zéro paperasse"]
+    },
+    {
+        id: "4",
+        name: "Amine S.",
+        role: "Chef d'Entreprise",
+        company: "Genève",
+        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+        rating: 5,
+        text: "Une approche sur mesure qui fait toute la différence. L'équipe a parfaitement compris mes critères exigeants pour l'acquisition de ma propriété de prestige.",
+        results: ["Sur mesure", "Sélection exclusive"]
+    },
+    {
+        id: "5",
+        name: "Nadia B.",
+        role: "Architecte d'Intérieur",
+        company: "Marrakech",
+        avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&fit=crop&crop=face",
+        rating: 5,
+        text: "En tant que professionnelle de l'immobilier haut de gamme, je suis extrêmement exigeante. EUROMAR IMMO a dépassé toutes mes attentes par leur professionnalisme.",
+        results: ["Réseau premium", "Expertise métier"]
+    },
+    {
+        id: "6",
+        name: "Marc D.",
+        role: "Retraité",
+        company: "Bruxelles",
+        avatar: "https://images.unsplash.com/photo-1552058544-f2b08422138a?w=150&h=150&fit=crop&crop=face",
+        rating: 5,
+        text: "La sécurité et la tranquillité d'esprit étaient primordiales pour mon épouse et moi. L'agence a sécurisé notre achat avec une transparence totale.",
+        results: ["Transparence", "Sécurité juridique"]
     }
 ];
 
 export function PremiumTestimonials() {
     const [testimonials, setTestimonials] = useState(defaultTestimonials);
+    const [emblaRef] = useEmblaCarousel({ loop: true, align: "start" }, [
+        Autoplay({ delay: 5000, stopOnInteraction: false })
+    ]);
 
     useEffect(() => {
         async function loadTests() {
@@ -55,7 +90,7 @@ export function PremiumTestimonials() {
                     rating: t.rating || 5,
                     text: t.content,
                     results: ["Satisfaction Garantie", "Accompagnement VIP"]
-                })).slice(0, 3); // Take top 3 for the grid layout
+                })).slice(0, 6); // Take top 6 for the slider
                 setTestimonials(formatted);
             }
         }
@@ -88,55 +123,58 @@ export function PremiumTestimonials() {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-50px" }}
             >
-                {/* Testimonial Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-16">
-                    {testimonials.map((testimonial, index) => (
-                        <motion.div
-                            key={testimonial.id || index}
-                            variants={cardVariants}
-                            className="relative group bg-white dark:bg-[#141a23] border border-gray-100 dark:border-white/5 rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full"
-                        >
-                            <Quote className="absolute top-6 right-6 w-8 h-8 text-accent/10 group-hover:text-accent/20 transition-colors" />
+                {/* Testimonial Slider */}
+                <div className="overflow-hidden mb-16" ref={emblaRef}>
+                    <div className="flex -ml-6 lg:-ml-8 cursor-grab active:cursor-grabbing">
+                        {testimonials.map((testimonial, index) => (
+                            <div key={testimonial.id || index} className="flex-[0_0_100%] min-w-0 md:flex-[0_0_50%] lg:flex-[0_0_33.3333%] pl-6 lg:pl-8">
+                                <motion.div
+                                    variants={cardVariants}
+                                    className="relative group bg-white dark:bg-[#141a23] border border-gray-100 dark:border-white/5 rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full !transform-none"
+                                >
+                                    <Quote className="absolute top-6 right-6 w-8 h-8 text-accent/10 group-hover:text-accent/20 transition-colors" />
 
-                            <div className="flex items-center gap-4 mb-6">
-                                <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-accent/20">
-                                    <Image
-                                        src={testimonial.avatar}
-                                        alt={testimonial.name}
-                                        fill
-                                        sizes="(max-width: 768px) 64px, 64px"
-                                        className="object-cover"
-                                    />
-                                </div>
-                                <div>
-                                    <h3 className="font-serif text-lg font-bold text-primary dark:text-white leading-tight">
-                                        {testimonial.name}
-                                    </h3>
-                                    <p className="text-accent text-sm font-medium">
-                                        {testimonial.role}
-                                    </p>
-                                </div>
+                                    <div className="flex items-center gap-4 mb-6">
+                                        <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-accent/20">
+                                            <Image
+                                                src={testimonial.avatar}
+                                                alt={testimonial.name}
+                                                fill
+                                                sizes="(max-width: 768px) 64px, 64px"
+                                                className="object-cover"
+                                            />
+                                        </div>
+                                        <div>
+                                            <h3 className="font-serif text-lg font-bold text-primary dark:text-white leading-tight">
+                                                {testimonial.name}
+                                            </h3>
+                                            <p className="text-accent text-sm font-medium">
+                                                {testimonial.role}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex gap-1 mb-4">
+                                        {[...Array(testimonial.rating)].map((_, i) => (
+                                            <Star key={i} className="w-4 h-4 fill-accent text-accent" />
+                                        ))}
+                                    </div>
+
+                                    <blockquote className="text-gray-600 dark:text-gray-300 flex-1 mb-6 leading-relaxed font-light italic">
+                                        "{testimonial.text}"
+                                    </blockquote>
+
+                                    <div className="flex flex-wrap gap-2 mt-auto">
+                                        {testimonial.results.map((res, i) => (
+                                            <span key={i} className="px-3 py-1 bg-gray-50 dark:bg-white/5 rounded-full text-xs text-gray-500 dark:text-gray-400 font-medium">
+                                                {res}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </motion.div>
                             </div>
-
-                            <div className="flex gap-1 mb-4">
-                                {[...Array(testimonial.rating)].map((_, i) => (
-                                    <Star key={i} className="w-4 h-4 fill-accent text-accent" />
-                                ))}
-                            </div>
-
-                            <blockquote className="text-gray-600 dark:text-gray-300 flex-1 mb-6 leading-relaxed font-light italic">
-                                "{testimonial.text}"
-                            </blockquote>
-
-                            <div className="flex flex-wrap gap-2 mt-auto">
-                                {testimonial.results.map((res, i) => (
-                                    <span key={i} className="px-3 py-1 bg-gray-50 dark:bg-white/5 rounded-full text-xs text-gray-500 dark:text-gray-400 font-medium">
-                                        {res}
-                                    </span>
-                                ))}
-                            </div>
-                        </motion.div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
 
                 {/* Stats Section */}

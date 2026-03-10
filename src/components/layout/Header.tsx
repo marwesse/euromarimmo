@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Phone, Menu, X, Calendar } from "lucide-react";
+import { Phone, Menu, X, Calendar, Home, Building2, Sparkles, MessageSquare } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -14,10 +14,10 @@ import { cn } from "@/lib/utils";
 import { CurrencySelector } from "./CurrencySelector";
 
 const navLinks = [
-    { name: "Accueil", href: "/" },
-    { name: "Propriétés", href: "/proprietes" },
-    { name: "Services", href: "/services" },
-    { name: "Contact", href: "/contact" },
+    { name: "Accueil", href: "/", icon: Home },
+    { name: "Propriétés", href: "/proprietes", icon: Building2 },
+    { name: "Services", href: "/services", icon: Sparkles },
+    { name: "Contact", href: "/contact", icon: MessageSquare },
 ];
 
 export function Header({ logoUrl }: { logoUrl?: string }) {
@@ -35,8 +35,14 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
 
     if (pathname?.startsWith("/admin")) return null;
 
-    const isHomepage = pathname === "/";
-    const isDarkBgPage = isHomepage || pathname === "/services" || pathname === "/contact" || pathname === "/proprietes";
+    const isHomepage = pathname === '/' || pathname === '';
+
+    // We want dark background on these pages.
+    const isDarkBgPage = isHomepage ||
+        pathname?.startsWith('/services') ||
+        pathname?.startsWith('/contact') ||
+        pathname === '/proprietes';
+
     const headerDesktopClass = isScrolled || !isDarkBgPage
         ? "bg-white/90 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.05)] border border-white/50 m-4 rounded-full"
         : "bg-transparent mx-4 mt-4";
@@ -46,6 +52,14 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
 
     const textColor = isScrolled || !isDarkBgPage ? "text-primary" : "text-white";
     const logoColor = isScrolled || !isDarkBgPage ? "text-primary" : "text-white";
+
+    const localizedLinks = navLinks.map(link => {
+        const isActive = link.href === "/"
+            ? pathname === '/' || pathname === ''
+            : pathname?.startsWith(link.href) ?? false;
+
+        return { ...link, isActive };
+    });
 
     return (
         <header className={cn("fixed top-0 w-full z-50 transition-all duration-500", "md:px-4", isScrolled ? "md:py-4" : "md:py-6")}>
@@ -74,8 +88,7 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
 
                     {/* Desktop Navigation */}
                     <nav className="hidden md:flex items-center justify-center flex-1 gap-1 lg:gap-2 px-8">
-                        {navLinks.map((link) => {
-                            const isActive = pathname === link.href;
+                        {localizedLinks.map((link) => {
                             return (
                                 <Link
                                     key={link.name}
@@ -83,10 +96,11 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
                                     className="px-4 py-2 text-[13px] tracking-widest uppercase font-semibold relative group overflow-hidden"
                                 >
                                     <span className={cn(
-                                        "relative z-10 transition-colors duration-300",
+                                        "relative z-10 transition-colors duration-300 flex items-center gap-2",
                                         textColor,
-                                        isActive && !isDarkBgPage ? "text-accent" : "group-hover:text-accent"
+                                        link.isActive && !isDarkBgPage ? "text-accent" : "group-hover:text-accent"
                                     )}>
+                                        {link.icon && <link.icon className="w-[18px] h-[18px] stroke-[1.5] transition-transform duration-300 group-hover:scale-110" />}
                                         {link.name}
                                     </span>
 
@@ -94,7 +108,7 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
                                     <span className={cn(
                                         "absolute bottom-1 left-4 right-4 h-[1px] transform origin-left transition-transform duration-300 ease-out",
                                         isDarkBgPage && !isScrolled ? "bg-white" : "bg-accent",
-                                        isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                                        link.isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
                                     )} />
                                 </Link>
                             );
@@ -180,7 +194,7 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
 
                         <div className="flex flex-col items-center w-full max-w-sm mt-12 gap-8 z-10">
                             <div className="flex flex-col items-center gap-6 w-full">
-                                {navLinks.map((link, i) => (
+                                {localizedLinks.map((link, i) => (
                                     <motion.div
                                         key={link.name}
                                         initial={{ opacity: 0, y: 20 }}
@@ -191,11 +205,12 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
                                         <Link
                                             href={link.href}
                                             className={cn(
-                                                "block text-2xl font-serif text-center transition-all duration-300",
-                                                pathname === link.href ? "text-accent" : "text-white/80 hover:text-white hover:scale-105"
+                                                "flex items-center justify-center gap-3 text-2xl font-serif text-center transition-all duration-300 group",
+                                                link.isActive ? "text-accent" : "text-white/80 hover:text-white hover:scale-105"
                                             )}
                                             onClick={() => setIsMobileMenuOpen(false)}
                                         >
+                                            {link.icon && <link.icon className="w-6 h-6 stroke-[1.5] transition-transform duration-300 group-hover:scale-110 group-hover:text-accent" />}
                                             {link.name}
                                         </Link>
                                     </motion.div>
@@ -205,7 +220,7 @@ export function Header({ logoUrl }: { logoUrl?: string }) {
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: navLinks.length * 0.1 + 0.3, ease: "easeOut" }}
+                                transition={{ duration: 0.5, delay: localizedLinks.length * 0.1 + 0.3, ease: "easeOut" }}
                                 className="w-full h-px bg-white/10"
                             />
 

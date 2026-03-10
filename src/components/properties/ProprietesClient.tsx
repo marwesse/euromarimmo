@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { BedDouble, Bath, SquareMenu, Filter, ChevronDown, MapPin, MessageCircle, ArrowRight } from "lucide-react";
+import { BedDouble, Bath, SquareMenu, Filter, ChevronDown, MapPin, MessageCircle, ArrowRight, Scale } from "lucide-react";
 import { LuxurySelect } from "@/components/ui/LuxurySelect";
 import { getConsistentViewCount } from "@/utils/socialProof";
 import { useCurrency } from "@/context/CurrencyContext";
+import { useCompare } from "@/context/CompareContext";
+import { CompareBar } from "./CompareBar";
 
 const filterTypes = ["Tous", "Studio", "Villa", "Penthouse", "Appartement de Luxe", "Duplex"];
 const locations = [
@@ -19,6 +21,7 @@ const locations = [
 export function ProprietesClient({ properties }: { properties: any[] }) {
     const searchParams = useSearchParams();
     const { formatPrice } = useCurrency();
+    const { selectedProperties, addProperty, removeProperty } = useCompare();
 
     const [activeFilter, setActiveFilter] = useState("Tous");
     const [transactionFilter, setTransactionFilter] = useState("Tous");
@@ -46,6 +49,8 @@ export function ProprietesClient({ properties }: { properties: any[] }) {
         return matchType && matchTransaction && matchLocation;
     });
 
+    const pathname = usePathname();
+
     return (
         <div className="pb-20 min-h-screen bg-bg-offwhite dark:bg-[#0f131a]">
 
@@ -53,8 +58,8 @@ export function ProprietesClient({ properties }: { properties: any[] }) {
             <div className="bg-primary text-white pt-36 pb-16 mb-12">
                 <div className="container mx-auto px-4 md:px-8">
                     <span className="text-accent font-semibold tracking-widest uppercase text-sm mb-4 block">Notre Catalogue</span>
-                    <h1 className="font-serif text-4xl md:text-5xl">Propriétés d&apos;Exception</h1>
-                    <p className="text-gray-300 mt-4 max-w-2xl text-lg font-light">
+                    <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl">Propriétés d&apos;Exception</h1>
+                    <p className="text-gray-300 mt-4 max-w-2xl text-base md:text-lg font-light">
                         Êtes-vous sûr de vouloir réinitialiser vos critères de recherche ? L&apos;immobilier d&apos;exception n&apos;attend que vous.
                         De la villa contemporaine les pieds dans l&apos;eau au riad authentique au cœur de la Médina, découvrez la sélection la plus exclusive du Maroc.
                     </p>
@@ -67,8 +72,8 @@ export function ProprietesClient({ properties }: { properties: any[] }) {
                 <div className="flex flex-col gap-4 mb-12 bg-white dark:bg-white/5 p-4 rounded-xl shadow-sm dark:shadow-none border border-gray-100 dark:border-white/10">
 
                     {/* Transaction Filter */}
-                    <div className="flex items-center gap-3 w-full pb-4 border-b border-gray-100 dark:border-white/10 overflow-x-auto scrollbar-hide">
-                        <div className="flex items-center gap-2 text-gray-400 font-medium uppercase tracking-wider text-xs md:text-sm mr-4 shrink-0">
+                    <div className="flex items-center gap-3 w-full pb-4 border-b border-gray-100 dark:border-white/10 overflow-x-auto scrollbar-hide snap-x">
+                        <div className="flex items-center gap-2 text-gray-400 font-medium uppercase tracking-wider text-xs sm:text-sm mr-2 sm:mr-4 shrink-0 snap-start">
                             <span>Transaction</span>
                         </div>
                         {["Tous", "Vente", "Location"].map(type => (
@@ -87,8 +92,8 @@ export function ProprietesClient({ properties }: { properties: any[] }) {
 
                     <div className="flex flex-col lg:flex-row justify-between lg:items-center gap-4">
                         {/* Type Filter */}
-                        <div className="flex items-center gap-4 w-full overflow-x-auto pb-4 lg:pb-0 scrollbar-hide">
-                            <div className="flex items-center gap-2 text-gray-400 font-medium uppercase tracking-wider text-xs md:text-sm shrink-0">
+                        <div className="flex items-center gap-3 md:gap-4 w-full overflow-x-auto pb-4 lg:pb-0 scrollbar-hide snap-x">
+                            <div className="flex items-center gap-2 text-gray-400 font-medium uppercase tracking-wider text-xs sm:text-sm shrink-0 snap-start">
                                 <Filter className="w-4 h-4" />
                                 <span>Type de Bien</span>
                             </div>
@@ -99,7 +104,7 @@ export function ProprietesClient({ properties }: { properties: any[] }) {
                                         <button
                                             key={type}
                                             onClick={() => setActiveFilter(type)}
-                                            className={`relative px-5 py-2.5 rounded-full text-sm font-medium tracking-wide whitespace-nowrap transition-colors duration-300 shrink-0 ${isActive ? "text-white" : "text-gray-500 dark:text-gray-400 hover:text-[#d4af37]"
+                                            className={`relative px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-medium tracking-wide whitespace-nowrap transition-colors duration-300 shrink-0 snap-start ${isActive ? "text-white" : "text-gray-500 dark:text-gray-400 hover:text-[#d4af37]"
                                                 }`}
                                         >
                                             {isActive && (
@@ -124,7 +129,7 @@ export function ProprietesClient({ properties }: { properties: any[] }) {
                                     onChange={setLocationFilter}
                                     options={locations}
                                     icon={<MapPin className="w-4 h-4 text-gray-400" />}
-                                    buttonClassName="w-full bg-gray-50 dark:bg-black/20 rounded-lg px-4 py-2 border border-gray-100 dark:border-white/10 text-gray-600 dark:text-gray-300 font-medium text-sm transition-colors hover:bg-gray-100 dark:hover:bg-white/5"
+                                    buttonClassName="w-full bg-gray-50 dark:bg-black/20 rounded-xl px-4 py-3 sm:py-2 border border-gray-100 dark:border-white/10 text-gray-600 dark:text-gray-300 font-medium text-sm transition-colors hover:bg-gray-100 dark:hover:bg-white/5"
                                 />
                             </div>
 
@@ -152,15 +157,36 @@ export function ProprietesClient({ properties }: { properties: any[] }) {
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
 
+                                {/* Compare Button */}
+                                <button
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        const isSelected = selectedProperties.some(p => p.id === property.id);
+                                        if (isSelected) {
+                                            removeProperty(property.id);
+                                        } else {
+                                            addProperty(property);
+                                        }
+                                    }}
+                                    className={`absolute top-4 right-4 z-20 p-2 rounded-full backdrop-blur-md border transition-all shadow-lg ${selectedProperties.some(p => p.id === property.id)
+                                        ? 'bg-accent text-white border-accent shadow-accent/20'
+                                        : 'bg-black/30 text-white hover:bg-black/50 border-white/20'
+                                        }`}
+                                    title={selectedProperties.some(p => p.id === property.id) ? "Retirer de la comparaison" : "Comparer"}
+                                >
+                                    <Scale className="w-4 h-4" />
+                                </button>
+
                                 {/* Badges */}
-                                <div className="absolute top-4 left-4 right-4 flex flex-col items-end gap-2 z-10">
-                                    <div className="flex justify-between items-start w-full">
-                                        <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-white ${property.status === 'Nouveau' ? 'bg-accent' :
+                                <div className="absolute top-4 left-4 right-16 flex flex-col items-start gap-2 z-10 w-auto">
+                                    <div className="flex flex-col items-start w-full gap-2">
+                                        <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-white w-fit ${property.status === 'Nouveau' ? 'bg-accent' :
                                             property.status === 'Vendu' ? 'bg-red-800' : 'bg-primary/80 backdrop-blur-sm'
                                             }`}>
                                             {property.status || 'Nouveau'}
                                         </span>
-                                        <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-white backdrop-blur-md bg-black/50 border border-white/20">
+                                        <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-white backdrop-blur-md bg-black/50 border border-white/20 w-fit">
                                             {property.transactiontype === 'Vente' || property.type === 'Vente' ? 'À Vendre' : 'À Louer'}
                                         </span>
                                     </div>
@@ -228,6 +254,10 @@ export function ProprietesClient({ properties }: { properties: any[] }) {
                 )}
 
             </div>
+
+            {/* Context Floating Bar */}
+            <CompareBar />
+
         </div>
     );
 }

@@ -8,12 +8,15 @@ import { getConsistentViewCount } from "@/utils/socialProof";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { useCurrency } from "@/context/CurrencyContext";
+import { usePathname } from "next/navigation";
 
 interface FeaturedPropertiesProps {
     properties: any[];
 }
 
 export function FeaturedProperties({ properties }: FeaturedPropertiesProps) {
+    const pathname = usePathname();
+
     const featured = properties;
     const { formatPrice } = useCurrency();
     const [emblaRef] = useEmblaCarousel({ loop: true, align: "start" }, [
@@ -55,7 +58,7 @@ export function FeaturedProperties({ properties }: FeaturedPropertiesProps) {
                         className="flex justify-center md:justify-end w-full md:w-auto"
                     >
                         <Link
-                            href="/proprietes"
+                            href={`/proprietes`}
                             className="group flex items-center gap-3 text-primary dark:text-white font-semibold border-b-2 border-primary/20 dark:border-white/20 pb-2 hover:text-accent dark:hover:text-accent hover:border-accent dark:hover:border-accent transition-all uppercase tracking-widest text-sm"
                         >
                             Voir tout le catalogue
@@ -73,7 +76,7 @@ export function FeaturedProperties({ properties }: FeaturedPropertiesProps) {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true, margin: "-100px" }}
                                     transition={{ duration: 0.7, delay: index * 0.15 }}
-                                    className="relative group rounded-[32px] overflow-hidden h-[420px] sm:h-[450px] md:h-[500px] cursor-pointer shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.12)] transition-all duration-700 flex flex-col justify-end"
+                                    className="relative group rounded-[32px] overflow-hidden h-[450px] sm:h-[480px] md:h-[500px] cursor-pointer shadow-sm hover:shadow-2xl transition-all duration-700 flex flex-col justify-end"
                                 >
                                     <Link href={`/proprietes/${property.id}`} className="absolute inset-0 z-0">
                                         <span className="sr-only">Voir {property.title}</span>
@@ -111,7 +114,7 @@ export function FeaturedProperties({ properties }: FeaturedPropertiesProps) {
                                         </div>
                                     </div>
 
-                                    <div className="relative p-6 md:p-8 z-10 text-white transform md:translate-y-6 group-hover:translate-y-0 transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] pb-8 md:pb-10">
+                                    <div className="relative p-6 md:p-8 z-10 text-white transform md:translate-y-8 group-hover:translate-y-0 transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] pb-8 md:pb-10">
                                         <div className="overflow-hidden mb-3">
                                             <Link href={`/proprietes/${property.id}`} className="hover:text-accent transition-colors">
                                                 <h3 className="font-serif text-2xl md:text-3xl leading-tight translate-y-0">{property.title}</h3>

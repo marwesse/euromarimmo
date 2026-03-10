@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Check, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 const pillars = [
     {
@@ -21,6 +22,8 @@ const pillars = [
 ];
 
 export function Benefits() {
+    const pathname = usePathname();
+
     return (
         <section className="py-24 md:py-32 bg-[#0a0f18] text-white relative overflow-hidden">
             {/* Background elements */}
@@ -117,7 +120,7 @@ export function Benefits() {
                             transition={{ duration: 0.6, delay: 0.6 }}
                         >
                             <Link
-                                href="/contact"
+                                href={`/contact`}
                                 className="inline-flex items-center gap-4 group"
                             >
                                 <span className="text-sm font-semibold tracking-widest uppercase text-white group-hover:text-accent transition-colors">Réserver votre accueil VIP</span>

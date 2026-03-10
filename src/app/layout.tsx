@@ -9,6 +9,7 @@ import { MarketingScripts } from "@/components/MarketingScripts";
 import { getSettings } from "@/app/actions/settings-actions";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { CurrencyProvider } from "@/context/CurrencyContext";
+import { CompareProvider } from "@/context/CompareContext";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -61,13 +62,15 @@ export default async function RootLayout({
         <MarketingScripts />
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
           <CurrencyProvider>
-            <Header logoUrl={settings?.logo_url} />
-            <ScrollToTop />
-            <main className="flex-grow">
-              {children}
-            </main>
-            <Footer logoUrl={settings?.logo_url} />
-            <WhatsAppFAB settings={settings} />
+            <CompareProvider>
+              <Header logoUrl={settings?.logo_url} />
+              <ScrollToTop />
+              <main className="flex-grow">
+                {children}
+              </main>
+              <Footer logoUrl={settings?.logo_url} />
+              <WhatsAppFAB settings={settings} />
+            </CompareProvider>
           </CurrencyProvider>
         </ThemeProvider>
       </body>

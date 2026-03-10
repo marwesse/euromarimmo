@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { BedDouble, Bath, SquareMenu, Calendar, Check, ArrowLeft, Phone, Mail, User, ChevronLeft, ChevronRight, CalendarDays, MessageCircle, CreditCard, Landmark, Users, Clock, Plus, Minus } from "lucide-react";
 import { PaymentModal } from "@/components/properties/PaymentModal";
 import { submitLead } from "@/app/actions/lead-actions";
@@ -16,6 +17,8 @@ interface PropertyDetailsProps {
 }
 
 export function PropertyDetailsClient({ property, similarProperties, settings }: PropertyDetailsProps) {
+    const pathname = usePathname();
+
     const { formatPrice, currency } = useCurrency();
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -88,11 +91,11 @@ export function PropertyDetailsClient({ property, similarProperties, settings }:
     const whatsappUrl = `https://wa.me/${settings.whatsapp_number.replace("+", "")}?text=${encodeURIComponent(whatsappMessage)}`;
 
     return (
-        <div className="pt-32 pb-20 md:pb-32 bg-bg-offwhite dark:bg-[#0f131a] min-h-screen relative">
+        <div className="pt-24 md:pt-32 pb-24 md:pb-32 bg-bg-offwhite dark:bg-[#0f131a] min-h-screen relative">
             <div className="container mx-auto px-4 md:px-8">
 
                 {/* Back Button */}
-                <Link href="/proprietes" className="inline-flex items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-white transition-colors mb-6 text-sm font-medium relative z-10">
+                <Link href={`/proprietes`} className="inline-flex items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-white transition-colors mb-6 text-sm font-medium relative z-10">
                     <ArrowLeft className="w-4 h-4" />
                     Retour au catalogue
                 </Link>
@@ -131,7 +134,7 @@ export function PropertyDetailsClient({ property, similarProperties, settings }:
                 </div>
 
                 {/* Image Slider */}
-                <div className="relative mb-12 h-[600px] md:h-[800px] lg:h-[85vh] rounded-3xl overflow-hidden shadow-2xl group w-full max-w-[1600px] mx-auto">
+                <div className="relative mb-8 md:mb-12 h-[400px] sm:h-[500px] md:h-[700px] lg:h-[80vh] rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl group w-full max-w-[1600px] mx-auto">
                     <div
                         className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-in-out hover:scale-105"
                         style={{ backgroundImage: `url('${property.images?.[currentImageIndex] || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=80'}')` }}
@@ -178,9 +181,9 @@ export function PropertyDetailsClient({ property, similarProperties, settings }:
                 </div>
 
                 {/* Content & Sidebar Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">
 
-                    <div className="lg:col-span-2 space-y-12">
+                    <div className="lg:col-span-2 space-y-8 md:space-y-12">
                         {/* Key Features */}
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-8 border-y border-gray-200 dark:border-white/10">
                             <div className="flex flex-col gap-2">
@@ -239,8 +242,8 @@ export function PropertyDetailsClient({ property, similarProperties, settings }:
                     </div>
 
                     <div className="lg:col-span-1 border border-transparent">
-                        <div id="reservation-section" className="bg-white dark:bg-[#1a202c]/50 rounded-2xl p-8 shadow-sm dark:shadow-none border border-gray-100 dark:border-white/10 sticky top-28 scroll-mt-28">
-                            <h3 className="font-serif text-2xl text-primary dark:text-white mb-6">
+                        <div id="reservation-section" className="bg-white dark:bg-[#1a202c]/50 rounded-2xl p-6 md:p-8 shadow-sm dark:shadow-none border border-gray-100 dark:border-white/10 sticky top-24 md:top-28 scroll-mt-24 md:scroll-mt-28">
+                            <h3 className="font-serif text-xl sm:text-2xl text-primary dark:text-white mb-6">
                                 {property.transactiontype === 'Vente' || property.type === 'Vente' ? 'Intéressé(e) ?' : 'Réserver ce bien'}
                             </h3>
 
@@ -563,12 +566,12 @@ export function PropertyDetailsClient({ property, similarProperties, settings }:
             </div>
 
             {/* Mobile Sticky Reservation Button */}
-            <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/90 dark:bg-[#0f131a]/90 backdrop-blur-md border-t border-gray-200 dark:border-white/10 lg:hidden z-40 transform transition-transform duration-300">
+            <div className="fixed bottom-0 left-0 right-0 p-3 sm:p-4 bg-white/95 dark:bg-[#0f131a]/95 backdrop-blur-md border-t border-gray-200 dark:border-white/10 lg:hidden z-40 transform transition-transform duration-300">
                 <button
                     onClick={() => {
                         document.getElementById('reservation-section')?.scrollIntoView({ behavior: 'smooth' });
                     }}
-                    className="w-full bg-primary dark:bg-accent text-white font-medium py-3.5 rounded-lg shadow-lg flex items-center justify-center gap-2"
+                    className="w-full bg-primary dark:bg-accent text-white font-medium py-3 sm:py-3.5 rounded-lg shadow-lg flex items-center justify-center gap-2 text-sm sm:text-base"
                 >
                     <Landmark className="w-5 h-5" />
                     Voir Réservation / Contact
