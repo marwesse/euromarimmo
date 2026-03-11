@@ -3,6 +3,18 @@
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 
+const normalizeProperty = (prop: any) => {
+    if (prop) {
+        if (typeof prop.images === 'string') {
+            try { prop.images = JSON.parse(prop.images); } catch (e) { prop.images = []; }
+        }
+        if (typeof prop.amenities === 'string') {
+            try { prop.amenities = JSON.parse(prop.amenities); } catch (e) { prop.amenities = []; }
+        }
+    }
+    return prop;
+};
+
 export async function getProperties() {
     const supabase = await createClient();
     const { data: properties, error } = await supabase
@@ -14,7 +26,7 @@ export async function getProperties() {
         console.error("Error fetching properties:", error);
         return [];
     }
-    return properties;
+    return properties.map(normalizeProperty);
 }
 
 export async function getPropertyById(id: string) {
@@ -29,7 +41,7 @@ export async function getPropertyById(id: string) {
         console.error(`Error fetching property ${id}:`, error);
         return null;
     }
-    return property;
+    return normalizeProperty(property);
 }
 export async function createProperty(formData: FormData) {
     try {
