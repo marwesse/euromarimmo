@@ -17,7 +17,7 @@ export default function EditPropertyPage({ params }: { params: Promise<{ id: str
 
     const [images, setImages] = useState<string[]>([]);
     const [newImage, setNewImage] = useState("");
-    const [imageFiles, setImageFiles] = useState<File[]>([]);
+    const [imageFiles, setImageFiles] = useState<{ file: File, preview: string }[]>([]);
 
     const [amenities, setAmenities] = useState<string[]>([]);
     const [newAmenity, setNewAmenity] = useState("");
@@ -55,14 +55,25 @@ export default function EditPropertyPage({ params }: { params: Promise<{ id: str
     };
 
     const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            setImageFiles((prev) => [...prev, ...Array.from(e.target.files as FileList)]);
+        if (e.target.files && e.target.files.length > 0) {
+            const newFiles = Array.from(e.target.files).map(file => ({
+                file,
+                preview: URL.createObjectURL(file)
+            }));
+            setImageFiles((prev) => [...prev, ...newFiles]);
         }
         e.target.value = '';
     };
 
     const handleRemoveImageFile = (index: number) => {
-        setImageFiles(imageFiles.filter((_, i) => i !== index));
+        setImageFiles(prev => {
+            const newState = [...prev];
+            if (newState[index]?.preview) {
+                URL.revokeObjectURL(newState[index].preview);
+            }
+            newState.splice(index, 1);
+            return newState;
+        });
     };
 
     const handleAddAmenity = () => {
@@ -85,8 +96,9 @@ export default function EditPropertyPage({ params }: { params: Promise<{ id: str
             let uploadedImageUrls: string[] = [];
 
             // Upload files to Supabase first
-            for (const file of imageFiles) {
-                if (file.size > 0) {
+            for (const item of imageFiles) {
+                const file = item.file;
+                if (file && file.size > 0) {
                     const fileExt = file.name.split('.').pop();
                     const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
 
@@ -279,9 +291,9 @@ export default function EditPropertyPage({ params }: { params: Promise<{ id: str
                         <input type="file" multiple accept="image/*" onChange={handleFileSelect} className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-accent/10 file:text-accent hover:file:bg-accent/20 transition-colors" />
                         {imageFiles.length > 0 && (
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
-                                {imageFiles.map((file, idx) => (
+                                {imageFiles.map((item, idx) => (
                                     <div key={idx} className="relative group rounded-md overflow-hidden border border-gray-200">
-                                        <div className="h-24 bg-gray-100 bg-cover bg-center" style={{ backgroundImage: `url(${URL.createObjectURL(file)})` }}></div>
+                                        <div className="h-24 bg-gray-100 bg-cover bg-center" style={{ backgroundImage: `url(${item.preview})` }}></div>
                                         <button type="button" onClick={() => handleRemoveImageFile(idx)} className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
                                             <X className="w-3 h-3" />
                                         </button>
