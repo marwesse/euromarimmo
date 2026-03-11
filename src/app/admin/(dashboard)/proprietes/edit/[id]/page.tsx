@@ -271,24 +271,24 @@ export default function EditPropertyPage({ params }: { params: Promise<{ id: str
                             </div>
                         )}
                         {images.length === 0 && imageFiles.length === 0 && <p className="text-gray-400 text-sm italic">Aucune image ajoutée.</p>}
+                    </div>
 
-                        {/* Device Files section */}
-                        <div className="mt-6 border-t border-gray-100 dark:border-white/10 pt-4">
-                            <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Ajouter depuis l'appareil</h3>
-                            <input type="file" multiple accept="image/*" onChange={handleFileSelect} className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-accent/10 file:text-accent hover:file:bg-accent/20 transition-colors" />
-                            {imageFiles.length > 0 && (
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
-                                    {imageFiles.map((file, idx) => (
-                                        <div key={idx} className="relative group rounded-md overflow-hidden border border-gray-200">
-                                            <div className="h-24 bg-gray-100 bg-cover bg-center" style={{ backgroundImage: `url(${URL.createObjectURL(file)})` }}></div>
-                                            <button type="button" onClick={() => handleRemoveImageFile(idx)} className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <X className="w-3 h-3" />
-                                            </button>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
+                    {/* Device Files section */}
+                    <div className="border-t border-gray-100 dark:border-white/10 pt-4">
+                        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Ajouter depuis l'appareil</h3>
+                        <input type="file" multiple accept="image/*" onChange={handleFileSelect} className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-accent/10 file:text-accent hover:file:bg-accent/20 transition-colors" />
+                        {imageFiles.length > 0 && (
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
+                                {imageFiles.map((file, idx) => (
+                                    <div key={idx} className="relative group rounded-md overflow-hidden border border-gray-200">
+                                        <div className="h-24 bg-gray-100 bg-cover bg-center" style={{ backgroundImage: `url(${URL.createObjectURL(file)})` }}></div>
+                                        <button type="button" onClick={() => handleRemoveImageFile(idx)} className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <X className="w-3 h-3" />
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
 
                     <div className="border-t border-gray-200 dark:border-white/10 pt-6">
