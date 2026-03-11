@@ -8,6 +8,7 @@ export async function addProperty(formData: FormData) {
         const title = formData.get("title") as string;
         const price = formData.get("price") as string;
         const type = formData.get("type") as string;
+        const transactiontype = formData.get("transactiontype") as string;
         const location = formData.get("location") as string;
 
         const description = formData.get("description") as string;
@@ -29,39 +30,18 @@ export async function addProperty(formData: FormData) {
             if (amenitiesRaw) amenities = JSON.parse(amenitiesRaw);
         } catch (e) { console.error("Could not parse amenities array"); }
 
-        if (!title || !price || !type || !location) {
-            throw new Error("Tous les champs (Titre, Prix, Type, Quartier) sont obligatoires.");
+        if (!title || !price || !type || !transactiontype || !location) {
+            throw new Error("Tous les champs (Titre, Prix, Type, Transaction, Quartier) sont obligatoires.");
         }
 
         const parsedPrice = Number(price);
 
-        console.log("Data to insert:", { title, parsedPrice, type, location, bedrooms, bathrooms, surface });
+        console.log("Data to insert:", { title, parsedPrice, type, transactiontype, location, bedrooms, bathrooms, surface });
 
         const supabase = await createClient();
 
-        // Handle File Uploads
-        const imageFiles = formData.getAll("imageFiles") as File[];
-        for (const file of imageFiles) {
-            if (file.size > 0) {
-                const fileExt = file.name.split('.').pop();
-                const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-
-                const { data, error: uploadError } = await supabase.storage
-                    .from('properties')
-                    .upload(fileName, file);
-
-                if (uploadError) {
-                    console.error("Error uploading image:", uploadError);
-                    // attempt to create bucket if it doesn't exist
-                    if (uploadError.message.includes('bucket')) {
-                        console.log("Bucket might not exist, but we cannot create it safely from here without service role, skipping this image.");
-                    }
-                } else if (data) {
-                    const { data: publicUrlData } = supabase.storage.from('properties').getPublicUrl(fileName);
-                    images.push(publicUrlData.publicUrl);
-                }
-            }
-        }
+        // Image uploads are now handled directly on the client side to bypass Vercel's 4.5MB limits.
+        // `images` array already contains the resulting public URLs.
 
         const { error } = await supabase
             .from("properties")
@@ -69,6 +49,7 @@ export async function addProperty(formData: FormData) {
                 title,
                 price: parsedPrice,
                 type,
+                transactiontype,
                 location,
                 description,
                 status: status || 'Nouveau',
@@ -98,6 +79,7 @@ export async function updateBasicProperty(formData: FormData) {
         const title = formData.get("title") as string;
         const price = formData.get("price") as string;
         const type = formData.get("type") as string;
+        const transactiontype = formData.get("transactiontype") as string;
         const location = formData.get("location") as string;
 
         const description = formData.get("description") as string;
@@ -119,35 +101,18 @@ export async function updateBasicProperty(formData: FormData) {
             if (amenitiesRaw) amenities = JSON.parse(amenitiesRaw);
         } catch (e) { console.error("Could not parse amenities array"); }
 
-        if (!id || !title || !price || !type || !location) {
-            throw new Error("L'ID, Titre, Prix, Type, Quartier sont obligatoires.");
+        if (!id || !title || !price || !type || !transactiontype || !location) {
+            throw new Error("L'ID, Titre, Prix, Type, Transaction, Quartier sont obligatoires.");
         }
 
         const parsedPrice = Number(price);
 
-        console.log("Data to update:", { id, title, parsedPrice, type, location, bedrooms, bathrooms, surface });
+        console.log("Data to update:", { id, title, parsedPrice, type, transactiontype, location, bedrooms, bathrooms, surface });
 
         const supabase = await createClient();
 
-        // Handle File Uploads
-        const imageFiles = formData.getAll("imageFiles") as File[];
-        for (const file of imageFiles) {
-            if (file.size > 0) {
-                const fileExt = file.name.split('.').pop();
-                const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-
-                const { data, error: uploadError } = await supabase.storage
-                    .from('properties')
-                    .upload(fileName, file);
-
-                if (uploadError) {
-                    console.error("Error uploading image:", uploadError);
-                } else if (data) {
-                    const { data: publicUrlData } = supabase.storage.from('properties').getPublicUrl(fileName);
-                    images.push(publicUrlData.publicUrl);
-                }
-            }
-        }
+        // Image uploads are now handled directly on the client side to bypass Vercel's 4.5MB limits.
+        // `images` array already contains the resulting public URLs.
 
         const { error } = await supabase
             .from("properties")
@@ -155,6 +120,7 @@ export async function updateBasicProperty(formData: FormData) {
                 title,
                 price: parsedPrice,
                 type,
+                transactiontype,
                 location,
                 description,
                 status: status || 'Nouveau',

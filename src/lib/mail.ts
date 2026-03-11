@@ -190,6 +190,96 @@ export async function sendUserConfirmationEmail(params: UserConfirmationParams):
 }
 
 /**
+ * Sends an Ultra-Luxe Reservation Confirmation to the user.
+ */
+export async function sendLuxuryReservationEmail(params: UserConfirmationParams): Promise<boolean> {
+    const { name, email, message, whatsappNumber, adminEmail, brevoApiKey, senderEmail, senderName, paymentMethod, bankName, accountHolder, ribDetails } = params;
+
+    let paymentBlock = "";
+
+    if (paymentMethod === "RIB") {
+        paymentBlock = `
+            <div style="background-color: rgba(212, 175, 55, 0.08); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 12px; padding: 30px; margin-bottom: 30px; text-align: left;">
+                <h3 style="color: #d4af37; font-size: 16px; margin-top: 0; margin-bottom: 20px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase;">
+                    Coordonnées Bancaires
+                </h3>
+                <p style="color: #e5e7eb; font-size: 14px; margin-bottom: 20px;">
+                    Afin de finaliser votre réservation, veuillez procéder au virement bancaire en utilisant les coordonnées ci-dessous :
+                </p>
+                
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); color: #9ca3af; width: 140px; font-size: 14px;">Nom du compte</td>
+                        <td style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); color: #ffffff; font-weight: 500; font-size: 14px;">${sanitizeHtmlParams(accountHolder || 'EUROMAR IMMO')}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); color: #9ca3af; font-size: 14px;">Banque</td>
+                        <td style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); color: #ffffff; font-weight: 500; font-size: 14px;">${sanitizeHtmlParams(bankName || '-')}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px 0; color: #9ca3af; font-size: 14px;">RIB</td>
+                        <td style="padding: 12px 0; color: #d4af37; font-weight: bold; font-size: 15px; letter-spacing: 2px;">${sanitizeHtmlParams(ribDetails || '-')}</td>
+                    </tr>
+                </table>
+            </div>
+        `;
+    }
+
+    const htmlContent = `
+        <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-w-2xl mx-auto; background-color: #0f131a; padding: 40px 20px; color: #f3f4f6; line-height: 1.6;">
+            <div style="text-align: center; margin-bottom: 50px;">
+                <h1 style="color: #ffffff; font-size: 32px; font-weight: 300; letter-spacing: 4px; margin: 0; text-transform: uppercase;">EUROMAR <span style="color: #d4af37;">IMMO</span></h1>
+                <p style="color: #d4af37; font-size: 12px; letter-spacing: 3px; margin-top: 5px; text-transform: uppercase;">Immobilier de Luxe au Maroc</p>
+            </div>
+            
+            <div style="background-color: #1a202c; border-top: 3px solid #d4af37; border-radius: 12px; padding: 40px; margin-bottom: 30px; text-align: center; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);">
+                <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+                    <div style="background-color: rgba(212, 175, 55, 0.1); border-radius: 50%; width: 60px; height: 60px; display: inline-flex; align-items: center; justify-content: center;">
+                        <span style="color: #d4af37; font-size: 30px;">★</span>
+                    </div>
+                </div>
+
+                <h2 style="color: #ffffff; font-size: 24px; font-weight: 400; margin-top: 0; margin-bottom: 20px;">Confirmation de Réservation</h2>
+                <h3 style="color: #d1d5db; font-size: 18px; font-weight: 300; margin-bottom: 30px;">Bonjour ${sanitizeHtmlParams(name)},</h3>
+                
+                <p style="color: #d1d5db; font-size: 16px; margin-bottom: 30px; line-height: 1.8;">
+                    Nous avons le plaisir de vous confirmer la réception de votre de demande de réservation. Nous vous remercions pour votre confiance en <strong style="color: #ffffff; font-weight: 500;">EUROMAR IMMO</strong>.
+                </p>
+
+                ${paymentBlock}
+
+                <div style="background-color: rgba(255,255,255,0.03); padding: 25px; border-radius: 8px; margin-bottom: 30px; text-align: left;">
+                    <p style="color: #d4af37; font-size: 14px; margin-top: 0; margin-bottom: 12px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase;">Détails de votre demande</p>
+                    <p style="color: #e5e7eb; font-style: italic; margin: 0; white-space: pre-wrap; font-size: 15px;">"${sanitizeHtmlParams(message)}"</p>
+                </div>
+                
+                <p style="color: #d1d5db; font-size: 16px; margin-bottom: 10px;">
+                    Un Conseiller VIP prendra immédiatement le relais et vous contactera rapidement par <strong>WhatsApp</strong> pour organiser la suite de votre séjour exceptionnel.
+                </p>
+            </div>
+            
+            <div style="text-align: center; color: #9ca3af; font-size: 13px; padding-top: 20px;">
+                <p style="margin-bottom: 15px; color: #ffffff; font-weight: 500; font-size: 16px; letter-spacing: 1px;">SERVICE CONCIERGERIE</p>
+                <p style="margin-bottom: 10px;">
+                    Email: <a href="mailto:${sanitizeHtmlParams(adminEmail)}" style="color: #d4af37; text-decoration: none;">${sanitizeHtmlParams(adminEmail)}</a><br/>
+                    WhatsApp: <a href="https://wa.me/${sanitizeHtmlParams(whatsappNumber).replace(/[^0-9]/g, '')}" style="color: #d4af37; text-decoration: none;">${sanitizeHtmlParams(whatsappNumber)}</a>
+                </p>
+            </div>
+        </div>
+    `;
+
+    return await callBrevoApi({
+        toEmail: email,
+        toName: name,
+        subject: "Votre Réservation Confirmée - EUROMAR IMMO",
+        htmlContent,
+        brevoApiKey,
+        senderEmail,
+        senderName,
+    });
+}
+
+/**
  * Base utility block to isolate the HTTP call to Brevo.
  */
 async function callBrevoApi(props: {
@@ -202,6 +292,14 @@ async function callBrevoApi(props: {
     senderName: string;
 }): Promise<boolean> {
     const { toEmail, toName, subject, htmlContent, brevoApiKey, senderEmail, senderName } = props;
+
+    // Direct fallback to Vercel/Node process.env to ensure keys injected by DevOps are always captured
+    const finalApiKey = brevoApiKey || process.env.BREVO_API_KEY || "";
+
+    if (!finalApiKey) {
+        console.error("Brevo API Error: No API Key available in settings or process.env");
+        return false;
+    }
 
     const payload = {
         sender: { name: senderName || "EUROMAR IMMO", email: senderEmail || "khrousmail11@gmail.com" },
@@ -216,7 +314,7 @@ async function callBrevoApi(props: {
             headers: {
                 "accept": "application/json",
                 "content-type": "application/json",
-                "api-key": brevoApiKey,
+                "api-key": finalApiKey,
             },
             body: JSON.stringify(payload),
         });

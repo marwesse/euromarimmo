@@ -15,6 +15,7 @@ export async function submitLead(formData: FormData) {
         phone: (formData.get("phone") as string) || '',
         message: (formData.get("message") as string) || '',
         source: (formData.get("source") as string) || 'Website',
+        payment_method: (formData.get("payment_method") as string) || null,
         status: 'Nouveau'
     };
 

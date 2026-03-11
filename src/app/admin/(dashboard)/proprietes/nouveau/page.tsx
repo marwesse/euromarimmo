@@ -5,6 +5,7 @@ import { addProperty } from "@/app/actions/property";
 import { useRouter } from "next/navigation";
 import { Plus, X } from "lucide-react";
 import { LuxurySelect } from "@/components/ui/LuxurySelect";
+import { createClient } from "@/utils/supabase/client";
 
 export default function NewPropertyPage() {
     const [isPending, startTransition] = useTransition();
@@ -16,7 +17,8 @@ export default function NewPropertyPage() {
     const [imageFiles, setImageFiles] = useState<File[]>([]);
 
     const [status, setStatus] = useState("Nouveau");
-    const [type, setType] = useState("Vente");
+    const [type, setType] = useState("Villa");
+    const [transactiontype, setTransactiontype] = useState("Vente");
     const [location, setLocation] = useState("");
 
     const [amenities, setAmenities] = useState<string[]>([]);
@@ -59,14 +61,38 @@ export default function NewPropertyPage() {
     async function handleAction(formData: FormData) {
         setMessage(null);
 
-        // Inject our array states as JSON strings before sending to Server Action
-        formData.append("images", JSON.stringify(images));
-        formData.append("amenities", JSON.stringify(amenities));
-
-        // Append actual file objects
-        imageFiles.forEach(file => formData.append("imageFiles", file));
-
         startTransition(async () => {
+            const supabase = createClient();
+            let uploadedImageUrls: string[] = [];
+
+            // Upload files to Supabase first
+            for (const file of imageFiles) {
+                if (file.size > 0) {
+                    const fileExt = file.name.split('.').pop();
+                    const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+
+                    const { data, error: uploadError } = await supabase.storage
+                        .from('properties')
+                        .upload(fileName, file);
+
+                    if (uploadError) {
+                        console.error("Error uploading image:", uploadError);
+                        setMessage({ type: "error", text: "Erreur lors du téléchargement de l'image. " + uploadError.message });
+                        return; // Stop the process if an upload fails
+                    } else if (data) {
+                        const { data: publicUrlData } = supabase.storage.from('properties').getPublicUrl(fileName);
+                        uploadedImageUrls.push(publicUrlData.publicUrl);
+                    }
+                }
+            }
+
+            // Combine existing URLs and new uploaded URLs
+            const allImages = [...images, ...uploadedImageUrls];
+
+            // Inject our arrays as JSON strings
+            formData.append("images", JSON.stringify(allImages));
+            formData.append("amenities", JSON.stringify(amenities));
+
             const result = await addProperty(formData);
             if (result.success) {
                 setMessage({ type: "success", text: "Propriété ajoutée avec succès !" });
@@ -121,10 +147,23 @@ export default function NewPropertyPage() {
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Transaction *</label>
                             <div className="relative">
                                 <LuxurySelect
+                                    name="transactiontype"
+                                    value={transactiontype}
+                                    onChange={setTransactiontype}
+                                    options={["Vente", "Location"]}
+                                    buttonClassName="w-full bg-white dark:bg-[#2d3748] border border-gray-300 dark:border-white/10 rounded-md px-4 py-2 focus:ring-2 focus:ring-accent outline-none text-gray-700 dark:text-white"
+                                    dropdownClassName="bg-white dark:bg-[#2d3748] border dark:border-white/10 text-gray-700 dark:text-white"
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Type de bien *</label>
+                            <div className="relative">
+                                <LuxurySelect
                                     name="type"
                                     value={type}
                                     onChange={setType}
-                                    options={["Vente", "Location"]}
+                                    options={["Villa", "Appartement", "Studio", "Penthouse", "Duplex"]}
                                     buttonClassName="w-full bg-white dark:bg-[#2d3748] border border-gray-300 dark:border-white/10 rounded-md px-4 py-2 focus:ring-2 focus:ring-accent outline-none text-gray-700 dark:text-white"
                                     dropdownClassName="bg-white dark:bg-[#2d3748] border dark:border-white/10 text-gray-700 dark:text-white"
                                 />

@@ -26,7 +26,8 @@ export const metadata: Metadata = {
     default: "EUROMAR IMMO | Agence Immobilière de Luxe à Casablanca",
     template: "%s | EUROMAR IMMO",
   },
-  description: "Découvrez les propriétés les plus exclusives à Casablanca. Villas de luxe, appartements haut standing et penthouses avec EUROMAR IMMO, votre partenaire d'investissement immobilier.",
+  description: "Découvrez l'immobilier de luxe à Casablanca avec EUROMAR IMMO. Villas exclusives, appartements haut standing et investissements sur mesure.",
+  appleWebApp: { title: "EUROMAR IMMO", capable: true, statusBarStyle: "default" },
   keywords: [
     "immobilier luxe casablanca",
     "villa à vendre anfa",

@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle, RotateCcw, Search, Eye, X, Mail, Phone, Calendar as CalendarIcon, Tag, MapPin, Trash2 } from "lucide-react";
+import { CheckCircle, RotateCcw, Search, Eye, X, Mail, Phone, Calendar as CalendarIcon, Tag, MapPin, Trash2, MessageCircle, CreditCard } from "lucide-react";
 import { updateLeadStatus, deleteLead } from "@/app/actions/lead-actions";
+import { useRouter } from "next/navigation";
 
 interface LeadsClientProps {
     leads: any[];
@@ -14,6 +15,8 @@ export function LeadsClient({ leads }: LeadsClientProps) {
     const [selectedLead, setSelectedLead] = useState<any | null>(null);
     const [isUpdating, setIsUpdating] = useState<string | null>(null);
     const [isDeleting, setIsDeleting] = useState<string | null>(null);
+    const [isConfirming, setIsConfirming] = useState<string | null>(null);
+    const router = useRouter();
 
     // Derived state for filtering
     const filteredLeads = leads.filter(lead => {
@@ -52,6 +55,57 @@ export function LeadsClient({ leads }: LeadsClientProps) {
             if (selectedLead?.id === leadId) {
                 setSelectedLead(null);
             }
+        }
+    };
+
+    const handleConfirm = async (lead: any) => {
+        setIsConfirming(lead.id);
+
+        try {
+            // Etape A (Backend): Call backend to confirm and trigger Brevo email
+            const res = await fetch('/api/reservations/confirm', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ leadId: lead.id })
+            });
+
+            if (!res.ok) {
+                throw new Error("Erreur lors de la confirmation du lead");
+            }
+
+            // Etape B: Generate WhatsApp Message
+            const propertyName = lead.source?.replace('Réservation Modal - ', '').replace('Réservation - ', '') || 'votre sélection';
+
+            const messageTemplate = `Bonjour *${lead.name}*, 💎\n\nNous avons le plaisir de vous confirmer la réservation pour la propriété *${propertyName}*.\nUn email officiel contenant les détails de paiement vient de vous être envoyé.\n\nJe suis votre Conseiller VIP EUROMAR IMMO, à votre entière disposition pour toute question.`;
+            const encodedMessage = encodeURIComponent(messageTemplate);
+
+            // Clean phone number (remove all non-numeric characters)
+            let cleanPhone = lead.phone ? lead.phone.replace(/\D/g, '') : '';
+            // Ensure country code
+            if (cleanPhone.startsWith('0')) {
+                cleanPhone = '212' + cleanPhone.slice(1);
+            } else if (!cleanPhone.startsWith('212') && cleanPhone.length === 9) {
+                cleanPhone = '212' + cleanPhone;
+            }
+
+            // Redirection WhatsApp
+            if (cleanPhone) {
+                const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodedMessage}`;
+                window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+            } else {
+                alert("L'email a été envoyé, mais le numéro de téléphone est manquant pour WhatsApp.");
+            }
+
+            // Update UI locally
+            alert("Email envoyé et WhatsApp ouvert !");
+            setSelectedLead(null);
+            router.refresh();
+
+        } catch (e) {
+            console.error(e);
+            alert("Une erreur est survenue lors de la confirmation.");
+        } finally {
+            setIsConfirming(null);
         }
     };
 
@@ -96,6 +150,7 @@ export function LeadsClient({ leads }: LeadsClientProps) {
                                 <th className="px-6 py-4">Date</th>
                                 <th className="px-6 py-4">Contact</th>
                                 <th className="px-6 py-4">Source</th>
+                                <th className="px-6 py-4">Paiement</th>
                                 <th className="px-6 py-4">Message / Détails</th>
                                 <th className="px-6 py-4">Statut</th>
                                 <th className="px-6 py-4 text-right">Actions</th>
@@ -133,6 +188,18 @@ export function LeadsClient({ leads }: LeadsClientProps) {
                                         </div>
                                     </td>
                                     <td className="px-6 py-4">
+                                        {lead.payment_method ? (
+                                            <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold border ${lead.payment_method.toLowerCase().includes('rib') || lead.payment_method.toLowerCase().includes('virement')
+                                                ? 'bg-[#d4af37]/10 text-[#d4af37] border-[#d4af37]/30'
+                                                : 'bg-gray-100 text-gray-800 border-gray-200 dark:bg-white/10 dark:text-gray-300 dark:border-white/20'
+                                                }`}>
+                                                {lead.payment_method}
+                                            </span>
+                                        ) : (
+                                            <span className="text-gray-400 italic text-xs">-</span>
+                                        )}
+                                    </td>
+                                    <td className="px-6 py-4">
                                         <div className="text-sm text-gray-600 dark:text-gray-400 max-w-xs truncate mb-2">
                                             {lead.message || '-'}
                                         </div>
@@ -144,9 +211,10 @@ export function LeadsClient({ leads }: LeadsClientProps) {
                                         </button>
                                     </td>
                                     <td className="px-6 py-4">
-                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${lead.status === 'Nouveau' ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300' :
-                                            lead.status === 'Traité' ? 'bg-gray-100 dark:bg-white/10 text-gray-800 dark:text-gray-300' :
-                                                'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300'
+                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${lead.status === 'Confirmé' ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300' :
+                                            lead.status === 'Nouveau' ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300' :
+                                                lead.status === 'Traité' ? 'bg-gray-100 dark:bg-white/10 text-gray-800 dark:text-gray-300' :
+                                                    'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300'
                                             }`}>
                                             {lead.status || 'Nouveau'}
                                         </span>
@@ -231,6 +299,22 @@ export function LeadsClient({ leads }: LeadsClientProps) {
                                         </div>
                                     </div>
                                     <div className="flex items-start gap-3">
+                                        <div className="mt-1"><CreditCard className="w-5 h-5 text-gray-400" /></div>
+                                        <div>
+                                            <p className="text-xs text-gray-500 uppercase tracking-wider font-semibold">Paiement</p>
+                                            <div className="mt-1">
+                                                {selectedLead.payment_method ? (
+                                                    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold border ${selectedLead.payment_method.toLowerCase().includes('rib') || selectedLead.payment_method.toLowerCase().includes('virement')
+                                                        ? 'bg-[#d4af37]/10 text-[#d4af37] border-[#d4af37]/30'
+                                                        : 'bg-gray-100 text-gray-800 border-gray-200 dark:bg-white/10 dark:text-gray-300 dark:border-white/20'
+                                                        }`}>
+                                                        {selectedLead.payment_method}
+                                                    </span>
+                                                ) : <span className="text-gray-400 italic text-sm">Non spécifié</span>}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-start gap-3">
                                         <div className="mt-1"><CalendarIcon className="w-5 h-5 text-gray-400" /></div>
                                         <div>
                                             <p className="text-xs text-gray-500 uppercase tracking-wider font-semibold">Reçu le</p>
@@ -272,15 +356,30 @@ export function LeadsClient({ leads }: LeadsClientProps) {
                                     Fermer
                                 </button>
                                 {selectedLead.status === 'Nouveau' && (
-                                    <button
-                                        onClick={() => {
-                                            handleUpdateStatus(selectedLead.id, selectedLead.status);
-                                            setSelectedLead(null);
-                                        }}
-                                        className="px-5 py-2.5 text-sm font-medium bg-[#d4af37] text-white hover:bg-[#b8952b] rounded-lg shadow-md transition-all flex items-center gap-2"
-                                    >
-                                        <CheckCircle className="w-4 h-4" /> <span className="hidden sm:inline">Marquer comme Traité</span>
-                                    </button>
+                                    <>
+                                        {selectedLead.source?.toLowerCase().includes('réservation') ? (
+                                            <button
+                                                onClick={() => handleConfirm(selectedLead)}
+                                                disabled={isConfirming === selectedLead.id}
+                                                className="px-5 py-2.5 text-sm font-medium bg-zinc-900 text-white hover:bg-[#d4af37] rounded-lg shadow-md transition-all flex items-center gap-2 disabled:opacity-70"
+                                            >
+                                                <MessageCircle className={`w-4 h-4 ${isConfirming === selectedLead.id ? 'animate-pulse' : ''}`} />
+                                                <span className="hidden sm:inline">
+                                                    {isConfirming === selectedLead.id ? 'Confirmation...' : 'Confirmer via WhatsApp & Email'}
+                                                </span>
+                                            </button>
+                                        ) : (
+                                            <button
+                                                onClick={() => {
+                                                    handleUpdateStatus(selectedLead.id, selectedLead.status);
+                                                    setSelectedLead(null);
+                                                }}
+                                                className="px-5 py-2.5 text-sm font-medium bg-[#d4af37] text-white hover:bg-[#b8952b] rounded-lg shadow-md transition-all flex items-center gap-2"
+                                            >
+                                                <CheckCircle className="w-4 h-4" /> <span className="hidden sm:inline">Marquer comme Traité</span>
+                                            </button>
+                                        )}
+                                    </>
                                 )}
                             </div>
                         </div>

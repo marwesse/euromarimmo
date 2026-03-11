@@ -15,7 +15,7 @@ export default async function PropertyDetailsPage(props: { params: Promise<{ id:
 
     const allProperties = await getProperties();
     const similarProperties = allProperties
-        .filter(p => p.type === property.type && p.id !== property.id)
+        .filter(p => (p.type === property.type || p.location === property.location) && p.id !== property.id)
         .slice(0, 3);
 
     const settings = await getSettings();

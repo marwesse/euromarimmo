@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { BedDouble, SquareMenu, ArrowRight } from "lucide-react";
+import { BedDouble, SquareMenu, MapPin, ArrowRight } from "lucide-react";
 import { getConsistentViewCount } from "@/utils/socialProof";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
@@ -71,89 +71,59 @@ export function FeaturedProperties({ properties }: FeaturedPropertiesProps) {
                     <div className="flex -ml-8">
                         {featured.map((property, index) => (
                             <div key={property.id} className="flex-[0_0_100%] min-w-0 md:flex-[0_0_50%] lg:flex-[0_0_33.3333%] pl-8">
-                                <motion.div
-                                    initial={{ opacity: 0, y: 40 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true, margin: "-100px" }}
-                                    transition={{ duration: 0.7, delay: index * 0.15 }}
-                                    className="relative group rounded-[32px] overflow-hidden h-[450px] sm:h-[480px] md:h-[500px] cursor-pointer shadow-sm hover:shadow-2xl transition-all duration-700 flex flex-col justify-end"
+                                <Link
+                                    href={`/proprietes/${property.id}`}
+                                    className="group relative w-full aspect-[4/5] sm:aspect-[3/4] lg:aspect-[4/5] rounded-[2rem] overflow-hidden cursor-pointer block shadow-lg hover:shadow-2xl transition-all duration-700"
                                 >
-                                    <Link href={`/proprietes/${property.id}`} className="absolute inset-0 z-0">
-                                        <span className="sr-only">Voir {property.title}</span>
-                                    </Link>
+                                    {/* Image & Overlay */}
+                                    <Image
+                                        src={property.images?.[0] || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=80'}
+                                        alt={property.title || 'Propriété'}
+                                        fill
+                                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1000ms] group-hover:scale-110"
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                        priority={index === 0}
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500 pointer-events-none" />
 
-                                    <div className="absolute inset-0 transition-transform duration-[1.5s] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-110 pointer-events-none">
-                                        <Image
-                                            src={property.images?.[0] || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=80'}
-                                            alt={property.title || 'Propriété'}
-                                            fill
-                                            className="object-cover"
-                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                            priority={index === 0}
-                                        />
-                                    </div>
-                                    <div className="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/40 to-transparent transition-opacity duration-700 opacity-90 group-hover:opacity-100 pointer-events-none" />
-
-                                    <div className="absolute top-6 left-6 right-6 flex flex-col items-end gap-2 z-10 pointer-events-none">
-                                        <div className="flex justify-between w-full">
-                                            <span className={`px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-md shadow-sm border border-white/10 ${property.status === 'Nouveau' ? 'bg-accent/90' :
-                                                property.status === 'Vendu' ? 'bg-red-800/90' : 'bg-primary/80'
-                                                }`}>
-                                                {property.status || 'Nouveau'}
-                                            </span>
-                                            <span className="px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-md bg-black/40 border border-white/20 shadow-sm">
-                                                {property.transactiontype === 'Vente' || property.type === 'Vente' ? 'À Vendre' : 'À Louer'}
-                                            </span>
-                                        </div>
-                                        <div className="text-[11px] text-orange-700 bg-orange-50/95 px-2.5 py-1 rounded-full font-medium flex items-center gap-1.5 w-fit shadow-sm border border-orange-200/50 backdrop-blur-md">
-                                            <span className="relative flex h-2 w-2">
-                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                                                <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
-                                            </span>
-                                            <span>👁️ {getConsistentViewCount(property.id || property.title)} personnes consultent ce bien</span>
-                                        </div>
+                                    {/* Glassmorphism Price */}
+                                    <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold text-sm md:text-base px-3 py-1.5 md:px-4 md:py-2 rounded-full shadow-xl z-10">
+                                        {formatPrice(property.priceNumeric || property.price)} {property.transactiontype === 'Location' ? '/ nuit' : ''}
                                     </div>
 
-                                    <div className="relative p-6 md:p-8 z-10 text-white transform md:translate-y-8 group-hover:translate-y-0 transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] pb-8 md:pb-10">
-                                        <div className="overflow-hidden mb-3">
-                                            <Link href={`/proprietes/${property.id}`} className="hover:text-accent transition-colors">
-                                                <h3 className="font-serif text-2xl md:text-3xl leading-tight translate-y-0">{property.title}</h3>
-                                            </Link>
+                                    {/* Type Badge */}
+                                    <div className="absolute top-4 left-4 bg-[#D4AF37] text-black text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full z-10">
+                                        {property.type || property.transactiontype || 'Propriété'}
+                                    </div>
+
+                                    {/* Cinematic Reveal Details */}
+                                    <div className="absolute bottom-0 left-0 w-full p-4 md:p-6 flex flex-col justify-end z-10">
+                                        <h3 className="text-xl md:text-2xl font-semibold text-white mb-1 truncate group-hover:text-[#D4AF37] transition-colors">
+                                            {property.title}
+                                        </h3>
+
+                                        <div className="text-zinc-300 text-sm mb-4 flex items-center gap-1">
+                                            <MapPin className="w-4 h-4" />
+                                            {property.location}
                                         </div>
-                                        <p className="text-gray-300 text-xs md:text-sm font-light mb-6 md:mb-8 flex items-center gap-2 uppercase tracking-wider">
-                                            <span className="w-4 md:w-6 h-[1px] bg-accent inline-block" /> {property.location}
-                                        </p>
 
-                                        <div className="flex flex-wrap items-end justify-between pt-5 md:pt-6 border-t border-white/20 relative opacity-100 md:opacity-80 group-hover:opacity-100 transition-opacity duration-700 gap-4">
-                                            <div>
-                                                <p className="text-[10px] text-white/60 uppercase tracking-widest mb-1">Prix demandé</p>
-                                                <p className="font-serif text-2xl md:text-3xl text-accent">{formatPrice(property.priceNumeric || property.price)}</p>
-                                            </div>
-
-                                            <div className="flex items-center gap-5 text-sm font-medium bg-white/10 px-4 py-2.5 rounded-2xl backdrop-blur-md border border-white/10">
-                                                <div className="flex items-center gap-2">
-                                                    <BedDouble className="w-4 h-4 text-white/70" />
-                                                    <span>{property.features?.beds || property.bedrooms || '?'}</span>
-                                                </div>
-                                                <div className="w-px h-4 bg-white/20"></div>
-                                                <div className="flex items-center gap-2">
-                                                    <SquareMenu className="w-4 h-4 text-white/70" />
-                                                    <span>{property.features?.area || property.surface || '?'} m²</span>
+                                        {/* Slide-Up Features Bar */}
+                                        <div className="opacity-100 h-auto translate-y-0 lg:opacity-0 lg:h-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:h-auto lg:group-hover:translate-y-0 transition-all duration-500 ease-out">
+                                            <div className="flex justify-between items-center bg-white/15 backdrop-blur-md border border-white/10 rounded-xl p-3 mt-3 w-full">
+                                                <div className="flex gap-4">
+                                                    <div className="text-sm font-medium flex items-center gap-2 text-white">
+                                                        <BedDouble className="w-4 h-4" />
+                                                        <span>{property.features?.beds || property.bedrooms || '?'} Lits</span>
+                                                    </div>
+                                                    <div className="text-sm font-medium flex items-center gap-2 text-white">
+                                                        <SquareMenu className="w-4 h-4" />
+                                                        <span>{property.features?.area || property.surface || '?'} m²</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="mt-5 pt-5 border-t border-white/20 relative opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                                            <Link
-                                                href={`/proprietes/${property.id}`}
-                                                className="relative z-20 w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-xl text-sm font-medium transition-colors flex items-center justify-center gap-2 shadow-lg shadow-primary/20"
-                                                onClick={(e) => e.stopPropagation()}
-                                            >
-                                                Plus de détails
-                                                <ArrowRight className="w-4 h-4" />
-                                            </Link>
-                                        </div>
                                     </div>
-                                </motion.div>
+                                </Link>
                             </div>
                         ))}
                     </div>
